@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/cohort_project_back_end.iml" filepath="$PROJECT_DIR$/.idea/cohort_project_back_end.iml" />
-      <module fileurl="file://$PROJECT_DIR$/api/learning-center-main/learning-center-main.iml" filepath="$PROJECT_DIR$/api/learning-center-main/learning-center-main.iml" />
     </modules>
   </component>
 </project>
