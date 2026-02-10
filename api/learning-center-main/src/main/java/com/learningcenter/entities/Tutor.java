@@ -12,7 +12,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "tutor")
+@Table(name = "tutor", schema="tutor_profile")
 public class Tutor {
 
     @Id
