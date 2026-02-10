@@ -3,7 +3,11 @@ package com.learningcenter.controller;
 
 import com.learningcenter.dto.TutorResponse;
 import com.learningcenter.service.TutorService;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -18,12 +22,12 @@ public class TutorController {
 
 
     @GetMapping
-    public List<TutorResponse> searchTutorsByGradeLevel(@RequestParam Integer gradeLevel) {
+    public List<TutorResponse> searchTutorsByGradeLevel(@RequestParam(required = false) Integer gradeLevel) {
         return tutorService.searchTutorsByGradeLevel(gradeLevel);
     }
 
     @GetMapping("/{tutorId}")
-    public Object getTutorDetails(@PathVariable Long tutorId) {
+    public TutorResponse getTutorDetails(@PathVariable Long tutorId) {
         return tutorService.getTutorDetails(tutorId);
     }
 
