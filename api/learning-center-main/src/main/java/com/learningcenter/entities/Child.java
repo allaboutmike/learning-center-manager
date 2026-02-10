@@ -3,6 +3,7 @@ package com.learningcenter.entities;
 
 import jakarta.persistence.*;
 
+
 @Entity
 @Table(name = "child")
 public class Child {
@@ -19,6 +20,10 @@ public class Child {
 
     @Column(nullable = false, name = "parent_id")
     private long parent_id;
+
+    @ManyToOne
+    @JoinColumn(name = "parent_id")
+    private Parent parent;
 
 
     public long getChild_id() {
@@ -51,6 +56,14 @@ public class Child {
 
     public void setParent_id(long parent_id) {
         this.parent_id = parent_id;
+    }
+
+    public Parent getParent() {
+        return parent;
+    }
+
+    public void setParent(Parent parent) {
+        this.parent = parent;
     }
 }
 
