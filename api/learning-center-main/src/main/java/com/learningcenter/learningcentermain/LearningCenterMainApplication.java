@@ -3,7 +3,8 @@ package com.learningcenter.learningcentermain;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "com.learningcenter")
+
 public class LearningCenterMainApplication {
 
 	public static void main(String[] args) {
