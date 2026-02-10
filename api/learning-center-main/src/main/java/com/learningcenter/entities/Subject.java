@@ -2,6 +2,7 @@ package com.learningcenter.entities;
 
 import java.util.ArrayList;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -19,10 +20,10 @@ public class Subject {
     @Column(name="subject_id")
     private long subject_id;
 
-    @Column(name="name")
+    @Column(nullable=false, name="name")
     private String name;
 
-    @OneToMany(mappedBy = "subject")
+    @OneToMany(mappedBy = "subject", cascade=CascadeType.ALL)
     private ArrayList<TutorSubject> tutorSubjects = new ArrayList<>();
 
     public ArrayList<TutorSubject> getTutorSubjects() {

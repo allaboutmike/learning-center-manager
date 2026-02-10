@@ -2,6 +2,7 @@ package com.learningcenter.entities;
 
 import java.util.ArrayList;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -19,22 +20,22 @@ public class Tutor {
     @Column(name="tutor_id")
     private long tutor_id;
 
-    @Column(name="name")
+    @Column(nullable=false,name="name")
     private String name;
 
-    @Column(name="url")
+    @Column(nullable=false, name="url")
     private String url;
 
-    @Column(name="summary")
+    @Column(nullable=false, name="summary")
     private String summary;
 
-    @Column(name="min_grade_level")
+    @Column(nullable=false, name="min_grade_level")
     private int minGradeLevel;
 
-    @Column(name="max_grade_level")
+    @Column(nullable=false, name="max_grade_level")
     private int maxGradeLevel;
 
-    @OneToMany(mappedBy = "tutor")
+    @OneToMany(mappedBy = "tutor", cascade=CascadeType.ALL)
     private ArrayList<TutorSubject> tutorSubjects = new ArrayList<>();
 
     public ArrayList<TutorSubject> getTutorSubjects() {
