@@ -35,3 +35,40 @@ create table tutor_profile.tutor_subject
     constraint tutor_id__fk
         foreign key (tutor_id) references TUTOR_PROFILE.TUTOR (tutor_id)
 );
+-- ##############  Code Review table here  #################
+
+
+
+
+
+
+
+
+
+-- ##############################################################
+
+CREATE SCHEMA IF NOT EXISTS session;
+
+-- ##############  Code for session, time slot, and tutor timeslot table here  #################
+
+
+
+
+
+-- ##############################################################
+
+
+
+CREATE SCHEMA IF NOT EXISTS parent_account;
+
+-- ##############  Code for parent and child table here  #################
+
+
+
+
+
+
+
+
+
+-- ##############################################################
