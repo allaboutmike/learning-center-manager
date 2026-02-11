@@ -34,19 +34,19 @@ public class TutorSubject {
         this.tutor_subject_id = tutor_subject_id;
     }
 
-    public Tutor getTutor() {
+    public Tutor getTutor_id() {
         return tutor;
     }
 
-    public void setTutor(Tutor tutor) {
+    public void setTutor_id(Tutor tutor) {
         this.tutor = tutor;
     }
 
-    public Subject getSubject() {
+    public Subject getSubject_id() {
         return subject;
     }
 
-    public void setSubject(Subject subject) {
+    public void setSubject_id(Subject subject) {
         this.subject = subject;
     }
 }

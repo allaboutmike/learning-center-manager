@@ -24,14 +24,17 @@ public class Subject {
     private String name;
 
     @OneToMany(mappedBy = "subject", cascade=CascadeType.ALL)
-    private ArrayList<TutorSubject> tutorSubjects = new ArrayList<>();
+    private ArrayList<TutorSubject> tutorSubject = new ArrayList<>();
+
+//    @OneToMany(mappedBy = "session")
+//    private ArrayList<Session> subjects = new ArrayList<>();
 
     public ArrayList<TutorSubject> getTutorSubjects() {
-        return tutorSubjects;
+        return tutorSubject;
     }
 
-    public void setTutorSubjects(ArrayList<TutorSubject> tutorSubjects) {
-        this.tutorSubjects = tutorSubjects;
+    public void setTutorSubjects(ArrayList<TutorSubject> tutorSubject) {
+        this.tutorSubject = tutorSubject;
     }
 
     public long getSubject_id() {
