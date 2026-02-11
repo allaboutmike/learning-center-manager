@@ -1,48 +1,35 @@
 package com.learningcenter.controller;
 
 
+import com.learningcenter.dto.TutorResponse;
+import com.learningcenter.service.TutorService;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PathVariable;
+
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/tutors")
 public class TutorController {
-/*
-TutorController API Documentation
-REST API controller for managing tutor-related operations in the Learning Center application.
+    private final TutorService tutorService;
 
------Endpoints-----
-1. Search Tutors by Grade Level
-    GET /api/tutors
-    Searches and retrieves tutors filtered by grade level.
+    public TutorController(TutorService tutorService) {
+        this.tutorService = tutorService;
+    }
 
-    Query Parameters:
-    gradeLevel (required, integer): The grade level to filter tutors by
-    Example Request: GET /api/tutors?gradeLevel=7
 
-    Expected Response: Status: 200 OK
-    Body: List of tutor objects matching the specified grade level
+    @GetMapping
+    public List<TutorResponse> searchTutorsByGradeLevel(@RequestParam(required = false) Integer gradeLevel) {
+        return tutorService.searchTutorsByGradeLevel(gradeLevel);
+    }
 
-2. Retrieve Tutor Details
-    GET /api/tutors/{tutorId}
-    Retrieves detailed information about a specific tutor.
+    @GetMapping("/{tutorId}")
+    public TutorResponse getTutorDetails(@PathVariable Long tutorId) {
+        return tutorService.getTutorDetails(tutorId);
+    }
 
-    Path Parameters: tutorId (required, integer): The unique identifier of the tutor
-    Example Request: GET /api/tutors/11
-
-    Expected Response: Status: 200 OK
-    Body: Tutor object with complete details
-
-3. Get Tutor Availability
-    GET /api/tutors/{tutorId}/availability
-    Retrieves the availability schedule for a specific tutor.
-
-    Path Parameters: tutorId (required, integer): The unique identifier of the tutor
-    Example Request: GET /api/tutors/11/availability
-    Expected Response: Status: 200 OK
-    Body: Tutor availability schedule/calendar
-*/
 
 }
