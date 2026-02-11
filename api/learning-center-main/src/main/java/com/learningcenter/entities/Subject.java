@@ -26,6 +26,9 @@ public class Subject {
     @OneToMany(mappedBy = "subject", cascade=CascadeType.ALL)
     private ArrayList<TutorSubject> tutorSubject = new ArrayList<>();
 
+//    @OneToMany(mappedBy = "session")
+//    private ArrayList<Session> subjects = new ArrayList<>();
+
     public ArrayList<TutorSubject> getTutorSubjects() {
         return tutorSubject;
     }

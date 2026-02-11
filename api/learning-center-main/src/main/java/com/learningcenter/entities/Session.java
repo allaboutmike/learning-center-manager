@@ -6,12 +6,15 @@ import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Column;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
-import jakarta.persistence.CascadeType;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "session", schema = "session")
@@ -36,11 +39,9 @@ public class Session {
     @JoinColumn(name = "tutor_timeslot_id")
     private TutorTimeslot tutor_timeslot;
 
-//     Does this session need cascade
-    @OneToOne
-    @JoinColumn(name = "tutor_subject_id")
-    private TutorSubject tutor_subjet;
-
+    @ManyToOne
+    @JoinColumn(name = "subject_id")
+    private Subject subject;
 
     public long getSession_id() {
         return session_id;
@@ -82,11 +83,11 @@ public class Session {
         this.tutor_timeslot = tutor_timeslot;
     }
 
-    public TutorSubject getSubjet_id() {
-        return tutor_subjet;
+    public Subject getSubjet_id() {
+        return subject;
     }
 
-    public void setSubjet_id(TutorSubject tutor_subjet) {
-        this.tutor_subjet = tutor_subjet;
+    public void setSubjet_id(Subject subject) {
+        this.subject = subject;
     }
 }
