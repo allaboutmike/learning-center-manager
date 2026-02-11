@@ -38,12 +38,24 @@ public class Tutor {
     @OneToMany(mappedBy = "tutor", cascade=CascadeType.ALL)
     private ArrayList<TutorSubject> tutorSubjects = new ArrayList<>();
 
+    @OneToMany(mappedBy = "tutor", cascade=CascadeType.ALL)
+    private ArrayList<Review> reviews = new ArrayList<>();
+
+
     public ArrayList<TutorSubject> getTutorSubjects() {
         return tutorSubjects;
     }
 
     public void setTutorSubjects(ArrayList<TutorSubject> tutorSubjects) {
         this.tutorSubjects = tutorSubjects;
+    }
+
+    public ArrayList<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(ArrayList<Review> reviews) {
+        this.reviews = reviews;
     }
 
     public long getTutor_id() {
