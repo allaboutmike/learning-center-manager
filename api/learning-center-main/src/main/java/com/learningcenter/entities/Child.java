@@ -1,14 +1,14 @@
 package com.learningcenter.entities;
 
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-import jakarta.persistence.Column;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 
 @Entity
@@ -24,9 +24,6 @@ public class Child {
 
     @Column(nullable = false, name = "grade_level")
     private int grade_level;
-
-    @Column(nullable = false, name = "parent_id")
-    private long parent_id;
 
     @ManyToOne
     @JoinColumn(name = "parent_id")
@@ -55,14 +52,6 @@ public class Child {
 
     public void setGrade_level(int grade_level) {
         this.grade_level = grade_level;
-    }
-
-    public long getParent_id() {
-        return parent_id;
-    }
-
-    public void setParent_id(long parent_id) {
-        this.parent_id = parent_id;
     }
 
     public Parent getParent() {
