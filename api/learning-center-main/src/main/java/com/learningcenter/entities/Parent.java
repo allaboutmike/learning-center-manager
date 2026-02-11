@@ -1,31 +1,31 @@
 package com.learningcenter.entities;
 
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Column;
-
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.CascadeType;
 
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "parent")
+@Table(name = "parent", schema = "parent_account")
 public class Parent {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="parent_id")
+    @Column(nullable = false, name="parent_id")
     private long parent_id;
 
-    @Column(name="name")
+    @Column(nullable = false, name="name")
     private String name;
 
-    @OneToMany(mappedBy = "parent")
+    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
     private List<Child> child = new ArrayList<>();
 
     public long getParent_id() {

@@ -9,10 +9,15 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Column;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.OneToMany;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
-@Table(name = "child")
+@Table(name = "child", schema = "parent_account")
 public class Child {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,13 +30,12 @@ public class Child {
     @Column(nullable = false, name = "grade_level")
     private int grade_level;
 
-    @Column(nullable = false, name = "parent_id")
-    private long parent_id;
-
     @ManyToOne
     @JoinColumn(name = "parent_id")
-    private Parent parent;
+    private Parent parent_id;
 
+    @OneToMany(mappedBy = "child", cascade = CascadeType.ALL)
+    private List<Session> session = new ArrayList<>();
 
     public long getChild_id() {
         return child_id;
@@ -57,20 +61,12 @@ public class Child {
         this.grade_level = grade_level;
     }
 
-    public long getParent_id() {
+    public Parent getParent_id() {
         return parent_id;
     }
 
-    public void setParent_id(long parent_id) {
+    public void setParent_id(Parent parent_id) {
         this.parent_id = parent_id;
-    }
-
-    public Parent getParent() {
-        return parent;
-    }
-
-    public void setParent(Parent parent) {
-        this.parent = parent;
     }
 }
 
