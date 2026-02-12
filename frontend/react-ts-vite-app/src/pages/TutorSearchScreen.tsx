@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 export default function TutorSearchScreen() {
     const [tutors, setTutors] = useState<any[]>([]);
     const [grade, setGrade] = useState("");
-    const [selectedTutor, setSelectedTutor] = useState<any>(null);
     const navigate = useNavigate();
 
 
@@ -70,12 +69,6 @@ export default function TutorSearchScreen() {
                     <option value="12">Grade 12</option>
                 </select>
             </div>
-
-            {selectedTutor && (
-                <p>
-                    Selected tutor: <strong>{selectedTutor.name}</strong>
-                </p>
-            )}
 
             <div style={{ width: 500, margin: "20px auto" }}>
                 {tutors.map((tutor) => (
