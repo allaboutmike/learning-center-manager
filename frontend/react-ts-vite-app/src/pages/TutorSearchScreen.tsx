@@ -1,0 +1,92 @@
+import { useEffect, useState } from "react";
+
+export default function TutorSearchScreen() {
+  const [tutors, setTutors] = useState<any[]>([]);
+  const [grade, setGrade] = useState("");
+  const [selectedTutor, setSelectedTutor] = useState<any>(null);
+
+  // load tutors
+  useEffect(() => {
+    fetch("/api/tutors")
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("GET /api/tutors response:", data); // proves API is being called
+        setTutors(data);
+      });
+  }, []);
+
+  return (
+    <div style={{ textAlign: "center", marginTop: 40 }}>
+      <h1>Available Tutors</h1>
+
+      <div style={{ marginBottom: 20 }}>
+        <label style={{ marginRight: 8 }}>Select Grade:</label>
+
+        <select
+          value={grade}
+          onChange={(e) => {
+            const value = e.target.value;
+            setGrade(value);
+
+            const url =
+              value === "" ? "/api/tutors" : `/api/tutors?gradeLevel=${value}`;
+
+            console.log("Calling:", url); // proves API call is happening
+
+            fetch(url)
+              .then((res) => res.json())
+              .then((data) => {
+                console.log("Response:", data);
+                setTutors(data);
+              });
+          }}
+        >
+          <option value="">All Grades</option>
+          <option value="1">Grade 1</option>
+          <option value="2">Grade 2</option>
+          <option value="3">Grade 3</option>
+          <option value="4">Grade 4</option>
+          <option value="5">Grade 5</option>
+          <option value="6">Grade 6</option>
+          <option value="7">Grade 7</option>
+          <option value="8">Grade 8</option>
+          <option value="9">Grade 9</option>
+          <option value="10">Grade 10</option>
+          <option value="11">Grade 11</option>
+          <option value="12">Grade 12</option>
+        </select>
+      </div>
+
+      {selectedTutor && (
+        <p>
+          Selected tutor: <strong>{selectedTutor.name}</strong>
+        </p>
+      )}
+
+      <div style={{ width: 500, margin: "20px auto" }}>
+        {tutors.map((tutor) => (
+          <div
+            key={tutor.id}
+            onClick={() => {
+              setSelectedTutor(tutor);
+              console.log("Selected tutor:", tutor); // proves click works
+            }}
+            style={{
+              border: "1px solid #ddd",
+              borderRadius: 10,
+              padding: 16,
+              marginBottom: 14,
+              cursor: "pointer",
+            }}
+          >
+            <h3>{tutor.name}</h3>
+            <p>⭐ {tutor.rating}</p>
+            <p>
+              Grades: {tutor.minGrade} - {tutor.maxGrade}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
