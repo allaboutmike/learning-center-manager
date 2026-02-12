@@ -2,14 +2,7 @@ package com.learningcenter.entities;
 
 import java.util.ArrayList;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "tutor", schema="tutor_profile")
@@ -18,7 +11,7 @@ public class Tutor {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="tutor_id")
-    private long tutor_id;
+    private long tutorId;
 
     @Column(nullable=false,name="name")
     private String name;
@@ -35,23 +28,25 @@ public class Tutor {
     @Column(nullable=false, name="max_grade_level")
     private int maxGradeLevel;
 
-    @OneToMany(mappedBy = "tutor", cascade=CascadeType.ALL)
-    private ArrayList<TutorSubject> tutorSubjects = new ArrayList<>();
+    //ArrayList?
+    @ManyToMany
+    @JoinTable(name = "tutor_subject", joinColumns = @JoinColumn(name = "tutor_id"), inverseJoinColumns = @JoinColumn(name = "subject_id"))
+    private ArrayList<Subject> subjects = new ArrayList<>();
 
-    public ArrayList<TutorSubject> getTutorSubjects() {
-        return tutorSubjects;
+    public ArrayList<Subject> getSubjects() {
+        return this.subjects;
     }
 
-    public void setTutorSubjects(ArrayList<TutorSubject> tutorSubjects) {
-        this.tutorSubjects = tutorSubjects;
+    public void setSubjects(ArrayList<Subject> subjects) {
+        this.subjects = subjects;
     }
 
-    public long getTutor_id() {
-        return tutor_id;
+    public long getTutorId() {
+        return this.tutorId;
     }
 
-    public void setTutor_id(long tutor_id) {
-        this.tutor_id = tutor_id;
+    public void setTutorId(long tutorId) {
+        this.tutorId = tutorId;
     }
 
     public String getName() {

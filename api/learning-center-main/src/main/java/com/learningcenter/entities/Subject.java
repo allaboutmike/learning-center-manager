@@ -2,14 +2,7 @@ package com.learningcenter.entities;
 
 import java.util.ArrayList;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "subject", schema = "tutor_profile")
@@ -23,18 +16,18 @@ public class Subject {
     @Column(nullable=false, name="name")
     private String name;
 
-    @OneToMany(mappedBy = "subject", cascade=CascadeType.ALL)
-    private ArrayList<TutorSubject> tutorSubject = new ArrayList<>();
+    @ManyToMany(mappedBy = "subjects")
+    private ArrayList<Tutor> tutors = new ArrayList<>();
 
 //    @OneToMany(mappedBy = "session")
 //    private ArrayList<Session> subjects = new ArrayList<>();
 
-    public ArrayList<TutorSubject> getTutorSubjects() {
-        return tutorSubject;
+    public ArrayList<Tutor> getTutor() {
+        return this.tutors;
     }
 
-    public void setTutorSubjects(ArrayList<TutorSubject> tutorSubject) {
-        this.tutorSubject = tutorSubject;
+    public void setTutors(ArrayList<Tutor> tutors) {
+        this.tutors = tutors;
     }
 
     public long getSubject_id() {
