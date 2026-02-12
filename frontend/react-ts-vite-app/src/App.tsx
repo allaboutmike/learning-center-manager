@@ -1,14 +1,20 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import TutorSearchScreen from "./pages/TutorSearchScreen";
+import TutorProfilePage from "./pages/TutorProfilePage";
 
 function App() {
   return (
-    <div>
-      <TutorSearchScreen />
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<TutorSearchScreen />} />
+        <Route path="/tutors/:tutorId" element={<TutorProfilePage />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
 export default App;
+
 
 
 
