@@ -16,7 +16,7 @@ public class Review {
     @Column(name = "review_id")
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private long reviewId;
+    private long review_id;
 
     @Column(nullable = false, name = "comment")
     private String comment;
@@ -28,12 +28,12 @@ public class Review {
     @JoinColumn(name= "tutor_id")
     private Tutor tutor;
 
-    public long getReviewId() {
-        return reviewId;
+    public long getReview_id() {
+        return review_id;
     }
 
-    public void setReviewId(long reviewId) {
-        this.reviewId = reviewId;
+    public void setReview_id(long review_id) {
+        this.review_id = review_id;
     }
 
     public String getComment() {
