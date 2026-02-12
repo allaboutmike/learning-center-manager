@@ -66,7 +66,7 @@ export default function TutorSearchScreen() {
       <div style={{ width: 500, margin: "20px auto" }}>
         {tutors.map((tutor) => (
           <div
-            key={tutor.id}
+            key={tutor.tutorId}
             onClick={() => {
               setSelectedTutor(tutor);
               console.log("Selected tutor:", tutor); // proves click works
@@ -80,7 +80,8 @@ export default function TutorSearchScreen() {
             }}
           >
             <h3>{tutor.name}</h3>
-            <p>⭐ {tutor.rating}</p>
+            <p>{tutor.avgRating} ⭐ </p>
+            <p>Review Count: {tutor.reviewCount}</p>
             <p>
               Grades: {tutor.minGrade} - {tutor.maxGrade}
             </p>
