@@ -2,7 +2,17 @@ package com.learningcenter.entities;
 
 import java.util.ArrayList;
 
-import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tutor", schema="tutor_profile")
@@ -32,6 +42,17 @@ public class Tutor {
     @ManyToMany
     @JoinTable(name = "tutor_subject", joinColumns = @JoinColumn(name = "tutor_id"), inverseJoinColumns = @JoinColumn(name = "subject_id"))
     private ArrayList<Subject> subjects = new ArrayList<>();
+
+    @OneToMany(mappedBy = "tutor", cascade=CascadeType.ALL)
+    private ArrayList<Review> reviews = new ArrayList<>();
+
+    public ArrayList<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(ArrayList<Review> reviews) {
+        this.reviews = reviews;
+    }
 
     public ArrayList<Subject> getSubjects() {
         return this.subjects;
