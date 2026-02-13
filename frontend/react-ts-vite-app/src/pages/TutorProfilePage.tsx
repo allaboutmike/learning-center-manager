@@ -1,33 +1,31 @@
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useLearningCenterAPI } from "../hooks/useLearningCenterAPI";
+import type { Tutor } from "../types/tutor";
 
 export default function TutorProfilePage() {
-  const { tutorId } = useParams();
-  const [tutor, setTutor] = useState<any>(null);
+    const { tutorId } = useParams();
+    if (!tutorId) {
+        return <p> Invalid tutor id</p>;
+    }
+    const tutor = useLearningCenterAPI<Tutor>(`/api/tutors/${tutorId}`);
 
-  useEffect(() => {
-    fetch(`/api/tutors/${tutorId}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setTutor(data);
-      });
-  }, [tutorId]);
 
-  if (!tutor) return <p>Loading...</p>;
 
-  return (
-    <div style={{ textAlign: "center", marginTop: 50 }}>
-      <h1>{tutor.name}</h1>
-      <img
-        src={tutor.profilePictureUrl}
-        alt={tutor.name}
-        style={{ width: 120, borderRadius: "50%" }}
-      />
-      <p>Rating: {tutor.avgRating}</p>
-      <p>Reviews: {tutor.reviewCount}</p>
-      <p>
-        Grades: {tutor.minGradeLevel} - {tutor.maxGradeLevel}
-      </p>
-    </div>
-  );
+    if (!tutor) return <p>Loading...</p>;
+
+    return (
+        <div style={{ textAlign: "center", marginTop: 50 }}>
+            <h1>{tutor.name}</h1>
+            <img
+                src={tutor.profilePictureUrl}
+                alt={tutor.name}
+                style={{ width: 120, borderRadius: "50%" }}
+            />
+            <p>Rating: {tutor.avgRating}</p>
+            <p>Reviews: {tutor.reviewCount}</p>
+            <p>
+                Grades: {tutor.minGradeLevel} - {tutor.maxGradeLevel}
+            </p>
+        </div>
+    );
 }

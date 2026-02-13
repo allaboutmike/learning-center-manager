@@ -1,21 +1,20 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useLearningCenterAPI } from "../hooks/useLearningCenterAPI";
+import type { Tutor } from "../types/tutor";
+
 
 export default function TutorSearchScreen() {
-    const [tutors, setTutors] = useState<any[]>([]);
-    const [grade, setGrade] = useState("");
     const navigate = useNavigate();
+    const [grade, setGrade] = useState("");
+    const url = grade === "" ? "/api/tutors" : `/api/tutors?gradeLevel=${grade}`;
+    const tutors = useLearningCenterAPI<Tutor[]>(url);
 
 
-    // load tutors
-    useEffect(() => {
-        fetch("/api/tutors")
-            .then((res) => res.json())
-            .then((data) => {
-                console.log("GET /api/tutors response:", data); // proves API is being called
-                setTutors(data);
-            });
-    }, []);
+    function handleGradeChange(e: React.ChangeEvent<HTMLSelectElement>) {
+        setGrade(e.target.value)
+    }
+
 
     return (
         <div
@@ -37,22 +36,8 @@ export default function TutorSearchScreen() {
 
                 <select
                     value={grade}
-                    onChange={(e) => {
-                        const value = e.target.value;
-                        setGrade(value);
+                    onChange={handleGradeChange}
 
-                        const url =
-                            value === "" ? "/api/tutors" : `/api/tutors?gradeLevel=${value}`;
-
-                        console.log("Calling:", url); // proves API call is happening
-
-                        fetch(url)
-                            .then((res) => res.json())
-                            .then((data) => {
-                                console.log("Response:", data);
-                                setTutors(data);
-                            });
-                    }}
                 >
                     <option value="">All Grades</option>
                     <option value="1">Grade 1</option>
@@ -68,11 +53,14 @@ export default function TutorSearchScreen() {
                     <option value="11">Grade 11</option>
                     <option value="12">Grade 12</option>
                 </select>
+
             </div>
 
-            <div style={{ width: 500, margin: "20px auto" }}>
-                {tutors.map((tutor) => (
-                    <div
+            {!tutors && <p>Loading...</p>}
+
+            <ul style={{ width: 500, margin: "20px auto", padding: 0, listStyle: "none" }}>
+                {tutors && tutors.map((tutor) => (
+                    <li
                         key={tutor.tutorId}
                         onClick={() => {
                             navigate(`/tutors/${tutor.tutorId}`);
@@ -106,9 +94,10 @@ export default function TutorSearchScreen() {
                         <p>
                             Grades: {tutor.minGradeLevel} - {tutor.maxGradeLevel}
                         </p>
-                    </div>
+                    </li>
                 ))}
-            </div>
+
+            </ul>
         </div>
     );
 }
