@@ -75,7 +75,6 @@ SessionService API Documentation
     public List<Session> getSessionsByStudent(int studentId) {
 
 
-
         List<Session> studentSessions = new ArrayList<>();
         return studentSessions;
     };
