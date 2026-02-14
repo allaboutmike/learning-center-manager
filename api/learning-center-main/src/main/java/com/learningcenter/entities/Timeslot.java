@@ -13,6 +13,14 @@ import jakarta.persistence.Table;
 @Table(name = "time_slot", schema = "session")
 public class Timeslot {
 
+    public Timeslot(Timestamp time) {
+        this.time = time;
+    }
+
+    public Timeslot() {
+        
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "time_slot_id")
@@ -34,10 +42,6 @@ public class Timeslot {
     }
 
     public void setTime(Timestamp time) {
-        this.time = time;
-    }
-    
-    public Timeslot(Timestamp time) {
         this.time = time;
     }
 }

@@ -14,6 +14,14 @@ import jakarta.persistence.Table;
 @Table(name = "tutor_time_slot", schema = "session")
 public class TutorTimeslot {
 
+    public TutorTimeslot(Tutor tutor, Timeslot timeslot) {
+        this.tutor = tutor;
+        this.timeslot = timeslot;
+    }
+
+    public TutorTimeslot() {
+    }
+
     @Id
     @Column(name = "tutor_time_slot_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,11 +56,6 @@ public class TutorTimeslot {
     }
 
     public void setTimeslot_id(Timeslot timeslot) {
-        this.timeslot = timeslot;
-    }
-
-    public TutorTimeslot(Tutor tutor, Timeslot timeslot) {
-        this.tutor = tutor;
         this.timeslot = timeslot;
     }
 }

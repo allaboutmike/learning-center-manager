@@ -13,6 +13,16 @@ import jakarta.persistence.Table;
 @Table(name = "review", schema = "review")
 public class Review {
 
+    public Review(String comment, int rating, Tutor tutor) {
+        this.comment = comment;
+        this.rating = rating;
+        this.tutor = tutor;
+    }
+
+    public Review() {
+        
+    }
+
     @Column(name = "review_id")
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -57,11 +67,6 @@ public class Review {
     }
 
     public void setTutor(Tutor tutor) {
-        this.tutor = tutor;
-    }
-    public Review(String comment, int rating, Tutor tutor) {
-        this.comment = comment;
-        this.rating = rating;
         this.tutor = tutor;
     }
 }

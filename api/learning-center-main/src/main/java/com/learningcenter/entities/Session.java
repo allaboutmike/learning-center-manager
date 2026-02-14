@@ -17,6 +17,18 @@ import jakarta.persistence.Table;
 @Table(name = "session", schema = "session")
 public class Session {
 
+    public Session(String session_notes, Timestamp timestamp, Child child, TutorTimeslot tutor_timeslot, Subject subject) {
+        this.session_notes = session_notes;
+        this.timestamp = timestamp;
+        this.child = child;
+        this.tutor_timeslot = tutor_timeslot;
+        this.subject = subject;
+    }
+
+    public Session() {
+        
+    }
+
     @Column(name="session_id")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -85,14 +97,6 @@ public class Session {
     }
 
     public void setSubjet_id(Subject subject) {
-        this.subject = subject;
-    }
-
-    public Session(String session_notes, Timestamp timestamp, Child child, TutorTimeslot tutor_timeslot, Subject subject) {
-        this.session_notes = session_notes;
-        this.timestamp = timestamp;
-        this.child = child;
-        this.tutor_timeslot = tutor_timeslot;
         this.subject = subject;
     }
 }

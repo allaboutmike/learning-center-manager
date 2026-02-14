@@ -19,6 +19,18 @@ import jakarta.persistence.Table;
 @Table(name = "tutor", schema="tutor_profile")
 public class Tutor {
 
+    public Tutor(String name, int minGradeLevel, int maxGradeLevel, String url, String summary) {
+        this.name = name;
+        this.minGradeLevel = minGradeLevel;
+        this.maxGradeLevel = maxGradeLevel;
+        this.url = url;
+        this.summary = summary;
+    }
+
+    public Tutor() {
+        
+    }
+
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="tutor_id")
@@ -120,15 +132,5 @@ public class Tutor {
 
     public void setTutorTimeSlots(List<TutorTimeslot> tutorTimeSlots) {
         this.tutorTimeSlots = tutorTimeSlots;
-    }
-
-    public Tutor(String name, int minGradeLevel, int maxGradeLevel, String url, String summary) {
-        this.name = name;
-        this.minGradeLevel = minGradeLevel;
-        this.maxGradeLevel = maxGradeLevel;
-        this.url = url;
-        this.summary = summary;
-    }
-    public Tutor() {
     }
 }

@@ -15,6 +15,14 @@ import jakarta.persistence.Table;
 @Table(name = "subject", schema = "tutor_profile")
 public class Subject {
 
+    public Subject(String name) {
+        this.name = name;
+    }
+
+    public Subject() {
+        
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="subject_id")
@@ -50,10 +58,6 @@ public class Subject {
     }
 
     public void setName(String name) {
-        this.name = name;
-    }
-
-    public Subject(String name) {
         this.name = name;
     }
 }

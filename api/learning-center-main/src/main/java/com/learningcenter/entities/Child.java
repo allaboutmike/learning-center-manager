@@ -14,6 +14,17 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "child", schema = "parent_account")
 public class Child {
+
+    public Child(String name, int grade_level, Parent parent) {
+        this.name = name;
+        this.grade_level = grade_level;
+        this.parent = parent;
+    }
+
+    public Child() {
+        
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "child_id")
@@ -59,12 +70,6 @@ public class Child {
     }
 
     public void setParent(Parent parent) {
-        this.parent = parent;
-    }
-
-    public Child(String name, int grade_level, Parent parent) {
-        this.name = name;
-        this.grade_level = grade_level;
         this.parent = parent;
     }
 }
