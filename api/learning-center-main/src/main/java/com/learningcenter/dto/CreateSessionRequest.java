@@ -22,7 +22,7 @@ public class CreateSessionRequest {
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     LocalDateTime endTime;
 
-    public CreateSessionRequest(Long sessionId, Long tutorId, Long childId, String subject, String sessionNotes) {
+    public CreateSessionRequest(Long sessionId, Long tutorId, Long childId, String subject, String sessionNotes, LocalDateTime startTime, LocalDateTime endTime) {
         this.sessionId = sessionId;
         this.tutorId = tutorId;
         this.subject = subject;

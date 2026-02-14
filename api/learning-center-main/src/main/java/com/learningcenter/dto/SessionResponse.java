@@ -22,7 +22,10 @@ public class SessionResponse {
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     LocalDateTime endTime;
 
-    public SessionResponse(Long sessionId) {
+    public SessionResponse() {
+    }
+    public void setSessionId(Long sessionId) {
+        this.sessionId = sessionId;
     }
 
     public Long getSessionId() {
@@ -47,5 +50,8 @@ public class SessionResponse {
 
     public String getStatus() {
         return status;
+    }
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
