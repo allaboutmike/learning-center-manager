@@ -17,10 +17,10 @@ public class CreateSessionRequest {
     private final Long childId;
 
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    LocalDateTime startTime;
+    private final LocalDateTime startTime;
 
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    LocalDateTime endTime;
+    private final LocalDateTime endTime;
 
     public CreateSessionRequest(Long sessionId, Long tutorId, Long childId, String subject, String sessionNotes) {
         this.sessionId = sessionId;
