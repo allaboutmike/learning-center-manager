@@ -41,11 +41,14 @@ public class Tutor {
 
     //ArrayList?
     @ManyToMany
-    @JoinTable(name = "tutor_subject", joinColumns = @JoinColumn(name = "tutor_id"), inverseJoinColumns = @JoinColumn(name = "subject_id"))
+    @JoinTable(name = "tutor_subject", schema="tutor_profile", joinColumns = @JoinColumn(name = "tutor_id"), inverseJoinColumns = @JoinColumn(name = "subject_id"))
     private List<Subject> subjects = new ArrayList<>();
 
     @OneToMany(mappedBy = "tutor", cascade=CascadeType.ALL)
     private List<Review> reviews = new ArrayList<>();
+
+    @OneToMany(mappedBy = "tutor", cascade=CascadeType.ALL)
+    private List<TutorTimeslot> tutorTimeSlots = new ArrayList<>();
 
     public List<Review> getReviews() {
         return reviews;
@@ -109,6 +112,14 @@ public class Tutor {
 
     public void setMaxGradeLevel(int maxGradeLevel) {
         this.maxGradeLevel = maxGradeLevel;
+    }
+
+    public List<TutorTimeslot> getTutorTimeSlots() {
+        return tutorTimeSlots;
+    }
+
+    public void setTutorTimeSlots(List<TutorTimeslot> tutorTimeSlots) {
+        this.tutorTimeSlots = tutorTimeSlots;
     }
 
     public Tutor(String name, int minGradeLevel, int maxGradeLevel, String url, String summary) {

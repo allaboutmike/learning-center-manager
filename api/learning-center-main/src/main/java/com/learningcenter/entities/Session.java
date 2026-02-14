@@ -28,16 +28,16 @@ public class Session {
     @Column(nullable = false, name = "created_at")
     private Timestamp timestamp;
 
-    @ManyToOne
-    @JoinColumn(name = "child_id")
+    @ManyToOne(optional=false)
+    @JoinColumn(name = "child_id", nullable = false)
     private Child child;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "tutor_timeslot_id")
+    @JoinColumn(name = "tutor_time_slot_id", nullable=false)
     private TutorTimeslot tutor_timeslot;
 
-    @ManyToOne
-    @JoinColumn(name = "subject_id")
+    @ManyToOne(optional=false)
+    @JoinColumn(name = "subject_id", nullable = false)
     private Subject subject;
 
     public long getSession_id() {
@@ -69,7 +69,7 @@ public class Session {
     }
 
     public void setChild_id(Child child_id) {
-        this.child = child;
+        this.child = child_id;
     }
 
     public TutorTimeslot getTimeslot_id() {

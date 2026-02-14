@@ -25,8 +25,8 @@ public class Child {
     @Column(nullable = false, name = "grade_level")
     private int grade_level;
 
-    @ManyToOne
-    @JoinColumn(name = "parent_id")
+    @ManyToOne(optional=false)
+    @JoinColumn(name = "parent_id", nullable = false)
     private Parent parent;
 
 

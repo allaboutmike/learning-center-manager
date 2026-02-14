@@ -11,20 +11,20 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "tutor_timeslot", schema = "session")
+@Table(name = "tutor_time_slot", schema = "session")
 public class TutorTimeslot {
 
     @Id
-    @Column(name = "tutor_timeslot_id")
+    @Column(name = "tutor_time_slot_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long tutor_timeslot_id;
 
-    @ManyToOne
-    @JoinColumn(name = "tutor_id")
+    @ManyToOne(optional=false)
+    @JoinColumn(name = "tutor_id", nullable = false)
     private Tutor tutor;
 
-    @ManyToOne
-    @JoinColumn(name = "timeslot_id")
+    @ManyToOne(optional=false)
+    @JoinColumn(name = "time_slot_id", nullable = false)
     private Timeslot timeslot;
 
     public long getTutor_timeslot_id() {

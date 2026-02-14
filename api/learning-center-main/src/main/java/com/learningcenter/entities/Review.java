@@ -24,8 +24,8 @@ public class Review {
     @Column(nullable = false, name = "rating")
     private int rating;
 
-    @ManyToOne
-    @JoinColumn(name= "tutor_id")
+    @ManyToOne(optional=false)
+    @JoinColumn(name= "tutor_id", nullable = false)
     private Tutor tutor;
 
     public long getReviewId() {

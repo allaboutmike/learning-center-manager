@@ -10,12 +10,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "timeslot", schema = "session")
+@Table(name = "time_slot", schema = "session")
 public class Timeslot {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "timeslot_id")
+    @Column(name = "time_slot_id")
     private long timeslot_id;
 
     @Column(nullable = false, name="time")
