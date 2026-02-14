@@ -2,6 +2,7 @@ package com.learningcenter.controller;
 
 
 import com.learningcenter.dto.TutorResponse;
+import com.learningcenter.dto.TutorTimeSlotResponse;
 import com.learningcenter.service.TutorService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,5 +32,9 @@ public class TutorController {
         return tutorService.getTutorDetails(tutorId);
     }
 
+    @GetMapping("/{tutorId}/availability")
+    public List<TutorTimeSlotResponse> getTutorAvailability(@PathVariable Long tutorId) {
+        return tutorService.getTutorAvailability(tutorId);
+    }
 
 }
