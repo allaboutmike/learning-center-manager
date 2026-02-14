@@ -1,5 +1,13 @@
 package com.learningcenter.service;
 
+import com.learningcenter.dto.CreateSessionRequest;
+import com.learningcenter.dto.SessionResponse;
+import com.learningcenter.entities.Child;
+import com.learningcenter.entities.Session;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class SessionService {
 /*
 SessionService API Documentation
@@ -48,4 +56,27 @@ SessionService API Documentation
 
     Throws: SessionNotFoundException if session does not exist
 */
+
+    public CreateSessionRequest createSession(CreateSessionRequest request) {
+
+        Session session = new Session(request.getChildId(), request.getSessionId(), request.getTutorId(), request.getSessionNotes(), request.getStartTime(), request.getEndTime(), request.getSubject());
+
+        return request;
+    };
+
+    public SessionResponse getSessionById(Long sessionId) {
+        SessionResponse response = new SessionResponse();
+        response.setSessionId(sessionId);
+        response.setStatus("Confirm");
+
+        return response;
+    };
+
+    public List<Session> getSessionsByStudent(int studentId) {
+
+
+
+        List<Session> studentSessions = new ArrayList<>();
+        return studentSessions;
+    };
 }

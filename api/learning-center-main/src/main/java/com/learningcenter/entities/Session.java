@@ -13,6 +13,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,6 +43,9 @@ public class Session {
     @ManyToOne
     @JoinColumn(name = "subject_id")
     private Subject subject;
+
+    public Session(Long childId, Long sessionId, Long tutorId, String sessionNotes, LocalDateTime startTime, LocalDateTime endTime, String subject) {
+    }
 
     public long getSession_id() {
         return session_id;
