@@ -2,6 +2,7 @@ package com.learningcenter.service;
 
 import com.learningcenter.dto.TutorResponse;
 import com.learningcenter.dto.TutorTimeSlotResponse;
+import org.aspectj.weaver.ast.Var;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -35,9 +36,12 @@ public class TutorService {
     }
 
     public List<TutorTimeSlotResponse> getTutorAvailability(Long tutorId) {
-        List<TutorTimeSlotResponse> timeSlots = new ArrayList<>();
-        timeSlots.add(new TutorTimeSlotResponse(1L, tutorId, 1L, LocalDateTime.of(2026, 2, 14, 17, 0), LocalDateTime.of(2026, 2, 14, 18, 0)));
-        timeSlots.add(new TutorTimeSlotResponse(2L, tutorId, 2L, LocalDateTime.of(2026, 2, 16, 18, 0), LocalDateTime.of(2026, 2, 16, 19, 0)));
-        return timeSlots;
+        var fivePmSlotStart = LocalDateTime.of(2026, 2, 14, 17, 0);
+        var sixPmSlotStart = LocalDateTime.of(2026, 2, 14, 18, 0);
+
+        return List.of(
+                new TutorTimeSlotResponse(101L, tutorId, 201L, fivePmSlotStart, fivePmSlotStart.plusHours(1)),
+                new TutorTimeSlotResponse(102L, tutorId, 202L, sixPmSlotStart, sixPmSlotStart.plusHours(1))
+        );
     }
 }
