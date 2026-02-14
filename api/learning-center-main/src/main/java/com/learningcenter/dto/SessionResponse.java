@@ -17,10 +17,10 @@ public class SessionResponse {
     private Long childId;
 
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    LocalDateTime startTime;
+    private LocalDateTime startTime;
 
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    LocalDateTime endTime;
+    private LocalDateTime endTime;
 
     public SessionResponse() {
     }
