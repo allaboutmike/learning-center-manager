@@ -61,5 +61,11 @@ public class Child {
     public void setParent(Parent parent) {
         this.parent = parent;
     }
+
+    public Child(String name, int grade_level, Parent parent) {
+        this.name = name;
+        this.grade_level = grade_level;
+        this.parent = parent;
+    }
 }
 

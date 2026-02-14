@@ -1,20 +1,17 @@
 package com.learningcenter.entities;
 
+import java.sql.Timestamp;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-import jakarta.persistence.Column;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
-
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "session", schema = "session")
@@ -88,6 +85,14 @@ public class Session {
     }
 
     public void setSubjet_id(Subject subject) {
+        this.subject = subject;
+    }
+
+    public Session(String session_notes, Timestamp timestamp, Child child, TutorTimeslot tutor_timeslot, Subject subject) {
+        this.session_notes = session_notes;
+        this.timestamp = timestamp;
+        this.child = child;
+        this.tutor_timeslot = tutor_timeslot;
         this.subject = subject;
     }
 }

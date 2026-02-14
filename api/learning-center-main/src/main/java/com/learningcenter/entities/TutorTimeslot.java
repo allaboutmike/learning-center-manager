@@ -1,14 +1,14 @@
 package com.learningcenter.entities;
 
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-import jakarta.persistence.Column;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tutor_timeslot", schema = "session")
@@ -48,6 +48,11 @@ public class TutorTimeslot {
     }
 
     public void setTimeslot_id(Timeslot timeslot) {
+        this.timeslot = timeslot;
+    }
+
+    public TutorTimeslot(Tutor tutor, Timeslot timeslot) {
+        this.tutor = tutor;
         this.timeslot = timeslot;
     }
 }
