@@ -1,24 +1,33 @@
 package com.learningcenter.entities;
 
+import java.sql.Timestamp;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-import jakarta.persistence.Column;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
-
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "session", schema = "session")
 public class Session {
+
+    public Session(String session_notes, Timestamp timestamp, Child child, TutorTimeslot tutor_timeslot, Subject subject) {
+        this.session_notes = session_notes;
+        this.timestamp = timestamp;
+        this.child = child;
+        this.tutor_timeslot = tutor_timeslot;
+        this.subject = subject;
+    }
+
+    public Session() {
+        
+    }
 
     @Column(name="session_id")
     @Id
@@ -31,16 +40,16 @@ public class Session {
     @Column(nullable = false, name = "created_at")
     private Timestamp timestamp;
 
-    @ManyToOne
-    @JoinColumn(name = "child_id")
+    @ManyToOne(optional=false)
+    @JoinColumn(name = "child_id", nullable = false)
     private Child child;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "tutor_timeslot_id")
+    @JoinColumn(name = "tutor_time_slot_id", nullable=false)
     private TutorTimeslot tutor_timeslot;
 
-    @ManyToOne
-    @JoinColumn(name = "subject_id")
+    @ManyToOne(optional=false)
+    @JoinColumn(name = "subject_id", nullable = false)
     private Subject subject;
 
     public long getSession_id() {
@@ -72,7 +81,7 @@ public class Session {
     }
 
     public void setChild_id(Child child_id) {
-        this.child = child;
+        this.child = child_id;
     }
 
     public TutorTimeslot getTimeslot_id() {
