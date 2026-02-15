@@ -1,8 +1,6 @@
 package com.learningcenter.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
-import java.time.LocalDateTime;
+import com.learningcenter.entities.Session;
 
 public class SessionResponse {
     /*
@@ -11,18 +9,16 @@ public class SessionResponse {
     */
     private Long sessionId;
     private Long tutorId;
-    private String subject;
+    private Long subject;
     private String sessionNotes;
-    private String status;
     private Long childId;
 
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    LocalDateTime startTime;
-
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    LocalDateTime endTime;
-
-    public SessionResponse() {
+    public SessionResponse(Session session) {
+        this.sessionId = session.getSession_id();
+        this.tutorId = session.getTimeslot_id().getTutor_id().getTutorId();
+        this.subject = session.getSubject_id().getSubject_id();
+        this.sessionNotes = session.getSession_notes();
+        this.childId = session.getChild_id().getChild_id();
     }
 
     public Long getSessionId() {
@@ -33,27 +29,11 @@ public class SessionResponse {
         this.sessionId = sessionId;
     }
 
-    public LocalDateTime getStartTime() {
-        return startTime;
-    }
-
-    public LocalDateTime getEndTime() {
-        return endTime;
-    }
-
     public Long getTutorId() {
         return tutorId;
     }
 
     public Long getChildId() {
         return childId;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 }

@@ -1,21 +1,29 @@
 package com.learningcenter.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.persistence.Id;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Column;
-
 import java.sql.Timestamp;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
 @Entity
-@Table(name = "timeslot", schema = "session")
+@Table(name = "time_slot", schema = "session")
 public class Timeslot {
+
+    public Timeslot(Timestamp time) {
+        this.time = time;
+    }
+
+    public Timeslot() {
+        
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "timeslot_id")
+    @Column(name = "time_slot_id")
     private long timeslot_id;
 
     @Column(nullable = false, name="time")

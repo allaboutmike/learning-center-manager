@@ -1,6 +1,7 @@
 package com.learningcenter.controller;
 
 import com.learningcenter.dto.TutorResponse;
+import com.learningcenter.dto.TutorTimeSlotResponse;
 import com.learningcenter.service.TutorService;
 import org.junit.jupiter.api.Test;
 
@@ -28,5 +29,15 @@ public class TutorControllerTest {
         TutorResponse tutor = (TutorResponse) tutorController.getTutorDetails(11L);
         assertNotNull(tutor);
         assertEquals(11L, tutor.getTutorId());
+    }
+
+    @Test
+    void getTutorAvailabilityTest_returnTutorAvailability() {
+        TutorService tutorService = new TutorService();
+        TutorController tutorController = new TutorController(tutorService);
+
+        List<TutorTimeSlotResponse> availability = tutorController.getTutorAvailability(11L);
+        assertNotNull(availability);
+        assertEquals(2, availability.size());
     }
 }

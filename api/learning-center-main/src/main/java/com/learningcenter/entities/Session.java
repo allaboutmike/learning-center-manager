@@ -6,20 +6,28 @@ import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Column;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "session", schema = "session")
 public class Session {
+
+    public Session(String session_notes, Timestamp createdAt, Child child, TutorTimeslot tutor_timeslot, Subject subject) {
+        this.session_notes = session_notes;
+        this.createdAt = createdAt;
+        this.child = child;
+        this.tutor_timeslot = tutor_timeslot;
+        this.subject = subject;
+    }
+
+    public Session() {
+
+    }
 
     @Column(name="session_id")
     @Id
@@ -29,8 +37,8 @@ public class Session {
     @Column(nullable = false, name="session_notes")
     private String session_notes;
 
-    @Column(nullable = false, name = "created_at")
-    private Timestamp timestamp;
+    @Column(nullable = false, name = "createdAt")
+    private Timestamp createdAt;
 
     @ManyToOne
     @JoinColumn(name = "child_id")
@@ -43,9 +51,6 @@ public class Session {
     @ManyToOne
     @JoinColumn(name = "subject_id")
     private Subject subject;
-
-    public Session(Long childId, Long sessionId, Long tutorId, String sessionNotes, LocalDateTime startTime, LocalDateTime endTime, String subject) {
-    }
 
     public long getSession_id() {
         return session_id;
@@ -63,12 +68,12 @@ public class Session {
         this.session_notes = session_notes;
     }
 
-    public Timestamp getTimestamp() {
-        return timestamp;
+    public Timestamp getCreatedAt() {
+        return createdAt;
     }
 
-    public void setTimestamp(Timestamp timestamp) {
-        this.timestamp = timestamp;
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
     }
 
     public Child getChild_id() {
@@ -87,11 +92,11 @@ public class Session {
         this.tutor_timeslot = tutor_timeslot;
     }
 
-    public Subject getSubjet_id() {
+    public Subject getSubject_id() {
         return subject;
     }
 
-    public void setSubjet_id(Subject subject) {
+    public void setSubject_id(Subject subject) {
         this.subject = subject;
     }
 }

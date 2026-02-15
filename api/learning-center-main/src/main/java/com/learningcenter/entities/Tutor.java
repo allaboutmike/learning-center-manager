@@ -1,6 +1,7 @@
 package com.learningcenter.entities;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -17,6 +18,18 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "tutor", schema="tutor_profile")
 public class Tutor {
+
+    public Tutor(String name, int minGradeLevel, int maxGradeLevel, String url, String summary) {
+        this.name = name;
+        this.minGradeLevel = minGradeLevel;
+        this.maxGradeLevel = maxGradeLevel;
+        this.url = url;
+        this.summary = summary;
+    }
+
+    public Tutor() {
+        
+    }
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -40,25 +53,28 @@ public class Tutor {
 
     //ArrayList?
     @ManyToMany
-    @JoinTable(name = "tutor_subject", joinColumns = @JoinColumn(name = "tutor_id"), inverseJoinColumns = @JoinColumn(name = "subject_id"))
-    private ArrayList<Subject> subjects = new ArrayList<>();
+    @JoinTable(name = "tutor_subject", schema="tutor_profile", joinColumns = @JoinColumn(name = "tutor_id"), inverseJoinColumns = @JoinColumn(name = "subject_id"))
+    private List<Subject> subjects = new ArrayList<>();
 
     @OneToMany(mappedBy = "tutor", cascade=CascadeType.ALL)
-    private ArrayList<Review> reviews = new ArrayList<>();
+    private List<Review> reviews = new ArrayList<>();
 
-    public ArrayList<Review> getReviews() {
+    @OneToMany(mappedBy = "tutor", cascade=CascadeType.ALL)
+    private List<TutorTimeslot> tutorTimeSlots = new ArrayList<>();
+
+    public List<Review> getReviews() {
         return reviews;
     }
 
-    public void setReviews(ArrayList<Review> reviews) {
+    public void setReviews(List<Review> reviews) {
         this.reviews = reviews;
     }
 
-    public ArrayList<Subject> getSubjects() {
+    public List<Subject> getSubjects() {
         return this.subjects;
     }
 
-    public void setSubjects(ArrayList<Subject> subjects) {
+    public void setSubjects(List<Subject> subjects) {
         this.subjects = subjects;
     }
 
@@ -109,5 +125,12 @@ public class Tutor {
     public void setMaxGradeLevel(int maxGradeLevel) {
         this.maxGradeLevel = maxGradeLevel;
     }
-    
+
+    public List<TutorTimeslot> getTutorTimeSlots() {
+        return tutorTimeSlots;
+    }
+
+    public void setTutorTimeSlots(List<TutorTimeslot> tutorTimeSlots) {
+        this.tutorTimeSlots = tutorTimeSlots;
+    }
 }

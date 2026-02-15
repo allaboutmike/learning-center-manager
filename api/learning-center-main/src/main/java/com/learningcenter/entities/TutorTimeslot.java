@@ -1,30 +1,38 @@
 package com.learningcenter.entities;
 
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-import jakarta.persistence.Column;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "tutor_timeslot", schema = "session")
+@Table(name = "tutor_time_slot", schema = "session")
 public class TutorTimeslot {
 
+    public TutorTimeslot(Tutor tutor, Timeslot timeslot) {
+        this.tutor = tutor;
+        this.timeslot = timeslot;
+    }
+
+    public TutorTimeslot() {
+    }
+
     @Id
-    @Column(name = "tutor_timeslot_id")
+    @Column(name = "tutor_time_slot_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long tutor_timeslot_id;
 
-    @ManyToOne
-    @JoinColumn(name = "tutor_id")
+    @ManyToOne(optional=false)
+    @JoinColumn(name = "tutor_id", nullable = false)
     private Tutor tutor;
 
-    @ManyToOne
-    @JoinColumn(name = "timeslot_id")
+    @ManyToOne(optional=false)
+    @JoinColumn(name = "time_slot_id", nullable = false)
     private Timeslot timeslot;
 
     public long getTutor_timeslot_id() {

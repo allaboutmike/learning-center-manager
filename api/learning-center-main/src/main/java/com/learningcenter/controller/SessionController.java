@@ -14,11 +14,11 @@ import java.time.LocalDateTime;
 @RequestMapping("/api/sessions")
 public class SessionController {
 
-//    private final SessionService sessionService;
-//
-//    public SessionController(SessionService sessionService) {
-//        this.sessionService = sessionService;
-//    }
+    private final SessionService sessionService;
+
+    public SessionController(SessionService sessionService) {
+        this.sessionService = sessionService;
+    }
 /*
 SessionController API Documentation
 REST API controller for managing tutoring session operations in the Learning Center application.
@@ -53,21 +53,20 @@ REST API controller for managing tutoring session operations in the Learning Cen
     // Handles POST requests to /api/sessions
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CreateSessionRequest createSession(@RequestBody CreateSessionRequest request) {
+    public SessionResponse createSession(@RequestBody CreateSessionRequest request) {
+
 
         // Return the created object and a 201 Created status
-//        return sessionService.createSession(request);
-        return request;
+        var session = sessionService.createSession(request);
+        return new SessionResponse(session);
     }
 
 
     // Handles GET request for session details by sessionId
     @GetMapping("/{sessionId}")
     public ResponseEntity<SessionResponse> getSessionById(@PathVariable Long sessionId) {
-//        SessionResponse session = sessionService.getSessionById(sessionId);
 
-        // Return the session details and a 200 success status
-//        return ResponseEntity.ok(session);
-        return null;
+        var session = sessionService.getSessionById(sessionId);
+        return ResponseEntity.ok(new SessionResponse(session));
     }
 }
