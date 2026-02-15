@@ -19,7 +19,7 @@ public class Parent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, name="parent_id")
-    private long parentId;
+    private Long parentId;
 
     @Column(nullable = false, name="name")
     private String name;
@@ -36,11 +36,11 @@ public class Parent {
 
     }
 
-    public long getParentId() {
+    public Long getParentId() {
         return parentId;
     }
 
-    public void setParentId(long parentId) {
+    public void setParentId(Long parentId) {
         this.parentId = parentId;
     }
 
