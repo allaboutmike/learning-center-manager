@@ -24,7 +24,7 @@ export default function TutorProfilePage() {
       />
       <h1>{tutor.name}</h1>
       <p>
-        Grades taught: {tutor.minGradeLevel} - {tutor.maxGradeLevel}
+        Grades I teach: {tutor.minGradeLevel} - {tutor.maxGradeLevel}
       </p>
       <p>{tutor.tutorSummary}</p>
       <p>Rating: {tutor.avgRating}</p>
@@ -38,7 +38,7 @@ export default function TutorProfilePage() {
           <li
             className={
               selectedTimeSlot === index && timeslot.tutorTimeslotId !== 0
-                ? "underline"
+                ? "bg-blue-500 text-white"
                 : ""
             }
             key={timeslot.tutorTimeslotId}
