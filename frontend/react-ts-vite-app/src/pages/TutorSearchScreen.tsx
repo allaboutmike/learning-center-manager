@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLearningCenterAPI } from "../hooks/useLearningCenterAPI";
-import type { Tutor } from "../types/tutor";
+import { TutorList, type tutor, type Tutor } from "../types/tutor";
 
 
 export default function TutorSearchScreen() {
@@ -56,10 +56,10 @@ export default function TutorSearchScreen() {
 
             </div>
 
-            {!tutors && <p>Loading...</p>}
+            {!TutorList && <p>Loading...</p>}
 
             <ul style={{ width: 500, margin: "20px auto", padding: 0, listStyle: "none" }}>
-                {tutors && tutors.map((tutor) => (
+                {TutorList && TutorList.map((tutor) => (
                     <li
                         key={tutor.tutorId}
                         onClick={() => {
