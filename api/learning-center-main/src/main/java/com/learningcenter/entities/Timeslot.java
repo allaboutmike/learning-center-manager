@@ -13,6 +13,15 @@ import jakarta.persistence.Table;
 @Table(name = "time_slot", schema = "session")
 public class Timeslot {
 
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "time_slot_id")
+    private Long timeslotId;
+
+    @Column(nullable = false, name="time")
+    private Timestamp time;
+
     public Timeslot(Timestamp time) {
         this.time = time;
     }
@@ -21,20 +30,12 @@ public class Timeslot {
         
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "time_slot_id")
-    private long timeslot_id;
-
-    @Column(nullable = false, name="time")
-    private Timestamp time;
-
-    public long getTimeslot_id() {
-        return timeslot_id;
+    public Long getTimeslotId() {
+        return timeslotId;
     }
 
-    public void setTimeslot_id(long timeslot_id) {
-        this.timeslot_id = timeslot_id;
+    public void setTimeslotId(Long timeslotId) {
+        this.timeslotId = timeslotId;
     }
 
     public Timestamp getTime() {

@@ -19,17 +19,6 @@ import jakarta.persistence.Table;
 @Table(name = "tutor", schema="tutor_profile")
 public class Tutor {
 
-    public Tutor(String name, int minGradeLevel, int maxGradeLevel, String url, String summary) {
-        this.name = name;
-        this.minGradeLevel = minGradeLevel;
-        this.maxGradeLevel = maxGradeLevel;
-        this.url = url;
-        this.summary = summary;
-    }
-
-    public Tutor() {
-        
-    }
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -61,6 +50,18 @@ public class Tutor {
 
     @OneToMany(mappedBy = "tutor", cascade=CascadeType.ALL)
     private List<TutorTimeslot> tutorTimeSlots = new ArrayList<>();
+
+    public Tutor(String name, int minGradeLevel, int maxGradeLevel, String url, String summary) {
+        this.name = name;
+        this.minGradeLevel = minGradeLevel;
+        this.maxGradeLevel = maxGradeLevel;
+        this.url = url;
+        this.summary = summary;
+    }
+
+    public Tutor() {
+        
+    }
 
     public List<Review> getReviews() {
         return reviews;

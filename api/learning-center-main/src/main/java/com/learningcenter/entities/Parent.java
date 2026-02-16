@@ -15,6 +15,17 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "parent", schema = "parent_account")
 public class Parent {
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false, name="parent_id")
+    private Long parentId;
+
+    @Column(nullable = false, name="name")
+    private String name;
+
+    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
+    private List<Child> child = new ArrayList<>();
 
     public Parent(String name) {
         this.name = name;
@@ -23,24 +34,13 @@ public class Parent {
     public Parent() {
         
     }
-    
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false, name="parent_id")
-    private long parent_id;
 
-    @Column(nullable = false, name="name")
-    private String name;
-
-    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
-    private List<Child> child = new ArrayList<>();
-
-    public long getParent_id() {
-        return parent_id;
+    public Long getParentId() {
+        return parentId;
     }
 
-    public void setParent_id(long parent_id) {
-        this.parent_id = parent_id;
+    public void setParentId(Long parentId) {
+        this.parentId = parentId;
     }
 
     public String getName() {
