@@ -27,13 +27,12 @@ public class Parent {
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
     private List<Child> child = new ArrayList<>();
 
-    public Parent( String name ){
-
+    public Parent(String name) {
         this.name = name;
     }
 
     public Parent() {
-
+        
     }
 
     public Long getParentId() {

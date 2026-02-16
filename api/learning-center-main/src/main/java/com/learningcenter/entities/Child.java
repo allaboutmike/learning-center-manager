@@ -28,7 +28,7 @@ public class Child {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "child_id")
-    private long child_id;
+    private long childId;
 
     @Column(nullable = false, name = "name")
     private String name;
@@ -41,12 +41,12 @@ public class Child {
     private Parent parent;
 
 
-    public long getChild_id() {
-        return child_id;
+    public Long getChildId() {
+        return childId;
     }
 
-    public void setChild_id(long child_id) {
-        this.child_id = child_id;
+    public void setChildId(Long childId) {
+        this.childId = childId;
     }
 
     public String getName() {
