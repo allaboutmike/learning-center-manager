@@ -13,7 +13,6 @@ import jakarta.persistence.Table;
 @Table(name = "time_slot", schema = "session")
 public class Timeslot {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "time_slot_id")

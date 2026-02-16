@@ -29,7 +29,7 @@ public class Tutor {
     private String name;
 
     @Column(nullable=false, name="url")
-    private String url;
+    private String imageUrl;
 
     @Column(nullable=false, name="summary")
     private String summary;
@@ -51,11 +51,11 @@ public class Tutor {
     @OneToMany(mappedBy = "tutor", cascade=CascadeType.ALL)
     private List<TutorTimeslot> tutorTimeSlots = new ArrayList<>();
 
-    public Tutor(String name, int minGradeLevel, int maxGradeLevel, String url, String summary) {
+    public Tutor(String name, int minGradeLevel, int maxGradeLevel, String imageUrl, String summary) {
         this.name = name;
         this.minGradeLevel = minGradeLevel;
         this.maxGradeLevel = maxGradeLevel;
-        this.url = url;
+        this.imageUrl = imageUrl;
         this.summary = summary;
     }
 
@@ -95,12 +95,12 @@ public class Tutor {
         this.name = name;
     }
 
-    public String getUrl() {
-        return url;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public String getSummary() {
