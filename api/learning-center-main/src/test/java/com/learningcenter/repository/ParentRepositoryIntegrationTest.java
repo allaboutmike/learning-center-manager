@@ -27,7 +27,6 @@ public class ParentRepositoryIntegrationTest {
         Parent newParent = new Parent("Marley");
         Parent newParentAdded = parentRepository.save(newParent);
         assertThat(entityManager.find(Parent.class, newParentAdded.getParentId())).isEqualTo(newParentAdded);
-        System.out.println(newParentAdded.getParentId());
     }
 
     //Test to delete parent
