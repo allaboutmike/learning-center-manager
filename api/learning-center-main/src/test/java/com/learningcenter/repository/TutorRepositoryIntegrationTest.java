@@ -90,8 +90,8 @@ public class TutorRepositoryIntegrationTest {
         entityManager.persist(child);
         entityManager.persist(child2);
 
-        List<Tutor> tutorsForChild1 = tutorRepository.findTutorsByGradeLevel(child.getChild_id());
-        List<Tutor> tutorsForChild2 = tutorRepository.findTutorsByGradeLevel(child2.getChild_id());
+        List<Tutor> tutorsForChild1 = tutorRepository.findTutorsByGradeLevel(child.getChildId());
+        List<Tutor> tutorsForChild2 = tutorRepository.findTutorsByGradeLevel(child2.getChildId());
         assertThat(tutorsForChild1.size()).isEqualTo(1);
         assertThat(tutorsForChild2.size()).isEqualTo(0);
     }
@@ -161,8 +161,8 @@ public class TutorRepositoryIntegrationTest {
         entityManager.persist(child);
         entityManager.persist(child2);
 
-        List<Tutor> tutorsForChild1 = tutorRepository.findTutorsByGradeLevelAndSubject(child.getChild_id(), "Math");
-        List<Tutor> tutorsForChild2 = tutorRepository.findTutorsByGradeLevelAndSubject(child2.getChild_id(), "Science");
+        List<Tutor> tutorsForChild1 = tutorRepository.findTutorsByGradeLevelAndSubject(child.getChildId(), "Math");
+        List<Tutor> tutorsForChild2 = tutorRepository.findTutorsByGradeLevelAndSubject(child2.getChildId(), "Science");
         assertThat(tutorsForChild1.size()).isEqualTo(2);
         assertThat(tutorsForChild2.size()).isEqualTo(2);
     }
@@ -223,10 +223,10 @@ public class TutorRepositoryIntegrationTest {
         entityManager.persist(child);
         entityManager.persist(child2);
 
-        List<Tutor> tutorsForChild1 = tutorRepository.findTutorsByGradeLevelSubjectAndAvailability(child.getChild_id(), "Math", Timestamp.valueOf("2024-06-01 10:00:00").toLocalDateTime());
-        List<Tutor> tutorsForChild2 = tutorRepository.findTutorsByGradeLevelSubjectAndAvailability(child2.getChild_id(), "Science", Timestamp.valueOf("2024-06-01 11:00:00").toLocalDateTime());
-        List<Tutor> tutorsNotAvailable = tutorRepository.findTutorsByGradeLevelSubjectAndAvailability(child2.getChild_id(), "Science", Timestamp.valueOf("2024-06-01 12:00:00").toLocalDateTime());
-        List<Tutor> tutorsWrongSubject = tutorRepository.findTutorsByGradeLevelSubjectAndAvailability(child.getChild_id(), "History", Timestamp.valueOf("2024-06-01 10:00:00").toLocalDateTime());
+        List<Tutor> tutorsForChild1 = tutorRepository.findTutorsByGradeLevelSubjectAndAvailability(child.getChildId(), "Math", Timestamp.valueOf("2024-06-01 10:00:00").toLocalDateTime());
+        List<Tutor> tutorsForChild2 = tutorRepository.findTutorsByGradeLevelSubjectAndAvailability(child2.getChildId(), "Science", Timestamp.valueOf("2024-06-01 11:00:00").toLocalDateTime());
+        List<Tutor> tutorsNotAvailable = tutorRepository.findTutorsByGradeLevelSubjectAndAvailability(child2.getChildId(), "Science", Timestamp.valueOf("2024-06-01 12:00:00").toLocalDateTime());
+        List<Tutor> tutorsWrongSubject = tutorRepository.findTutorsByGradeLevelSubjectAndAvailability(child.getChildId(), "History", Timestamp.valueOf("2024-06-01 10:00:00").toLocalDateTime());
 
         assertThat(tutorsWrongSubject.size()).isEqualTo(0);
         assertThat(tutorsNotAvailable.size()).isEqualTo(0);

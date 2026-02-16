@@ -15,18 +15,11 @@ import jakarta.persistence.Table;
 @Table(name = "subject", schema = "tutor_profile")
 public class Subject {
 
-    public Subject(String name) {
-        this.name = name;
-    }
-
-    public Subject() {
-        
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="subject_id")
-    private long subject_id;
+    private Long subjectId;
 
     @Column(nullable=false, name="subject_name")
     private String name;
@@ -37,6 +30,14 @@ public class Subject {
 //    @OneToMany(mappedBy = "session")
 //    private ArrayList<Session> subjects = new ArrayList<>();
 
+    public Subject(String name) {
+        this.name = name;
+    }
+
+    public Subject() {
+        
+    }
+
     public List<Tutor> getTutors() {
         return tutors;
     }
@@ -45,12 +46,12 @@ public class Subject {
         this.tutors = tutors;
     }
 
-    public long getSubject_id() {
-        return subject_id;
+    public Long getSubjectId() {
+        return subjectId;
     }
 
-    public void setSubject_id(long subject_id) {
-        this.subject_id = subject_id;
+    public void setSubjectId(Long subjectId) {
+        this.subjectId = subjectId;
     }
 
     public String getName() {
