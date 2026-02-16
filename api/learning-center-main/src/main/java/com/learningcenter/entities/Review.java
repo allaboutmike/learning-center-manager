@@ -13,20 +13,10 @@ import jakarta.persistence.Table;
 @Table(name = "review", schema = "review")
 public class Review {
 
-    public Review(String comment, int rating, Tutor tutor) {
-        this.comment = comment;
-        this.rating = rating;
-        this.tutor = tutor;
-    }
-
-    public Review() {
-        
-    }
-
     @Column(name = "review_id")
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private long reviewId;
+    private Long reviewId;
 
     @Column(nullable = false, name = "comment")
     private String comment;
@@ -38,11 +28,21 @@ public class Review {
     @JoinColumn(name= "tutor_id", nullable = false)
     private Tutor tutor;
 
-    public long getReviewId() {
+    public Review(String comment, int rating, Tutor tutor) {
+        this.comment = comment;
+        this.rating = rating;
+        this.tutor = tutor;
+    }
+
+    public Review() {
+        
+    }
+
+    public Long getReviewId() {
         return reviewId;
     }
 
-    public void setReviewId(long reviewId) {
+    public void setReviewId(Long reviewId) {
         this.reviewId = reviewId;
     }
 

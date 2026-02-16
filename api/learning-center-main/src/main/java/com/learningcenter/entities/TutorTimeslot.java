@@ -14,18 +14,10 @@ import jakarta.persistence.Table;
 @Table(name = "tutor_time_slot", schema = "session")
 public class TutorTimeslot {
 
-    public TutorTimeslot(Tutor tutor, Timeslot timeslot) {
-        this.tutor = tutor;
-        this.timeslot = timeslot;
-    }
-
-    public TutorTimeslot() {
-    }
-
     @Id
     @Column(name = "tutor_time_slot_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long tutor_timeslot_id;
+    private Long tutorTimeslotId;
 
     @ManyToOne(optional=false)
     @JoinColumn(name = "tutor_id", nullable = false)
@@ -35,27 +27,35 @@ public class TutorTimeslot {
     @JoinColumn(name = "time_slot_id", nullable = false)
     private Timeslot timeslot;
 
-    public long getTutor_timeslot_id() {
-        return tutor_timeslot_id;
+    public TutorTimeslot(Tutor tutor, Timeslot timeslot) {
+        this.tutor = tutor;
+        this.timeslot = timeslot;
     }
 
-    public void setTutor_timeslot_id(long tutor_timeslot_id) {
-        this.tutor_timeslot_id = tutor_timeslot_id;
+    public TutorTimeslot() {
     }
 
-    public Tutor getTutor_id() {
-       return tutor;
-   }
-
-   public void setTutor_id(Tutor tutor) {
-       this.tutor= tutor;
+    public Long getTutorTimeslotId() {
+        return tutorTimeslotId;
     }
 
-    public Timeslot getTimeslot_id() {
+    public void setTutorTimeslotId(Long tutorTimeslotId) {
+        this.tutorTimeslotId = tutorTimeslotId;
+    }
+
+    public Tutor getTutor() {
+        return tutor;
+    }
+
+    public void setTutor(Tutor tutor) {
+        this.tutor= tutor;
+    }
+
+    public Timeslot getTimeslot() {
         return timeslot;
     }
 
-    public void setTimeslot_id(Timeslot timeslot) {
+    public void setTimeslot(Timeslot timeslot) {
         this.timeslot = timeslot;
     }
 }
