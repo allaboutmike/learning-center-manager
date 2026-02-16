@@ -19,7 +19,7 @@ export type Tutor = {
     
     tutorId: 1,
     name: "John Doe",
-    profilePictureUrl: "https://via.placeholder.com/150",
+    profilePictureUrl: "public/sailor_moon.png",
     tutorSummary:
       "Experienced math tutor with a passion for helping students succeed.",
     avgRating: 4.5,
@@ -38,7 +38,7 @@ export type Tutor = {
     
     tutorId: 2,
     name: "Jane Smith",
-    profilePictureUrl: "https://via.placeholder.com/150",
+    profilePictureUrl: "public/sailor_moon.png",
     tutorSummary:
       "Experienced math tutor with a passion for helping students succeed.",
     avgRating: 4.9,
@@ -57,7 +57,7 @@ export type Tutor = {
     
     tutorId: 3,
     name: "Harry Potter",
-    profilePictureUrl: "https://via.placeholder.com/150",
+    profilePictureUrl: "public/sailor_moon.png",
     tutorSummary:
       "Experienced math tutor with a passion for helping students succeed.",
     avgRating: 5,
