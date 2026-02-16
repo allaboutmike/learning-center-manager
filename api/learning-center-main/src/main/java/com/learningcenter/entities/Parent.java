@@ -58,4 +58,13 @@ public class Parent {
     public void setChild(List<Child> child) {
         this.child = child;
     }
+
+    @Override
+    public String toString() {
+        return "ParentEntity{" +
+                "id=" + parentId +
+                ", name='" + name + '\'' +
+                ", children='" + child + '\'' +
+                '}';
+    }
 }
