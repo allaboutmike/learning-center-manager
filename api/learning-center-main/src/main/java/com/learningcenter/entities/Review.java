@@ -9,6 +9,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "review", schema = "review")
 public class Review {
@@ -62,11 +64,10 @@ public class Review {
         this.rating = rating;
     }
 
-    public Tutor getTutor() {
-        return tutor;
+    public void setTutorId(Long tutorId) {
     }
 
-    public void setTutor(Tutor tutor) {
-        this.tutor = tutor;
+    public Tutor getTutorId() {
+        return tutor;
     }
 }
