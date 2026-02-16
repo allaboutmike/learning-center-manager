@@ -17,7 +17,7 @@ public interface TutorRepository extends CrudRepository<Tutor, Long> {
     List<Tutor> findTutorsBySubject(String subjectName);
 
     //Query to find tutors that can teach a grade level
-    @Query("SELECT t from Tutor t, Child c WHERE c.child_id = :childId and c.grade_level BETWEEN t.minGradeLevel and t.maxGradeLevel")
+    @Query("SELECT t from Tutor t, Child c WHERE c.childId = :childId and c.grade_level BETWEEN t.minGradeLevel and t.maxGradeLevel")
     List<Tutor> findTutorsByGradeLevel(Long childId);
 
     //Query to find tutors that are available at a specific time
@@ -25,11 +25,11 @@ public interface TutorRepository extends CrudRepository<Tutor, Long> {
     List<Tutor> findTutorsByAvailability(LocalDateTime timeSlot);
 
     //Query to find tutors that can teach a grade level and subject
-    @Query("SELECT t from Tutor t JOIN t.subjects s, Child c WHERE c.child_id = :childId and s.name = :subjectName and c.grade_level BETWEEN t.minGradeLevel and t.maxGradeLevel")
+    @Query("SELECT t from Tutor t JOIN t.subjects s, Child c WHERE c.childId = :childId and s.name = :subjectName and c.grade_level BETWEEN t.minGradeLevel and t.maxGradeLevel")
     List<Tutor> findTutorsByGradeLevelAndSubject(Long childId, String subjectName);
 
     //Query to find tutors that can teach a grade level and subject and are available at a specific time
-    @Query("SELECT t from Tutor t JOIN t.subjects s JOIN t.tutorTimeSlots tts JOIN tts.timeslot timeslot, Child c WHERE c.child_id = :childId and s.name = :subjectName and c.grade_level BETWEEN t.minGradeLevel and t.maxGradeLevel and timeslot.time = :timeSlot")
+    @Query("SELECT t from Tutor t JOIN t.subjects s JOIN t.tutorTimeSlots tts JOIN tts.timeslot timeslot, Child c WHERE c.childId = :childId and s.name = :subjectName and c.grade_level BETWEEN t.minGradeLevel and t.maxGradeLevel and timeslot.time = :timeSlot")
     List<Tutor> findTutorsByGradeLevelSubjectAndAvailability(Long childId, String subjectName, LocalDateTime timeSlot);
 
 }
