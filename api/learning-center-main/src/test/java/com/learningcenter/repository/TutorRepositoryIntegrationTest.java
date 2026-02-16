@@ -1,6 +1,7 @@
 package com.learningcenter.repository;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -100,9 +101,9 @@ public class TutorRepositoryIntegrationTest {
     @Test
     public void givenTimeSlotWhenFindTutorsByAvailabilityThenSuccess() {
         Tutor tutor1 = new Tutor("John", 1, 12, "http://example.com/john", "Experienced tutor in math and science.");
-        Timeslot timeslot1 = new Timeslot(Timestamp.valueOf("2024-06-01 10:00:00"));
+        Timeslot timeslot1 = new Timeslot(LocalDateTime.of(2024, 6, 1, 10, 0, 0));
         Tutor tutor2 = new Tutor("Jane", 1, 12, "http://example.com/jane", "Experienced tutor in math and science.");
-        Timeslot timeslot2 = new Timeslot(Timestamp.valueOf("2024-06-01 11:00:00"));
+        Timeslot timeslot2 = new Timeslot(LocalDateTime.of(2024, 6, 1, 11, 0, 0));
 
         entityManager.persist(timeslot1);
         entityManager.persist(timeslot2);
@@ -192,8 +193,8 @@ public class TutorRepositoryIntegrationTest {
         entityManager.persist(tutor3);
 
         //Creating time slots
-        Timeslot timeslot1 = new Timeslot(Timestamp.valueOf("2024-06-01 10:00:00"));
-        Timeslot timeslot2 = new Timeslot(Timestamp.valueOf("2024-06-01 11:00:00"));
+        Timeslot timeslot1 = new Timeslot(LocalDateTime.of(2024, 6, 1, 10, 0, 0));
+        Timeslot timeslot2 = new Timeslot(LocalDateTime.of(2024, 6, 1, 11, 0, 0));
         entityManager.persist(timeslot1);
         entityManager.persist(timeslot2);
 
