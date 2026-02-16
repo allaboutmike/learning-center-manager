@@ -90,7 +90,7 @@ SessionService API Documentation
 
     public List<Session> getSessionsByStudent(Long childId) {
 
-        var studentSessions = sessionRepository.findByChildId(childId);
+        var studentSessions = sessionRepository.findSessionsByChildId(childId);
         return studentSessions;
     };
 }
