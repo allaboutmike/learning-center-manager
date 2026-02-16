@@ -12,4 +12,10 @@ public class SessionRepositoryIntegrationTest {
 
     @Autowired
     TestEntityManager testEntityManager;
+
+    //Find by childId
+    //Create session
+    //Update notes
+    //Change tutor
+    //Delete session
 }
