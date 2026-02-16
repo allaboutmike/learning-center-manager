@@ -17,86 +17,86 @@ import jakarta.persistence.Table;
 @Table(name = "session", schema = "session")
 public class Session {
 
-    public Session(String session_notes, Timestamp timestamp, Child child, TutorTimeslot tutor_timeslot, Subject subject) {
-        this.session_notes = session_notes;
-        this.timestamp = timestamp;
-        this.child = child;
-        this.tutor_timeslot = tutor_timeslot;
-        this.subject = subject;
-    }
-
-    public Session() {
-        
-    }
-
     @Column(name="session_id")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long session_id;
+    private long sessionId;
 
     @Column(nullable = false, name="session_notes")
-    private String session_notes;
+    private String sessionNotes;
 
-    @Column(nullable = false, name = "created_at")
-    private Timestamp timestamp;
+    @Column(nullable = false, name = "createdAt")
+    private Timestamp createdAt;
 
     @ManyToOne(optional=false)
     @JoinColumn(name = "child_id", nullable = false)
     private Child child;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "tutor_time_slot_id", nullable=false)
-    private TutorTimeslot tutor_timeslot;
+    @JoinColumn(name = "tutor_time_slot_id", nullable = false)
+    private TutorTimeslot tutorTimeslot;
 
     @ManyToOne(optional=false)
     @JoinColumn(name = "subject_id", nullable = false)
     private Subject subject;
 
-    public long getSession_id() {
-        return session_id;
+    public Session(String session_notes, Timestamp createdAt, Child child, TutorTimeslot tutorTimeslot, Subject subject) {
+        this.sessionNotes = sessionNotes;
+        this.createdAt = createdAt;
+        this.child = child;
+        this.tutorTimeslot = tutorTimeslot;
+        this.subject = subject;
     }
 
-    public void setSession_id(long session_id) {
-        this.session_id = session_id;
+    public Session() {
+
     }
 
-    public String getSession_notes() {
-        return session_notes;
+    public long getSessionId() {
+        return sessionId;
     }
 
-    public void setSession_notes(String session_notes) {
-        this.session_notes = session_notes;
+    public void setSessionId(long sessionId) {
+        this.sessionId = sessionId;
     }
 
-    public Timestamp getTimestamp() {
-        return timestamp;
+    public String getSessionNotes() {
+        return sessionNotes;
     }
 
-    public void setTimestamp(Timestamp timestamp) {
-        this.timestamp = timestamp;
+    public void setSessionNotes(String sessionNotes) {
+        this.sessionNotes = sessionNotes;
     }
 
-    public Child getChild_id() {
+    public Timestamp getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Child getChild() {
         return child;
     }
 
-    public void setChild_id(Child child_id) {
-        this.child = child_id;
+    public void setChild(Child child) {
+        this.child = child;
     }
 
-    public TutorTimeslot getTimeslot_id() {
-        return tutor_timeslot;
+    public TutorTimeslot getTimeslot() {
+        return tutorTimeslot;
     }
 
-    public void setTimeslot_id(TutorTimeslot tutor_timeslot) {
-        this.tutor_timeslot = tutor_timeslot;
+    public void setTimeslot_id(TutorTimeslot tutorTimeslot) {
+        this.tutorTimeslot = tutorTimeslot;
     }
 
-    public Subject getSubjet_id() {
+    public Subject getSubject() {
         return subject;
     }
 
-    public void setSubjet_id(Subject subject) {
+    public void setSubject(Subject subject) {
         this.subject = subject;
     }
 }
