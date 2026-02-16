@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface SessionRepository extends CrudRepository<Session, Long> {
 
-    @Query("SELECT s FROM Session s WHERE s.child.child_id = :childId")
+    @Query("SELECT s FROM Session s WHERE s.child.childId = :childId")
     List<Session> findSessionsByChildId(Long childId);
 }

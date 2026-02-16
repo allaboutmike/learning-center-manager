@@ -15,10 +15,10 @@ public class SessionResponse {
 
     public SessionResponse(Session session) {
         this.sessionId = session.getSessionId();
-        this.tutorId = session.getTimeslot().getTutor_id().getTutorId();
-        this.subject = session.getSubject().getSubject_id();
+        this.tutorId = session.getTimeslot().getTutor().getTutorId();
+        this.subject = session.getSubject().getSubjectId();
         this.sessionNotes = session.getSessionNotes();
-        this.childId = session.getChild().getChild_id();
+        this.childId = session.getChild().getChildId();
     }
 
     public Long getSessionId() {
