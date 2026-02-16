@@ -23,7 +23,7 @@ public class ReviewService {
 
     public ReviewResponse createReview(CreateReviewRequest request) {
         Review review = new Review();
-        review.setTutorId(request.getTutorId());
+        review.setTutor(request.getTutor());
         review.setRating(request.getRating());
         review.setComment(request.getComment());
 
@@ -46,7 +46,6 @@ public class ReviewService {
     private ReviewResponse mapToDTO(Review review) {
         ReviewResponse dto = new ReviewResponse();
         dto.setReviewId(review.getReviewId());
-        dto.setTutor(review.getTutorId());
         dto.setComment(review.getComment());
         dto.setRating(review.getRating());
 

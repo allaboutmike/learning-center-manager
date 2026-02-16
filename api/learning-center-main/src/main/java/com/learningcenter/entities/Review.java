@@ -64,10 +64,11 @@ public class Review {
         this.rating = rating;
     }
 
-    public void setTutorId(Long tutorId) {
+    public void setTutor(Tutor tutor) {
+
     }
 
-    public Tutor getTutorId() {
+    public Tutor getTutor() {
         return tutor;
     }
 }
