@@ -1,7 +1,6 @@
 package com.learningcenter.service;
 
 import com.learningcenter.dto.CreateSessionRequest;
-import com.learningcenter.dto.SessionResponse;
 import com.learningcenter.entities.Session;
 import com.learningcenter.repository.ChildRepository;
 import com.learningcenter.repository.SessionRepository;
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -90,9 +88,9 @@ SessionService API Documentation
         return sessionRepository.findById(sessionId).get();
     };
 
-    public List<Session> getSessionsByStudent(Long studentId) {
+    public List<Session> getSessionsByStudent(Long childId) {
 
-        var studentSessions = sessionRepository.findByStudentId(studentId);
+        var studentSessions = sessionRepository.findByChildId(childId);
         return studentSessions;
     };
 }

@@ -6,5 +6,5 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 
 public interface SessionRepository extends CrudRepository<Session, Long> {
-    List<Session> findByStudentId(Long student_id);
+    List<Session> findByChildId(Long childId);
 }

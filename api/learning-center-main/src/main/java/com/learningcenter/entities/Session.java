@@ -1,27 +1,50 @@
 package com.learningcenter.entities;
 
+import java.sql.Timestamp;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-import jakarta.persistence.Column;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
-
-import java.sql.Timestamp;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "session", schema = "session")
 public class Session {
 
-    public Session(String session_notes, Timestamp createdAt, Child child, TutorTimeslot tutor_timeslot, Subject subject) {
-        this.session_notes = session_notes;
+    @Column(name="session_id")
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long sessionId;
+
+    @Column(nullable = false, name="session_notes")
+    private String sessionNotes;
+
+    @Column(nullable = false, name = "createdAt")
+    private Timestamp createdAt;
+
+    @ManyToOne(optional=false)
+    @JoinColumn(name = "child_id", nullable = false)
+    private Child child;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "tutor_time_slot_id", nullable = false)
+    private TutorTimeslot tutorTimeslot;
+
+    @ManyToOne(optional=false)
+    @JoinColumn(name = "subject_id", nullable = false)
+    private Subject subject;
+
+    public Session(String session_notes, Timestamp createdAt, Child child, TutorTimeslot tutorTimeslot, Subject subject) {
+        this.sessionNotes = sessionNotes;
         this.createdAt = createdAt;
         this.child = child;
-        this.tutor_timeslot = tutor_timeslot;
+        this.tutorTimeslot = tutorTimeslot;
         this.subject = subject;
     }
 
@@ -29,43 +52,20 @@ public class Session {
 
     }
 
-    @Column(name="session_id")
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long session_id;
-
-    @Column(nullable = false, name="session_notes")
-    private String session_notes;
-
-    @Column(nullable = false, name = "createdAt")
-    private Timestamp createdAt;
-
-    @ManyToOne
-    @JoinColumn(name = "child_id")
-    private Child child;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "tutor_timeslot_id")
-    private TutorTimeslot tutor_timeslot;
-
-    @ManyToOne
-    @JoinColumn(name = "subject_id")
-    private Subject subject;
-
-    public long getSession_id() {
-        return session_id;
+    public long getSessionId() {
+        return sessionId;
     }
 
-    public void setSession_id(long session_id) {
-        this.session_id = session_id;
+    public void setSessionId(long sessionId) {
+        this.sessionId = sessionId;
     }
 
-    public String getSession_notes() {
-        return session_notes;
+    public String getSessionNotes() {
+        return sessionNotes;
     }
 
-    public void setSession_notes(String session_notes) {
-        this.session_notes = session_notes;
+    public void setSessionNotes(String sessionNotes) {
+        this.sessionNotes = sessionNotes;
     }
 
     public Timestamp getCreatedAt() {
@@ -76,27 +76,27 @@ public class Session {
         this.createdAt = createdAt;
     }
 
-    public Child getChild_id() {
+    public Child getChild() {
         return child;
     }
 
-    public void setChild_id(Child child_id) {
+    public void setChild(Child child) {
         this.child = child;
     }
 
-    public TutorTimeslot getTimeslot_id() {
-        return tutor_timeslot;
+    public TutorTimeslot getTimeslot() {
+        return tutorTimeslot;
     }
 
-    public void setTimeslot_id(TutorTimeslot tutor_timeslot) {
-        this.tutor_timeslot = tutor_timeslot;
+    public void setTimeslot_id(TutorTimeslot tutorTimeslot) {
+        this.tutorTimeslot = tutorTimeslot;
     }
 
-    public Subject getSubject_id() {
+    public Subject getSubject() {
         return subject;
     }
 
-    public void setSubject_id(Subject subject) {
+    public void setSubject(Subject subject) {
         this.subject = subject;
     }
 }

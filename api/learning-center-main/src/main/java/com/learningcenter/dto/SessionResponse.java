@@ -14,11 +14,11 @@ public class SessionResponse {
     private Long childId;
 
     public SessionResponse(Session session) {
-        this.sessionId = session.getSession_id();
-        this.tutorId = session.getTimeslot_id().getTutor_id().getTutorId();
-        this.subject = session.getSubject_id().getSubject_id();
-        this.sessionNotes = session.getSession_notes();
-        this.childId = session.getChild_id().getChild_id();
+        this.sessionId = session.getSessionId();
+        this.tutorId = session.getTimeslot().getTutor_id().getTutorId();
+        this.subject = session.getSubject().getSubject_id();
+        this.sessionNotes = session.getSessionNotes();
+        this.childId = session.getChild().getChild_id();
     }
 
     public Long getSessionId() {
