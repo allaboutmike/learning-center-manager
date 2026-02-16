@@ -14,8 +14,7 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "subject", schema = "tutor_profile")
 public class Subject {
-
-
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="subject_id")

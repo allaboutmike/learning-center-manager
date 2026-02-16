@@ -1,5 +1,18 @@
 package com.learningcenter.service;
 
+import com.learningcenter.dto.CreateSessionRequest;
+import com.learningcenter.entities.Session;
+import com.learningcenter.repository.ChildRepository;
+import com.learningcenter.repository.SessionRepository;
+import com.learningcenter.repository.SubjectRepository;
+import com.learningcenter.repository.TutorTimeSlotRepository;
+import org.springframework.stereotype.Service;
+
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.List;
+
+@Service
 public class SessionService {
 /*
 SessionService API Documentation
@@ -48,4 +61,36 @@ SessionService API Documentation
 
     Throws: SessionNotFoundException if session does not exist
 */
+    private SessionRepository sessionRepository;
+    private ChildRepository childRepository;
+    private TutorTimeSlotRepository tutorTimeSlotRepository;
+    private SubjectRepository subjectRepository;
+    public SessionService(SessionRepository sessionRepository, ChildRepository childRepository, TutorTimeSlotRepository tutorTimeSlotRepository, SubjectRepository subjectRepository) {
+        this.sessionRepository = sessionRepository;
+        this.childRepository = childRepository;
+        this.tutorTimeSlotRepository = tutorTimeSlotRepository;
+        this.subjectRepository = subjectRepository;
+    };
+
+    public Session createSession(CreateSessionRequest request) {
+        /*
+        Need Child repository, Timeslot, Subject
+        * */
+        var child = childRepository.findById(request.getChildId());
+        var tutorTimeSlot = tutorTimeSlotRepository.findById(request.getTutorTimeSlotId());
+        var subject = subjectRepository.findById(request.getSubjectId());
+        Session session = new Session("", Timestamp.valueOf(LocalDateTime.now()), child.get(), tutorTimeSlot.get(), subject.get());
+        return sessionRepository.save(session);
+    };
+
+    public Session getSessionById(Long sessionId) {
+
+        return sessionRepository.findById(sessionId).get();
+    };
+
+    public List<Session> getSessionsByStudent(Long childId) {
+
+        var studentSessions = sessionRepository.findSessionsByChildId(childId);
+        return studentSessions;
+    };
 }

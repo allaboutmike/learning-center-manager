@@ -27,7 +27,7 @@ public class TutorRepositoryIntegrationTest {
 
 
     @Test
-    public void givenNewTutor_whenSave_thenSuccess() {
+    public void givenNewTutorWhenSaveThenSuccess() {
         Tutor newTutor = new Tutor("John", 1, 12, "http://example.com/john", "Experienced tutor in math and science.");
         Tutor newTutorAdded = tutorRepository.save(newTutor);
         assertThat(entityManager.find(Tutor.class, newTutorAdded.getTutorId())).isEqualTo(newTutorAdded);
@@ -35,7 +35,7 @@ public class TutorRepositoryIntegrationTest {
 
     //Test to delete tutor
     @Test
-    public void givenExistingTutor_whenDelete_thenSuccess() {
+    public void givenExistingTutorWhenDeleteThenSuccess() {
         Tutor newTutor = new Tutor("John", 1, 12, "http://example.com/john", "Experienced tutor in math and science.");
         Tutor newTutorAdded = tutorRepository.save(newTutor);
         tutorRepository.delete(newTutorAdded);
@@ -44,7 +44,7 @@ public class TutorRepositoryIntegrationTest {
 
     //Test to update tutor
     @Test
-    public void givenExistingTutor_whenUpdate_thenSuccess() {
+    public void givenExistingTutorWhenUpdateThenSuccess() {
         Tutor newTutor = new Tutor("John", 1, 12, "http://example.com/john", "Experienced tutor in math and science.");
         Tutor newTutorAdded = tutorRepository.save(newTutor);
         newTutorAdded.setName("John Doe");
@@ -54,7 +54,7 @@ public class TutorRepositoryIntegrationTest {
 
     //Test to find tutors by subject
     @Test
-    public void givenSubject_whenFindTutorsBySubject_thenSuccess() {
+    public void givenSubjectWhenFindTutorsBySubjectThenSuccess() {
         Subject math = new Subject("Math");
         Subject science = new Subject("Science");
         entityManager.persist(math);
@@ -74,7 +74,7 @@ public class TutorRepositoryIntegrationTest {
 
     //test to find tutors by a child's grade level
     @Test
-    public void givenChildId_whenFindTutorsByGradeLevel_thenSuccess() {
+    public void givenChildIdWhenFindTutorsByGradeLevelThenSuccess() {
         Tutor tutor1 = new Tutor("John", 8, 12, "http://example.com/john", "Experienced tutor in math and science.");
         entityManager.persist(tutor1);
         Tutor tutor2 = new Tutor("Jane", 1, 6, "http://example.com/jane", "Experienced tutor in math and science.");
@@ -98,7 +98,7 @@ public class TutorRepositoryIntegrationTest {
 
     //test to find a tutor by availability
     @Test
-    public void givenTimeSlot_whenFindTutorsByAvailability_thenSuccess() {
+    public void givenTimeSlotWhenFindTutorsByAvailabilityThenSuccess() {
         Tutor tutor1 = new Tutor("John", 1, 12, "http://example.com/john", "Experienced tutor in math and science.");
         Timeslot timeslot1 = new Timeslot(Timestamp.valueOf("2024-06-01 10:00:00"));
         Tutor tutor2 = new Tutor("Jane", 1, 12, "http://example.com/jane", "Experienced tutor in math and science.");
@@ -134,7 +134,7 @@ public class TutorRepositoryIntegrationTest {
 
     //test to find tutors by a child's grade level and subject
     @Test
-    public void givenChildIdAndSubject_whenFindTutorsByGradeLevelAndSubject_thenSuccess() {
+    public void givenChildIdAndSubjectWhenFindTutorsByGradeLevelAndSubjectThenSuccess() {
         Subject math = new Subject("Math");
         Subject science = new Subject("Science");
         entityManager.persist(math);
@@ -169,7 +169,7 @@ public class TutorRepositoryIntegrationTest {
 
     //test to find tutors by a child's grade level and subject and availability
     @Test
-    public void givenChildIdAndSubjectAndTimeSlot_whenFindTutorsByGradeLevelSubjectAndAvailability_thenSuccess() {
+    public void givenChildIdAndSubjectAndTimeSlotWhenFindTutorsByGradeLevelSubjectAndAvailabilityThenSuccess() {
         //Creating Subjects
         Subject math = new Subject("Math");
         Subject science = new Subject("Science");

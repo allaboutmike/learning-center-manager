@@ -10,26 +10,19 @@ public class CreateSessionRequest {
     Handles the creation of new sessions.
     */
 
-    private final Long sessionId;
     private final Long tutorId;
-    private final String subject;
+    private final Long subjectId;
     private final String sessionNotes;
     private final Long childId;
+    private final Long tutorTimeSlotId;
 
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    private final LocalDateTime startTime;
 
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    private final LocalDateTime endTime;
-
-    public CreateSessionRequest(Long sessionId, Long tutorId, Long childId, String subject, String sessionNotes) {
-        this.sessionId = sessionId;
+    public CreateSessionRequest(Long sessionId, Long tutorId, Long childId, Long subjectId, String sessionNotes, Long tutorTimeSlotId) {
         this.tutorId = tutorId;
-        this.subject = subject;
+        this.subjectId = subjectId;
         this.sessionNotes = sessionNotes;
         this.childId = childId;
-        this.startTime = LocalDateTime.now();
-        this.endTime = LocalDateTime.now();
+        this.tutorTimeSlotId = tutorTimeSlotId;
     }
 
     public String getSessionNotes() {
@@ -40,12 +33,8 @@ public class CreateSessionRequest {
         // Need logic here
     }
 
-    public String getSubject() {
-        return subject;
-    }
-
-    public void setSubject(String subject) {
-        // Need logic here
+    public Long getSubjectId() {
+        return subjectId;
     }
 
     public Long getTutorId() {
@@ -56,21 +45,6 @@ public class CreateSessionRequest {
         return childId;
     }
 
-    public LocalDateTime getStartTime() {
-        return startTime;
-    }
-
-    public LocalDateTime getEndTime() {
-        return endTime;
-    }
-
-    public Long getSessionId() {
-        return sessionId;
-    }
-
-    public void setSessionId(Long sessionId) {
-        // Need logic here
-    }
-
+    public Long getTutorTimeSlotId() {return tutorTimeSlotId;}
 
 }
