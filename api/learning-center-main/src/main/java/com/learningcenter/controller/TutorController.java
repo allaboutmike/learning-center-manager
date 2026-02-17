@@ -1,16 +1,17 @@
 package com.learningcenter.controller;
 
 
-import com.learningcenter.dto.TutorResponse;
-import com.learningcenter.dto.TutorTimeSlotResponse;
-import com.learningcenter.service.TutorService;
+import java.util.List;
+
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.PathVariable;
 
-import java.util.List;
+import com.learningcenter.dto.TutorResponse;
+import com.learningcenter.dto.TutorTimeSlotResponse;
+import com.learningcenter.service.TutorService;
 
 @RestController
 @RequestMapping("/api/tutors")
@@ -24,6 +25,9 @@ public class TutorController {
 
     @GetMapping
     public List<TutorResponse> searchTutorsByGradeLevel(@RequestParam(required = false) Integer gradeLevel) {
+        if (gradeLevel == null) {
+            return tutorService.getAllTutors();
+        }
         return tutorService.searchTutorsByGradeLevel(gradeLevel);
     }
 

@@ -57,11 +57,11 @@ public class Child {
         this.name = name;
     }
 
-    public int getGrade_level() {
+    public int getGradeLevel() {
         return grade_level;
     }
 
-    public void setGrade_level(int grade_level) {
+    public void setGradeLevel(int grade_level) {
         this.grade_level = grade_level;
     }
 

@@ -17,8 +17,8 @@ public interface TutorRepository extends CrudRepository<Tutor, Long> {
     List<Tutor> findTutorsBySubject(String subjectName);
 
     //Query to find tutors that can teach a grade level
-    @Query("SELECT t from Tutor t, Child c WHERE c.childId = :childId and c.grade_level BETWEEN t.minGradeLevel and t.maxGradeLevel")
-    List<Tutor> findTutorsByGradeLevel(Long childId);
+    @Query("SELECT t FROM Tutor t WHERE :gradeLevel BETWEEN t.minGradeLevel AND t.maxGradeLevel")
+    List<Tutor> findTutorsByGradeLevel(int gradeLevel);
 
     //Query to find tutors that are available at a specific time
     @Query("SELECT t from Tutor t JOIN t.tutorTimeSlots tts JOIN tts.timeslot timeslot WHERE timeslot.time = :timeSlot")
