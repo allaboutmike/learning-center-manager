@@ -1,6 +1,7 @@
 package com.learningcenter.repository;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -54,9 +55,9 @@ public class TutorRepositoryIntegrationTest {
 
     //Test to find tutors by subject
     @Test
-    public void givenSubjectWhenFindTutorsBySubjectThenSuccess() {
-        Subject math = new Subject("Math");
-        Subject science = new Subject("Science");
+    public void givenSubject_whenFindTutorsBySubject_thenSuccess() {
+        Subject math = new Subject("Math test");
+        Subject science = new Subject("Science test");
         entityManager.persist(math);
         entityManager.persist(science);
 
@@ -68,22 +69,22 @@ public class TutorRepositoryIntegrationTest {
         tutor2.getSubjects().add(science);
         entityManager.persist(tutor2);
 
-        List<Tutor> tutors = tutorRepository.findTutorsBySubject("Math");
+        List<Tutor> tutors = tutorRepository.findTutorsBySubject("Math test");
         assertThat(tutors.size()).isEqualTo(1);
     }
 
     //test to find tutors by a child's grade level
     @Test
-    public void givenChildIdWhenFindTutorsByGradeLevelThenSuccess() {
-        Tutor tutor1 = new Tutor("John", 8, 12, "http://example.com/john", "Experienced tutor in math and science.");
+    public void givenChildId_whenFindTutorsByGradeLevel_thenSuccess() {
+        Tutor tutor1 = new Tutor("John", 99, 99, "http://example.com/john", "Experienced tutor in math and science.");
         entityManager.persist(tutor1);
-        Tutor tutor2 = new Tutor("Jane", 1, 6, "http://example.com/jane", "Experienced tutor in math and science.");
+        Tutor tutor2 = new Tutor("Jane", 1, 1, "http://example.com/jane", "Experienced tutor in math and science.");
         entityManager.persist(tutor2);
 
         //Create a parent and child to test the query
         Parent parent = new Parent("Bob Smith");
-        Child child = new Child("Alice Smith", 5, parent);
-        Child child2 = new Child("Charlie Smith", 7, parent);
+        Child child = new Child("Alice Smith", 99, parent);
+        Child child2 = new Child("Charlie Smith", 100, parent);
         parent.getChild().add(child);
         parent.getChild().add(child2);
         entityManager.persist(parent);
@@ -100,9 +101,9 @@ public class TutorRepositoryIntegrationTest {
     @Test
     public void givenTimeSlotWhenFindTutorsByAvailabilityThenSuccess() {
         Tutor tutor1 = new Tutor("John", 1, 12, "http://example.com/john", "Experienced tutor in math and science.");
-        Timeslot timeslot1 = new Timeslot(Timestamp.valueOf("2024-06-01 10:00:00"));
+        Timeslot timeslot1 = new Timeslot(LocalDateTime.of(2024, 6, 1, 10, 0, 0));
         Tutor tutor2 = new Tutor("Jane", 1, 12, "http://example.com/jane", "Experienced tutor in math and science.");
-        Timeslot timeslot2 = new Timeslot(Timestamp.valueOf("2024-06-01 11:00:00"));
+        Timeslot timeslot2 = new Timeslot(LocalDateTime.of(2024, 6, 1, 11, 0, 0));
 
         entityManager.persist(timeslot1);
         entityManager.persist(timeslot2);
@@ -134,9 +135,9 @@ public class TutorRepositoryIntegrationTest {
 
     //test to find tutors by a child's grade level and subject
     @Test
-    public void givenChildIdAndSubjectWhenFindTutorsByGradeLevelAndSubjectThenSuccess() {
-        Subject math = new Subject("Math");
-        Subject science = new Subject("Science");
+    public void givenChildIdAndSubject_whenFindTutorsByGradeLevelAndSubject_thenSuccess() {
+        Subject math = new Subject("Math test");
+        Subject science = new Subject("Science test");
         entityManager.persist(math);
         entityManager.persist(science);
 
@@ -161,8 +162,8 @@ public class TutorRepositoryIntegrationTest {
         entityManager.persist(child);
         entityManager.persist(child2);
 
-        List<Tutor> tutorsForChild1 = tutorRepository.findTutorsByGradeLevelAndSubject(child.getChildId(), "Math");
-        List<Tutor> tutorsForChild2 = tutorRepository.findTutorsByGradeLevelAndSubject(child2.getChildId(), "Science");
+        List<Tutor> tutorsForChild1 = tutorRepository.findTutorsByGradeLevelAndSubject(child.getChildId(), "Math test");
+        List<Tutor> tutorsForChild2 = tutorRepository.findTutorsByGradeLevelAndSubject(child2.getChildId(), "Science test");
         assertThat(tutorsForChild1.size()).isEqualTo(2);
         assertThat(tutorsForChild2.size()).isEqualTo(2);
     }
@@ -192,8 +193,8 @@ public class TutorRepositoryIntegrationTest {
         entityManager.persist(tutor3);
 
         //Creating time slots
-        Timeslot timeslot1 = new Timeslot(Timestamp.valueOf("2024-06-01 10:00:00"));
-        Timeslot timeslot2 = new Timeslot(Timestamp.valueOf("2024-06-01 11:00:00"));
+        Timeslot timeslot1 = new Timeslot(LocalDateTime.of(2024, 6, 1, 10, 0, 0));
+        Timeslot timeslot2 = new Timeslot(LocalDateTime.of(2024, 6, 1, 11, 0, 0));
         entityManager.persist(timeslot1);
         entityManager.persist(timeslot2);
 
