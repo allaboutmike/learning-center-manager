@@ -23,9 +23,9 @@ public class ReviewService {
 
     public ReviewResponse createReview(CreateReviewRequest request) {
         Review review = new Review();
-        review.setTutor(request.getTutor());
-        review.setRating(request.getRating());
-        review.setComment(request.getComment());
+        review.setTutor(request.tutor());
+        review.setRating(request.rating());
+        review.setComment(request.comment());
 
         Review savedReview = reviewRepository.save(review);
 
