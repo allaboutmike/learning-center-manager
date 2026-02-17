@@ -1,15 +1,15 @@
 import { Link, useParams } from "react-router-dom";
 import { useLearningCenterAPI } from "../hooks/useLearningCenterAPI";
-import { tutor, type Tutor } from "../types/tutor";
+import { type Tutor } from "../types/tutor";
 import { useState } from "react";
 
 export default function TutorProfilePage() {
   const { tutorId } = useParams();
 
-  if (!tutor.tutorId) {
+  if (!tutorId) {
       return <p> Invalid tutor id. Please go back and search for tutors here: <Link to="/"> Search all Tutors </Link></p>;
   }
-  const tutorRoute = useLearningCenterAPI<Tutor>(`/api/tutors/${tutor.tutorId}`);
+  const tutor = useLearningCenterAPI<Tutor>(`/api/tutors/${tutorId}`);
 
   if (!tutor) return <p>Loading...</p>;
 
@@ -34,10 +34,10 @@ export default function TutorProfilePage() {
       {tutor.reviewCount !== 0 ? tutor.reviewCount : "No reviews available"}
       <ul>
         <h2>Availability:</h2>
-        {tutor.AvailableTimeSlots.map((timeslot, index) => (
+        {tutor.availableTimeSlots.map((timeslot, index) => (
           <li
             className={
-              selectedTimeSlot === index && timeslot.tutorTimeslotId !== 0
+              selectedTimeSlot === index
                 ? "bg-blue-500 text-white"
                 : ""
             }

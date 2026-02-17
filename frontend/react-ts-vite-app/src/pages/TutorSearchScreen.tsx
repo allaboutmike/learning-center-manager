@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLearningCenterAPI } from "../hooks/useLearningCenterAPI";
-import { TutorList, type tutor, type Tutor } from "../types/tutor";
+import { type Tutor } from "../types/tutor";
 
 
 export default function TutorSearchScreen() {
     const navigate = useNavigate();
     const [grade, setGrade] = useState("");
     const url = grade === "" ? "/api/tutors" : `/api/tutors?gradeLevel=${grade}`;
-    const tutors = useLearningCenterAPI<Tutor[]>(url);
+    const tutor = useLearningCenterAPI<Tutor[]>(url);
 
 
     function handleGradeChange(e: React.ChangeEvent<HTMLSelectElement>) {
@@ -56,10 +56,10 @@ export default function TutorSearchScreen() {
 
             </div>
 
-            {!TutorList && <p>Loading...</p>}
+            {!tutor&& <p>Loading...</p>}
 
             <ul style={{ width: 500, margin: "20px auto", padding: 0, listStyle: "none" }}>
-                {TutorList && TutorList.map((tutor) => (
+                {tutor && tutor.map((tutor) => (
                     <li
                         key={tutor.tutorId}
                         onClick={() => {
