@@ -15,3 +15,4 @@ export type Tutor = {
   availableTimeSlots: TutorTimeslot[];
 };
 
+export type { TutorTimeslot };

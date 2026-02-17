@@ -8,7 +8,7 @@ export default function TutorSearchScreen() {
     const navigate = useNavigate();
     const [grade, setGrade] = useState("");
     const url = grade === "" ? "/api/tutors" : `/api/tutors?gradeLevel=${grade}`;
-    const tutor = useLearningCenterAPI<Tutor[]>(url);
+    const tutors = useLearningCenterAPI<Tutor[]>(url);
 
 
     function handleGradeChange(e: React.ChangeEvent<HTMLSelectElement>) {
@@ -56,10 +56,10 @@ export default function TutorSearchScreen() {
 
             </div>
 
-            {!tutor&& <p>Loading...</p>}
+            {!tutors&& <p>Loading...</p>}
 
             <ul style={{ width: 500, margin: "20px auto", padding: 0, listStyle: "none" }}>
-                {tutor && tutor.map((tutor) => (
+                {tutors && tutors.map((tutor) => (
                     <li
                         key={tutor.tutorId}
                         onClick={() => {

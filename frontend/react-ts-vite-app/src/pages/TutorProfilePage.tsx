@@ -1,6 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import { useLearningCenterAPI } from "../hooks/useLearningCenterAPI";
 import { type Tutor } from "../types/tutor";
+import { type TutorTimeslot } from "../types/tutor";
 import { useState } from "react";
 
 export default function TutorProfilePage() {
@@ -10,6 +11,7 @@ export default function TutorProfilePage() {
       return <p> Invalid tutor id. Please go back and search for tutors here: <Link to="/"> Search all Tutors </Link></p>;
   }
   const tutor = useLearningCenterAPI<Tutor>(`/api/tutors/${tutorId}`);
+  const availability = useLearningCenterAPI<TutorTimeslot[]>(`/api/tutors/${tutorId}/availability`);
 
   if (!tutor) return <p>Loading...</p>;
 
@@ -34,7 +36,7 @@ export default function TutorProfilePage() {
       {tutor.reviewCount !== 0 ? tutor.reviewCount : "No reviews available"}
       <ul>
         <h2>Availability:</h2>
-        {tutor.availableTimeSlots.map((timeslot, index) => (
+        {availability && availability.map((timeslot, index) => (
           <li
             className={
               selectedTimeSlot === index
