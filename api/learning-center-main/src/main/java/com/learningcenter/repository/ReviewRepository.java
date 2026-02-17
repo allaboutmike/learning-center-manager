@@ -1,12 +1,15 @@
 package com.learningcenter.repository;
 
 import com.learningcenter.entities.Review;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-import java.util.Optional;
+
+import java.util.List;
 
 @Repository
-public interface ReviewRepository extends JpaRepository<Review, Long> {
-    // Using Optional for catching NullPointerException
-    Optional<Review> findByTutorId(Long tutorId);
+public interface ReviewRepository extends CrudRepository<Review, Long> {
+
+    @Query("SELECT tutor FROM Review WHERE tutor.tutorId =:tutorId")
+    List<Review> findByTutorId(Long tutorId);
 }
