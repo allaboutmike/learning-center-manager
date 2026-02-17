@@ -25,15 +25,15 @@ public class TutorService {
         this.tutorTimeSlotRepository = tutorTimeSlotRepository;
     }
 
-    public List<TutorResponse> searchTutorsByGradeLevel(int gradeLevel) {
-        var tutors = tutorRepository.findTutorsByGradeLevel(gradeLevel);
+    public List<TutorResponse> searchTutorsByGradeLevel(Long childId) {
+        var tutors = tutorRepository.findTutorsByGradeLevel(childId);
         List<TutorResponse> tutorResponses = new ArrayList<>();
         for (Tutor tutor : tutors) {
-            if (gradeLevel >= tutor.getMinGradeLevel() && gradeLevel <= tutor.getMaxGradeLevel()) {
-                Double rating = reviewRepository.getAverageRating(tutor.getTutorId());
-                Double averageRating = rating != null ? rating : 0.0;
-                tutorResponses.add(new TutorResponse(tutor.getTutorId(), tutor.getName(), averageRating, reviewRepository.getNumberOfReviews(tutor.getTutorId()), tutor.getMinGradeLevel(), tutor.getMaxGradeLevel(), tutor.getImageUrl()));
-            }
+            Double rating = reviewRepository.getAverageRating(tutor.getTutorId());
+            Double averageRating = rating != null ? rating : 0.0;
+            tutorResponses.add(new TutorResponse(tutor.getTutorId(), tutor.getName(), averageRating, 
+                reviewRepository.getNumberOfReviews(tutor.getTutorId()), tutor.getMinGradeLevel(), 
+                tutor.getMaxGradeLevel(), tutor.getImageUrl(), tutor.getSubjects()));
         }
         return tutorResponses;
     }
@@ -43,7 +43,9 @@ public class TutorService {
         if (tutor.isEmpty()) {
             throw new RuntimeException("Tutor not found");
         }
-        return new TutorResponse(tutorId, tutor.get().getName(), reviewRepository.getAverageRating(tutorId), reviewRepository.getNumberOfReviews(tutorId), tutor.get().getMinGradeLevel(), tutor.get().getMaxGradeLevel(), tutor.get().getImageUrl());
+        return new TutorResponse(tutorId, tutor.get().getName(), reviewRepository.getAverageRating(tutorId), 
+            reviewRepository.getNumberOfReviews(tutorId), tutor.get().getMinGradeLevel(), 
+            tutor.get().getMaxGradeLevel(), tutor.get().getImageUrl(), tutor.get().getSubjects());
     }
 
     public List<TutorTimeSlotResponse> getTutorAvailability(Long tutorId) {
@@ -61,7 +63,9 @@ public class TutorService {
         for (Tutor tutor : tutors) {
             Double rating = reviewRepository.getAverageRating(tutor.getTutorId());
             Double averageRating = rating != null ? rating : 0.0;
-            tutorResponses.add(new TutorResponse(tutor.getTutorId(), tutor.getName(), averageRating, reviewRepository.getNumberOfReviews(tutor.getTutorId()), tutor.getMinGradeLevel(), tutor.getMaxGradeLevel(), tutor.getImageUrl()));
+            tutorResponses.add(new TutorResponse(tutor.getTutorId(), tutor.getName(), averageRating, 
+                reviewRepository.getNumberOfReviews(tutor.getTutorId()), 
+                tutor.getMinGradeLevel(), tutor.getMaxGradeLevel(), tutor.getImageUrl(), tutor.getSubjects()));
         }
         return tutorResponses;
     }

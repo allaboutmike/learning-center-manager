@@ -19,7 +19,7 @@ public class TutorControllerTest {
 
     @Test
     void searchTutorByGradeLevelTest_returnTutorList() {
-        List<TutorResponse> tutors = tutorController.searchTutorsByGradeLevel(5);
+        List<TutorResponse> tutors = tutorController.searchTutorsByGradeLevel(1L);
         assertNotNull(tutors);
         assertEquals(7, tutors.size());
     }

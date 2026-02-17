@@ -91,8 +91,8 @@ public class TutorRepositoryIntegrationTest {
         entityManager.persist(child);
         entityManager.persist(child2);
 
-        List<Tutor> tutorsForChild1 = tutorRepository.findTutorsByGradeLevel(child.getGradeLevel());
-        List<Tutor> tutorsForChild2 = tutorRepository.findTutorsByGradeLevel(child2.getGradeLevel());
+        List<Tutor> tutorsForChild1 = tutorRepository.findTutorsByGradeLevel(child.getChildId());
+        List<Tutor> tutorsForChild2 = tutorRepository.findTutorsByGradeLevel(child2.getChildId());
         assertThat(tutorsForChild1.size()).isEqualTo(1);
         assertThat(tutorsForChild2.size()).isEqualTo(0);
     }

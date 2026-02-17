@@ -24,11 +24,11 @@ public class TutorController {
 
 
     @GetMapping
-    public List<TutorResponse> searchTutorsByGradeLevel(@RequestParam(required = false) Integer gradeLevel) {
-        if (gradeLevel == null) {
+    public List<TutorResponse> searchTutorsByGradeLevel(@RequestParam(required = false) Long childId) {
+        if (childId == null) {
             return tutorService.getAllTutors();
         }
-        return tutorService.searchTutorsByGradeLevel(gradeLevel);
+        return tutorService.searchTutorsByGradeLevel(childId);
     }
 
     @GetMapping("/{tutorId}")
