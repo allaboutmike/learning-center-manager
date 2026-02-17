@@ -65,7 +65,7 @@ public class Review {
     }
 
     public void setTutor(Tutor tutor) {
-
+        this.tutor = tutor;
     }
 
     public Tutor getTutor() {
