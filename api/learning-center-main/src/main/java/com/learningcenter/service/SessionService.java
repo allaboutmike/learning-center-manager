@@ -79,7 +79,7 @@ SessionService API Documentation
         var child = childRepository.findById(request.childId());
         var tutorTimeSlot = tutorTimeSlotRepository.findById(request.tutorTimeSlotId());
         var subject = subjectRepository.findById(request.subjectId());
-        Session session = new Session("", Timestamp.valueOf(LocalDateTime.now()), child.get(), tutorTimeSlot.get(), subject.get());
+        Session session = new Session("", LocalDateTime.now(), child.get(), tutorTimeSlot.get(), subject.get());
         return sessionRepository.save(session);
     };
 
