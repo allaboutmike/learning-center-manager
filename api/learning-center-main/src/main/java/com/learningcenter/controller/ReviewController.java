@@ -1,6 +1,7 @@
 package com.learningcenter.controller;
 
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
@@ -45,15 +46,9 @@ public class ReviewController {
         return response.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/tutor/{tutorId}/average-rating")
-    public ResponseEntity<Double> getAverageRatingForTutor(@PathVariable Long tutorId) {
-        double averageRating = reviewService.findByAvgRating(tutorId);
-        return ResponseEntity.ok(averageRating);
-    }
-
-    @GetMapping("/tutor/{tutorId}/number-of-reviews")
-    public ResponseEntity<Long> getNumberOfReviewsForTutor(@PathVariable Long tutorId) {
-        long numberOfReviews = reviewService.getNumberOfReviews(tutorId);
-        return ResponseEntity.ok(numberOfReviews);
+    @GetMapping("/tutors/{tutorId}/reviews")
+    public ResponseEntity<List<ReviewResponse>> getAllReviewsForTutor(@PathVariable Long tutorId) {
+        List<ReviewResponse> reviews = reviewService.findByTutorId(tutorId);
+        return ResponseEntity.ok(reviews);
     }
 }
