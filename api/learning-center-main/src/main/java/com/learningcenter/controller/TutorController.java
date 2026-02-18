@@ -24,11 +24,8 @@ public class TutorController {
 
 
     @GetMapping
-    public List<TutorResponse> searchTutorsByGradeLevel(@RequestParam(required = false) Long childId) {
-        if (childId == null) {
-            return tutorService.getAllTutors();
-        }
-        return tutorService.searchTutorsByGradeLevel(childId);
+    public List<TutorResponse> searchTutorsByGradeLevel(@RequestParam(required = false) int gradeLevel) {
+        return tutorService.searchTutorsByGradeLevel(gradeLevel);
     }
 
     @GetMapping("/{tutorId}")
@@ -39,6 +36,14 @@ public class TutorController {
     @GetMapping("/{tutorId}/availability")
     public List<TutorTimeSlotResponse> getTutorAvailability(@PathVariable Long tutorId) {
         return tutorService.getTutorAvailability(tutorId);
+    }
+
+    @GetMapping("/{childId}")
+    public List<TutorResponse> searchTutorsByChildGradeLevel(@PathVariable Long childId) {
+        if (childId == null) {
+            return tutorService.getAllTutors();
+        }
+        return tutorService.searchTutorsByChildGradeLevel(childId);
     }
 
 }

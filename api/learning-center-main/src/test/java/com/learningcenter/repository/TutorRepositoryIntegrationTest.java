@@ -91,8 +91,8 @@ public class TutorRepositoryIntegrationTest {
         entityManager.persist(child);
         entityManager.persist(child2);
 
-        List<Tutor> tutorsForChild1 = tutorRepository.findTutorsByGradeLevel(child.getChildId());
-        List<Tutor> tutorsForChild2 = tutorRepository.findTutorsByGradeLevel(child2.getChildId());
+        List<Tutor> tutorsForChild1 = tutorRepository.findTutorsByChildGradeLevel(child.getChildId());
+        List<Tutor> tutorsForChild2 = tutorRepository.findTutorsByChildGradeLevel(child2.getChildId());
         assertThat(tutorsForChild1.size()).isEqualTo(1);
         assertThat(tutorsForChild2.size()).isEqualTo(0);
     }
@@ -162,8 +162,8 @@ public class TutorRepositoryIntegrationTest {
         entityManager.persist(child);
         entityManager.persist(child2);
 
-        List<Tutor> tutorsForChild1 = tutorRepository.findTutorsByGradeLevelAndSubject(child.getChildId(), "Math test");
-        List<Tutor> tutorsForChild2 = tutorRepository.findTutorsByGradeLevelAndSubject(child2.getChildId(), "Science test");
+        List<Tutor> tutorsForChild1 = tutorRepository.findTutorsByChildGradeLevelAndSubject(child.getChildId(), "Math test");
+        List<Tutor> tutorsForChild2 = tutorRepository.findTutorsByChildGradeLevelAndSubject(child2.getChildId(), "Science test");
         assertThat(tutorsForChild1.size()).isEqualTo(2);
         assertThat(tutorsForChild2.size()).isEqualTo(2);
     }
@@ -233,6 +233,18 @@ public class TutorRepositoryIntegrationTest {
         assertThat(tutorsNotAvailable.size()).isEqualTo(0);
         assertThat(tutorsForChild1.size()).isEqualTo(2);
         assertThat(tutorsForChild2.size()).isEqualTo(1);
+    }
 
+    //Test to find tutors by grade level regardless of child grade level
+    @Test
+    public void givenGradeLevel_whenFindTutorsByGradeLevel_thenSuccess() {
+        Tutor tutor1 = new Tutor("John", 99, 100, "http://example.com/john", "Experienced tutor in math and science.");
+        Tutor tutor2 = new Tutor("Jane", 98, 98, "http://example.com/jane", "Experienced tutor in math and science.");
+        
+        entityManager.persist(tutor1);
+        entityManager.persist(tutor2);
+
+        List<Tutor> tutors = tutorRepository.findTutorsByGradeLevel(99);
+        assertThat(tutors.size()).isEqualTo(1);
     }
 }
