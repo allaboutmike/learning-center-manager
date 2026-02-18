@@ -52,6 +52,7 @@ public class SessionRepositoryIntegrationTest {
         List<Session> sessions = sessionRepository.findSessionsByChildId(child.getChildId());
         assertThat(sessions.size()).isEqualTo(1);
     }
+
     //Test to create a new session
     @Test
     public void CreateNewSessionAndSaveThenSuccess() {
@@ -83,6 +84,7 @@ public class SessionRepositoryIntegrationTest {
         sessionRepository.save(newSession);
         assertThat(entityManager.find(Session.class, newSession.getSessionId()).getSessionId()).isEqualTo(newSession.getSessionId());
     }
+
     //Test to update notes in a session
     @Test
     public void CreateNewSessionAndUpdateNotesThenSuccess() {
@@ -114,34 +116,34 @@ public class SessionRepositoryIntegrationTest {
         newSession.setSessionNotes("I changed the notes");
         assertThat(newSession.getSessionNotes()).isEqualTo("I changed the notes");
     }
-    //Test to change tutor assigned to a session
-//    public void CreateNewSessionAndSaveItUpdateTutorThenSuccess() {
-//        //Set time session was created
-//        LocalDateTime createdAt = LocalDateTime.now();
-//        //Create a parent
-//        Parent parent = new Parent("Skrillex");
-//        //Create a child for the parent
-//        Child child = new Child("Zedd", 6, parent);
-//        //Create a tutor
-//        Tutor tutor = new Tutor("Porter Robinson", 2, 8, "www.example.com", "This is a test");
-//        //Create a timeslot for the session
-//        Timeslot timeslot = new Timeslot(LocalDateTime.of(2026, 2, 20, 15, 30));
-//        //Assign the timeslot to the tutor
-//        TutorTimeslot tutorTimeslot = new TutorTimeslot(tutor, timeslot);
-//        //Create a subject for the session
-//        Subject subject = new Subject("Reading");
-//        //Create a new session using the previous data
-//        Session newSession = new Session("", createdAt, child, tutorTimeslot, subject);
-//
-//        entityManager.persist(parent);
-//        entityManager.persist(child);
-//        entityManager.persist(tutor);
-//        entityManager.persist(timeslot);
-//        entityManager.persist(tutorTimeslot);
-//        entityManager.persist(subject);
-//        entityManager.persist(newSession);
-//
-//        sessionRepository.save(newSession);
-//        tutor.setName("William Black");
-//    }
+
+    //Testing null for session notes
+    public void CreateSessionWithNullSessionNotesThenSuccess() {
+        //Set time session was created
+        LocalDateTime createdAt = LocalDateTime.now();
+        //Create a parent
+        Parent parent = new Parent("Sara Landry");
+        //Create a child for the parent
+        Child child = new Child("Charlotte de Witte", 6, parent);
+        //Create a tutor
+        Tutor tutor = new Tutor("Nico Moreno", 2, 8, "www.example.com", "This is a test");
+        //Create a timeslot for the session
+        Timeslot timeslot = new Timeslot(LocalDateTime.of(2026, 2, 20, 15, 30));
+        //Assign the timeslot to the tutor
+        TutorTimeslot tutorTimeslot = new TutorTimeslot(tutor, timeslot);
+        //Create a subject for the session
+        Subject subject = new Subject("Science");
+        //Create a new session using the previous data
+        Session newSession = new Session(null, createdAt, child, tutorTimeslot, subject);
+
+        entityManager.persist(parent);
+        entityManager.persist(child);
+        entityManager.persist(tutor);
+        entityManager.persist(timeslot);
+        entityManager.persist(tutorTimeslot);
+        entityManager.persist(subject);
+        entityManager.persist(newSession);
+
+        assertThat(newSession.getSessionNotes()).isEqualTo(null);
+    }
 }
