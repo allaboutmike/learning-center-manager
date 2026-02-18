@@ -2,6 +2,8 @@ package com.learningcenter.dto;
 
 import com.learningcenter.entities.Session;
 
+import java.time.LocalDateTime;
+
 public class SessionResponse {
     /*
     SessionResponse Object
@@ -12,6 +14,7 @@ public class SessionResponse {
     private Long subject;
     private String sessionNotes;
     private Long childId;
+    private LocalDateTime time;
 
     public SessionResponse(Session session) {
         this.sessionId = session.getSessionId();
@@ -19,6 +22,7 @@ public class SessionResponse {
         this.subject = session.getSubject().getSubjectId();
         this.sessionNotes = session.getSessionNotes();
         this.childId = session.getChild().getChildId();
+        this.time = session.getTimeslot().getTimeslot().getTime();
     }
 
     public Long getSessionId() {
