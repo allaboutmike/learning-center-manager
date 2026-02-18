@@ -106,7 +106,7 @@ create table session.tutor_time_slot
 create table session.session
 (
     session_id        BIGINT AUTO_INCREMENT,
-    session_notes     VARCHAR(255) not null,
+    session_notes     VARCHAR(255) null,
     tutor_time_slot_id BIGINT not null,
     child_id          BIGINT not null,
     subject_id        BIGINT not null,

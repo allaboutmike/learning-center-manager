@@ -8,7 +8,6 @@ import com.learningcenter.repository.SubjectRepository;
 import com.learningcenter.repository.TutorTimeSlotRepository;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -79,7 +78,7 @@ SessionService API Documentation
         var child = childRepository.findById(request.getChildId());
         var tutorTimeSlot = tutorTimeSlotRepository.findById(request.getTutorTimeSlotId());
         var subject = subjectRepository.findById(request.getSubjectId());
-        Session session = new Session("", Timestamp.valueOf(LocalDateTime.now()), child.get(), tutorTimeSlot.get(), subject.get());
+        Session session = new Session("", LocalDateTime.now(), child.get(), tutorTimeSlot.get(), subject.get());
         return sessionRepository.save(session);
     };
 
