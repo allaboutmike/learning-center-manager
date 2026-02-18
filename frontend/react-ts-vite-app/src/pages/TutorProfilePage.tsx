@@ -2,6 +2,7 @@ import { Link, useParams } from "react-router-dom";
 import { useLearningCenterAPI } from "../hooks/useLearningCenterAPI";
 import { type Tutor } from "../types/tutor";
 import { type TutorTimeslot } from "../types/tutor";
+//import { type Reviews } from "../types/reviews";
 import { useState } from "react";
 
 export default function TutorProfilePage() {
@@ -10,7 +11,8 @@ export default function TutorProfilePage() {
   const { tutorId } = useParams();
   const tutor = useLearningCenterAPI<Tutor>(tutorId ? `/api/tutors/${tutorId}` : "");
   const availability = useLearningCenterAPI<TutorTimeslot[]>(tutorId ? `/api/tutors/${tutorId}/availability` : "");
-  
+  //const reviews = useLearningCenterAPI<Reviews[]>(tutorId ? `/api/tutors/${tutorId}/reviews` : "");
+
   const [selectedTimeSlot, setSelectedTimeSlot] = useState(-1);
 
   if (!tutorId) {
@@ -37,17 +39,17 @@ export default function TutorProfilePage() {
       <ul>
         <h2>Availability:</h2>
         {!availability && <p>There are no available time slots.</p>}
-        {availability && availability.map((timeslots, index) => (
+        {availability && availability.map((tutorTimeslots, index) => (
           <li
             className={
               selectedTimeSlot === index
                 ? "bg-blue-500 text-white"
                 : ""
             }
-            key={timeslots.tutorTimeslotId}
+            key={tutorTimeslots.tutorTimeslotId}
             onClick={() => setSelectedTimeSlot(index)}
           >
-            {timeslots.timeslotId}
+            {tutorTimeslots.start} - {tutorTimeslots.end}
           </li>
         ))}
       </ul>
