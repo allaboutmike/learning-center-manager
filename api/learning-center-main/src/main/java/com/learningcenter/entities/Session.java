@@ -1,6 +1,7 @@
 package com.learningcenter.entities;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -22,11 +23,11 @@ public class Session {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long sessionId;
 
-    @Column(nullable = false, name="session_notes")
+    @Column(nullable = true, name="session_notes")
     private String sessionNotes;
 
     @Column(nullable = false, name = "createdAt")
-    private Timestamp createdAt;
+    private LocalDateTime createdAt;
 
     @ManyToOne(optional=false)
     @JoinColumn(name = "child_id", nullable = false)
@@ -40,7 +41,7 @@ public class Session {
     @JoinColumn(name = "subject_id", nullable = false)
     private Subject subject;
 
-    public Session(String session_notes, Timestamp createdAt, Child child, TutorTimeslot tutorTimeslot, Subject subject) {
+    public Session(String session_notes, LocalDateTime createdAt, Child child, TutorTimeslot tutorTimeslot, Subject subject) {
         this.sessionNotes = sessionNotes;
         this.createdAt = createdAt;
         this.child = child;
@@ -68,11 +69,11 @@ public class Session {
         this.sessionNotes = sessionNotes;
     }
 
-    public Timestamp getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Timestamp createdAt) {
+    public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
