@@ -23,7 +23,7 @@ public class Tutor {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="tutor_id")
-    private long tutorId;
+    private Long tutorId;
 
     @Column(nullable=false,name="name")
     private String name;
@@ -79,7 +79,7 @@ public class Tutor {
         this.subjects = subjects;
     }
 
-    public long getTutorId() {
+    public Long getTutorId() {
         return this.tutorId;
     }
 
