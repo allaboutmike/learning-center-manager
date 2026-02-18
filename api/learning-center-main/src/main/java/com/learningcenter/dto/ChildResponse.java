@@ -1,5 +1,7 @@
 package com.learningcenter.dto;
 
-public record ParentResponse() {
-    Long child
-}
+public record ChildResponse(
+        Long childId,
+        String firstName,
+        Integer gradeLevel
+) {}

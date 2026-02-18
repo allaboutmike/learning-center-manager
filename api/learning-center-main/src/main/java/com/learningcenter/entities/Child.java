@@ -15,14 +15,14 @@ import jakarta.persistence.Table;
 @Table(name = "child", schema = "parent_account")
 public class Child {
 
-    public Child(String name, int grade_level, Parent parent) {
+    public Child(String name, int gradeLevel, Parent parent) {
         this.name = name;
-        this.grade_level = grade_level;
+        this.gradeLevel = gradeLevel;
         this.parent = parent;
     }
 
     public Child() {
-        
+
     }
 
     @Id
@@ -34,9 +34,9 @@ public class Child {
     private String name;
 
     @Column(nullable = false, name = "grade_level")
-    private int grade_level;
+    private int gradeLevel;
 
-    @ManyToOne(optional=false)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "parent_id", nullable = false)
     private Parent parent;
 
@@ -57,12 +57,11 @@ public class Child {
         this.name = name;
     }
 
-    public int getGrade_level() {
-        return grade_level;
+    public int getGradeLevel() {
+        return gradeLevel;
     }
 
-    public void setGrade_level(int grade_level) {
-        this.grade_level = grade_level;
+    public void setGradeLevel(int gradeLevel) {this.gradeLevel = this.gradeLevel;
     }
 
     public Parent getParent() {
