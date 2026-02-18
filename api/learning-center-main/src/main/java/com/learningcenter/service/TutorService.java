@@ -1,13 +1,5 @@
 package com.learningcenter.service;
 
-import com.learningcenter.dto.TutorResponse;
-import com.learningcenter.dto.TutorTimeSlotResponse;
-import com.learningcenter.repository.TutorRepository;
-import org.aspectj.weaver.ast.Var;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +29,7 @@ public class TutorService {
         var tutors = tutorRepository.findTutorsByGradeLevel(childId);
         List<TutorResponse> tutorResponses = new ArrayList<>();
         for (Tutor tutor : tutors) {
-            Double rating = reviewRepository.getAverageRating(tutor.getTutorId());
+            Double rating = reviewRepository.findByAvgRating(tutor.getTutorId());
             Double averageRating = rating != null ? rating : 0.0;
             tutorResponses.add(new TutorResponse(tutor.getTutorId(), tutor.getName(), averageRating, 
                 reviewRepository.getNumberOfReviews(tutor.getTutorId()), tutor.getMinGradeLevel(), 
@@ -51,7 +43,7 @@ public class TutorService {
         if (tutor.isEmpty()) {
             throw new RuntimeException("Tutor not found");
         }
-        return new TutorResponse(tutorId, tutor.get().getName(), reviewRepository.getAverageRating(tutorId), 
+        return new TutorResponse(tutorId, tutor.get().getName(), reviewRepository.findByAvgRating(tutorId), 
             reviewRepository.getNumberOfReviews(tutorId), tutor.get().getMinGradeLevel(), 
             tutor.get().getMaxGradeLevel(), tutor.get().getImageUrl(), tutor.get().getSubjects());
     }
@@ -69,7 +61,7 @@ public class TutorService {
         var tutors = tutorRepository.findAll();
         List<TutorResponse> tutorResponses = new ArrayList<>();
         for (Tutor tutor : tutors) {
-            Double rating = reviewRepository.getAverageRating(tutor.getTutorId());
+            Double rating = reviewRepository.findByAvgRating(tutor.getTutorId());
             Double averageRating = rating != null ? rating : 0.0;
             tutorResponses.add(new TutorResponse(tutor.getTutorId(), tutor.getName(), averageRating, 
                 reviewRepository.getNumberOfReviews(tutor.getTutorId()), 

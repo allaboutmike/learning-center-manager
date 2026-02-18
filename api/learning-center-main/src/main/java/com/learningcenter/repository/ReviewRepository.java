@@ -1,14 +1,13 @@
 package com.learningcenter.repository;
 
-import com.learningcenter.dto.TutorResponse;
-import com.learningcenter.entities.Review;
-import com.learningcenter.entities.Tutor;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import com.learningcenter.entities.Review;
 
 @Repository
 public interface ReviewRepository extends CrudRepository<Review, Long> {
@@ -16,9 +15,9 @@ public interface ReviewRepository extends CrudRepository<Review, Long> {
     @Query("SELECT tutor FROM Review WHERE tutor.tutorId =:tutorId")
     List<Review> findByTutorId(Long tutorId);
 
-    @Query("SELECT tutor FROM Review GROUP BY tutor HAVING AVG(rating) =:avgRating")
-    List<Tutor> findByAvgRating(@Param("avgRating") Double avgRating);
+    @Query("SELECT AVG(rating) FROM Review WHERE tutor.tutorId =:tutorId")
+    Double findByAvgRating(@Param("tutorId") Long tutorId);
 
     @Query ("SELECT COUNT(tutor.tutorId) FROM Review WHERE tutor.tutorId =:tutorId")
-    List<Tutor> findByReviewCount(@Param("reviewCount") Integer reviewCount);
+    Integer getNumberOfReviews(@Param("tutorId") Long tutorId);
 }
