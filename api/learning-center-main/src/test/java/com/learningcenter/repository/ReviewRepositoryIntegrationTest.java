@@ -32,7 +32,7 @@ public class ReviewRepositoryIntegrationTest {
         entityManager.persist(review2);
         entityManager.persist(review3);
 
-        assertThat(reviewRepository.count()).isEqualTo(3);
+        assertThat(tutor.getReviews().size()).isEqualTo(3);
     }
 
     @Test
