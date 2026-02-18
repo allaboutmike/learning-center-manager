@@ -2,7 +2,9 @@ package com.learningcenter.service;
 
 import com.learningcenter.dto.TutorResponse;
 import com.learningcenter.dto.TutorTimeSlotResponse;
+import com.learningcenter.repository.TutorRepository;
 import org.aspectj.weaver.ast.Var;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -11,6 +13,8 @@ import java.util.List;
 
 @Service
 public class TutorService {
+
+    private TutorRepository tutorRepository;
 
     private final List<TutorResponse> tutors = List.of(new TutorResponse(11L, "Stitch Doe", 4.5, 10, 5, 10, "/stitch.png"), new TutorResponse(12L, "Sailor Smith", 4.7, 15, 1, 6, "/sailor_moon.png"));
 
