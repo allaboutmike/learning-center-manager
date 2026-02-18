@@ -23,7 +23,7 @@ public class Session {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long sessionId;
 
-    @Column(nullable = false, name="session_notes")
+    @Column(nullable = true, name="session_notes")
     private String sessionNotes;
 
     @Column(nullable = false, name = "createdAt")
