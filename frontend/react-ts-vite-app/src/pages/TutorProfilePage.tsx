@@ -5,17 +5,18 @@ import { type TutorTimeslot } from "../types/tutor";
 import { useState } from "react";
 
 export default function TutorProfilePage() {
+  
+
   const { tutorId } = useParams();
+  const tutor = useLearningCenterAPI<Tutor>(tutorId ? `/api/tutors/${tutorId}` : "");
+  const availability = useLearningCenterAPI<TutorTimeslot[]>(tutorId ? `/api/tutors/${tutorId}/availability` : "");
+  
+  const [selectedTimeSlot, setSelectedTimeSlot] = useState(-1);
 
   if (!tutorId) {
-      return <p> Invalid tutor id. Please go back and search for tutors here: <Link to="/"> Search all Tutors </Link></p>;
+    return <p> Invalid tutor id. Please go back and search for tutors here: <Link to="/"> Search all Tutors </Link></p>;
   }
-  const tutor = useLearningCenterAPI<Tutor>(`/api/tutors/${tutorId}`);
-  const availability = useLearningCenterAPI<TutorTimeslot[]>(`/api/tutors/${tutorId}/availability`);
-
   if (!tutor) return <p>Loading...</p>;
-
-  const [selectedTimeSlot, setSelectedTimeSlot] = useState(-1);
 
   return (
     <div style={{ textAlign: "center", marginTop: 50 }}>
@@ -32,21 +33,21 @@ export default function TutorProfilePage() {
       <p>Rating:{tutor.avgRating}</p>
       
       <h3>Reviews: </h3>
-      <p> {tutor.reviewCount}</p>
       {tutor.reviewCount !== 0 ? tutor.reviewCount : "No reviews available"}
       <ul>
         <h2>Availability:</h2>
-        {availability && availability.map((timeslot, index) => (
+        {!availability && <p>There are no available time slots.</p>}
+        {availability && availability.map((timeslots, index) => (
           <li
             className={
               selectedTimeSlot === index
                 ? "bg-blue-500 text-white"
                 : ""
             }
-            key={timeslot.tutorTimeslotId}
+            key={timeslots.tutorTimeslotId}
             onClick={() => setSelectedTimeSlot(index)}
           >
-            {timeslot.timeslotId}
+            {timeslots.timeslotId}
           </li>
         ))}
       </ul>
