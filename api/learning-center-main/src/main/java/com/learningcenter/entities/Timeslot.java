@@ -1,6 +1,6 @@
 package com.learningcenter.entities;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -19,9 +19,9 @@ public class Timeslot {
     private Long timeslotId;
 
     @Column(nullable = false, name="time")
-    private Timestamp time;
+    private LocalDateTime time;
 
-    public Timeslot(Timestamp time) {
+    public Timeslot(LocalDateTime time) {
         this.time = time;
     }
 
@@ -37,11 +37,11 @@ public class Timeslot {
         this.timeslotId = timeslotId;
     }
 
-    public Timestamp getTime() {
+    public LocalDateTime getTime() {
         return time;
     }
 
-    public void setTime(Timestamp time) {
+    public void setTime(LocalDateTime time) {
         this.time = time;
     }
 }
