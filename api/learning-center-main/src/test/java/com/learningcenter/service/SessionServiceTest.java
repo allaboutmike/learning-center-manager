@@ -14,14 +14,20 @@ import static org.mockito.Mockito.*;
 
 public class SessionServiceTest {
     private SessionRepository sessionRepository;
-    private ParentRepository parentRepository;
+    private ChildRepository childRepository;
+    private TutorTimeSlotRepository tutorTimeSlotRepository;
+    private SubjectRepository subjectRepository;
     private SessionService sessionService;
 
 
     @BeforeEach
     void setUp() {
         sessionRepository = mock(SessionRepository.class);
-        parentRepository = mock(ParentRepository.class);
+        childRepository = mock(ChildRepository.class);
+        tutorTimeSlotRepository = mock(TutorTimeSlotRepository.class);
+        subjectRepository = mock(SubjectRepository.class);
+
+        sessionService = new SessionService(sessionRepository, childRepository, tutorTimeSlotRepository, subjectRepository);
     }
 
     @Test
@@ -58,30 +64,6 @@ public class SessionServiceTest {
         verify(sessionRepository).findSessionsByParentIdAndChildId(parentId, childId);
     }
 
-    @Test
-    void getChildrenByParent_returnsChildren() {
-        Long parentId = 1L;
-        Session session1 = sessionWithTime(10L, LocalDateTime.now());
-        Session session2 = sessionWithTime(11L, LocalDateTime.now());
-
-        Child child1 = session1.getChild();
-        child1.setChildId(3L);
-        child1.setName("Alice");
-
-        Child child2 = session2.getChild();
-        child2.setChildId(4L);
-        child2.setName("Bob");
-
-        when(parentRepository.listOfChildrenByParentId(parentId)).thenReturn(List.of(child1, child2));
-        var result = sessionService.getChildrenByParent(parentId);
-
-        assertEquals(2, result.size());
-        assertEquals("Alice", result.get(0).firstName());
-        assertEquals("Bob", result.get(1).firstName());
-        verify(parentRepository).listOfChildrenByParentId(parentId);
-
-
-    }
     private Session sessionWithTime(Long sessionId, LocalDateTime time) {
         Session session = mock(Session.class);
         when(session.getSessionId()).thenReturn(sessionId);

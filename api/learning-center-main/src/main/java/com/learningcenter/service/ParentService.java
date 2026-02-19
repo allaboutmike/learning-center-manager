@@ -28,5 +28,16 @@ public class ParentService {
         return responseList;
     }
 
+    public List<ChildResponse> getChildrenByParent(Long parentId) {
+        var children = parentRepository.listOfChildrenByParentId(parentId);
+        var responseList = new ArrayList<ChildResponse>();
+        for (var child : children) {
+            ChildResponse childResponse = new ChildResponse(child.getChildId(), child.getName(), child.getGradeLevel());
+            responseList.add(childResponse);
+        }
+
+        return responseList;
+    }
+
 
 }

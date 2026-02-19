@@ -65,14 +65,12 @@ public class SessionService {
     private ChildRepository childRepository;
     private TutorTimeSlotRepository tutorTimeSlotRepository;
     private SubjectRepository subjectRepository;
-    private ParentRepository parentRepository;
 
-    public SessionService(SessionRepository sessionRepository, ChildRepository childRepository, TutorTimeSlotRepository tutorTimeSlotRepository, SubjectRepository subjectRepository, ParentRepository parentRepository) {
+    public SessionService(SessionRepository sessionRepository, ChildRepository childRepository, TutorTimeSlotRepository tutorTimeSlotRepository, SubjectRepository subjectRepository) {
         this.sessionRepository = sessionRepository;
         this.childRepository = childRepository;
         this.tutorTimeSlotRepository = tutorTimeSlotRepository;
         this.subjectRepository = subjectRepository;
-        this.parentRepository = parentRepository;
     }
 
     public Session createSession(CreateSessionRequest request) {
@@ -99,16 +97,7 @@ public class SessionService {
         return studentSessions;
     }
 
-    public List<ChildResponse> getChildrenByParent(Long parentId) {
-        var children = parentRepository.listOfChildrenByParentId(parentId);
-        var responseList = new ArrayList<ChildResponse>();
-        for (var child : children) {
-            ChildResponse childResponse = new ChildResponse(child.getChildId(), child.getName(), child.getGradeLevel());
-            responseList.add(childResponse);
-        }
 
-        return responseList;
-    }
 
     public List<SessionResponse> getUpcomingSessions(Long parentId, Long childId) {
         var now = LocalDateTime.now();
