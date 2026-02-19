@@ -88,10 +88,10 @@ export default function TutorSearchScreen() {
                             }}
                         />
 
-                        <h3>{tutor.name}</h3>
-                        <p>{tutor.avgRating} ⭐ </p>
-                        <p>Review Count: {tutor.reviewCount}</p>
-                        <p>
+                        <h3 style={{ color: 'black' }}>{tutor.name}</h3>
+                        <p style={{ color: 'black' }}>{tutor.avgRating} ⭐ </p>
+                        <p style={{ color: 'black' }}>Review Count: {tutor.reviewCount}</p>
+                        <p style={{ color: 'black' }}>
                             Grades: {tutor.minGradeLevel} - {tutor.maxGradeLevel}
                         </p>
                     </li>

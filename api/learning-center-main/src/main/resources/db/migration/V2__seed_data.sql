@@ -13,21 +13,21 @@ INSERT INTO tutor_profile.subject (subject_name) VALUES
 
 -- TUTORS (15)
 INSERT INTO tutor_profile.tutor (url, name, summary, min_grade_level, max_grade_level) VALUES
-                                                                                          ('https://example.com/tutors/1',  'Ava Johnson',     'Patient tutor focused on strong foundations.', 3,  8),
-                                                                                          ('https://example.com/tutors/2',  'Noah Smith',      'Science tutor who keeps lessons practical.',   5, 10),
-                                                                                          ('https://example.com/tutors/3',  'Mia Davis',       'Reading and writing support with structure.',  2,  7),
-                                                                                          ('https://example.com/tutors/4',  'Ethan Brown',     'History tutor with clear explanations.',       6, 12),
-                                                                                          ('https://example.com/tutors/5',  'Sophia Wilson',   'CS tutor for beginners and projects.',         8, 12),
-                                                                                          ('https://example.com/tutors/6',  'Liam Martinez',   'Algebra tutor with step by step approach.',    6, 10),
-                                                                                          ('https://example.com/tutors/7',  'Olivia Taylor',   'Spanish tutor for conversation and grammar.',  4,  9),
-                                                                                          ('https://example.com/tutors/8',  'James Anderson',  'SAT prep tutor focused on strategies.',        9, 12),
-                                                                                          ('https://example.com/tutors/9',  'Isabella Thomas', 'Math and science tutor, strong coaching.',     7, 12),
-                                                                                          ('https://example.com/tutors/10', 'Benjamin Moore',  'English and history tutor, structured plans.', 5, 11),
-                                                                                          ('https://example.com/tutors/11', 'Charlotte Lee',   'Science tutor for concepts and practice.',     6, 12),
-                                                                                          ('https://example.com/tutors/12', 'Lucas Harris',    'Math tutor with exam preparation focus.',      8, 12),
-                                                                                          ('https://example.com/tutors/13', 'Amelia Clark',    'Early reading tutor, confidence builder.',     1,  5),
-                                                                                          ('https://example.com/tutors/14', 'Henry Lewis',     'CS tutor for problem solving and basics.',     9, 12),
-                                                                                          ('https://example.com/tutors/15', 'Harper Young',    'Spanish and English tutor, supportive style.', 3,  8);
+    ('https://i.pinimg.com/564x/50/14/73/501473de7c8bb84e7e21d6ffa2e96d45.jpg',  'Ava Johnson',     'Patient tutor focused on strong foundations.', 3,  8),
+    ('https://avatarfiles.alphacoders.com/378/thumb-1920-378248.webp',  'Noah Smith',      'Science tutor who keeps lessons practical.',   5, 10),
+    ('https://example.com/tutors/3',  'Mia Davis',       'Reading and writing support with structure.',  2,  7),
+    ('https://example.com/tutors/4',  'Ethan Brown',     'History tutor with clear explanations.',       6, 12),
+    ('https://example.com/tutors/5',  'Sophia Wilson',   'CS tutor for beginners and projects.',         8, 12),
+    ('https://example.com/tutors/6',  'Liam Martinez',   'Algebra tutor with step by step approach.',    6, 10),
+    ('https://example.com/tutors/7',  'Olivia Taylor',   'Spanish tutor for conversation and grammar.',  4,  9),
+    ('https://example.com/tutors/8',  'James Anderson',  'SAT prep tutor focused on strategies.',        9, 12),
+    ('https://example.com/tutors/9',  'Isabella Thomas', 'Math and science tutor, strong coaching.',     7, 12),
+    ('https://example.com/tutors/10', 'Benjamin Moore',  'English and history tutor, structured plans.', 5, 11),
+    ('https://example.com/tutors/11', 'Charlotte Lee',   'Science tutor for concepts and practice.',     6, 12),
+    ('https://example.com/tutors/12', 'Lucas Harris',    'Math tutor with exam preparation focus.',      8, 12),
+    ('https://example.com/tutors/13', 'Amelia Clark',    'Early reading tutor, confidence builder.',     1,  5),
+    ('https://example.com/tutors/14', 'Henry Lewis',     'CS tutor for problem solving and basics.',     9, 12),
+    ('https://example.com/tutors/15', 'Harper Young',    'Spanish and English tutor, supportive style.', 3,  8);
 
 
 -- TUTOR_SUBJECT (many-to-many)
@@ -75,18 +75,22 @@ INSERT INTO review.review (tutor_id, rating, comment)
 SELECT t.tutor_id, r.rating, r.comment
 FROM (
          VALUES
-             ROW('Ava Johnson',     5, 'Very clear explanations.'),
-             ROW('Ava Johnson',     4, 'Helpful and patient.'),
-             ROW('Noah Smith',      5, 'Great science examples.'),
-             ROW('Mia Davis',       4, 'Improved writing confidence.'),
-             ROW('Ethan Brown',     4, 'Well prepared and organized.'),
-             ROW('Sophia Wilson',   5, 'Great for beginner projects.'),
-             ROW('Liam Martinez',   4, 'Strong algebra support.'),
-             ROW('Olivia Taylor',   5, 'Great conversation practice.'),
-             ROW('James Anderson',  4, 'Good SAT strategies.'),
-             ROW('Isabella Thomas', 5, 'Coaching style is excellent.'),
-             ROW('Benjamin Moore',  4, 'Clear structure and guidance.'),
-             ROW('Lucas Harris',    5, 'Excellent exam prep.')
+             ('Ava Johnson',     5, 'Very clear explanations.'),
+             ('Ava Johnson',     4, 'Helpful and patient.'),
+             ('Noah Smith',      5, 'Great science examples.'),
+             ('Mia Davis',       4, 'Improved writing confidence.'),
+             ('Ethan Brown',     4, 'Well prepared and organized.'),
+             ('Sophia Wilson',   5, 'Great for beginner projects.'),
+             ('Liam Martinez',   4, 'Strong algebra support.'),
+             ('Olivia Taylor',   5, 'Great conversation practice.'),
+             ('James Anderson',  4, 'Good SAT strategies.'),
+             ('Isabella Thomas', 5, 'Coaching style is excellent.'),
+             ('Benjamin Moore',  4, 'Clear structure and guidance.'),
+             ('Lucas Harris',    5, 'Excellent exam prep.'),
+             ('Amelia Clark',    5, 'Helped my child love reading.'),
+             ('Henry Lewis',     4, 'Good for CS basics.'),
+             ('Harper Young',    5, 'Supportive and effective.'),
+             ('Charlotte Lee',   4, 'Great science tutor.')
      ) AS r(tutor_name, rating, comment)
          JOIN tutor_profile.tutor t ON t.name = r.tutor_name;
 

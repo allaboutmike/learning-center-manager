@@ -1,15 +1,16 @@
 package com.learningcenter.service;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.learningcenter.dto.CreateReviewRequest;
 import com.learningcenter.dto.ReviewResponse;
 import com.learningcenter.entities.Review;
 import com.learningcenter.repository.ReviewRepository;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -41,6 +42,15 @@ public class ReviewService {
         return reviewRepository.findByTutorId(tutorId).stream()
                 .map(this::mapToDTO)
                 .collect(Collectors.toList());
+    }
+
+    public int getNumberOfReviews(Long tutorId) {
+        return reviewRepository.getNumberOfReviews(tutorId);
+    }
+
+    public double findByAvgRating(Long tutorId) {
+        Double rating = reviewRepository.findByAvgRating(tutorId);
+        return rating != null ? rating : 0.0;
     }
 
     private ReviewResponse mapToDTO(Review review) {
