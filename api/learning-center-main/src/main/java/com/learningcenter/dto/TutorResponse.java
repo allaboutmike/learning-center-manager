@@ -1,5 +1,9 @@
 package com.learningcenter.dto;
 
+import java.util.List;
+
+import com.learningcenter.entities.Subject;
+
 public class TutorResponse {
 
     private Long tutorId;
@@ -9,8 +13,9 @@ public class TutorResponse {
     private int minGradeLevel;
     private int maxGradeLevel;
     private String profilePictureUrl;
+    private List<Subject> subjects;
 
-    public TutorResponse(Long tutorId, String name, double avgRating, int reviewCount,int minGradeLevel, int maxGradeLevel, String profilePictureUrl) {
+    public TutorResponse(Long tutorId, String name, double avgRating, int reviewCount,int minGradeLevel, int maxGradeLevel, String profilePictureUrl, List<Subject> subjects) {
         this.tutorId = tutorId;
         this.name = name;
         this.avgRating = avgRating;
@@ -18,6 +23,7 @@ public class TutorResponse {
         this.minGradeLevel = minGradeLevel;
         this.maxGradeLevel = maxGradeLevel;
         this.profilePictureUrl = profilePictureUrl;
+        this.subjects = subjects;
     }
 
     public String getProfilePictureUrl() {
@@ -58,6 +64,14 @@ public class TutorResponse {
 
     public int getReviewCount() {
         return reviewCount;
+    }
+
+    public List<Subject> getSubjects() {
+        return subjects;
+    }
+
+    public void setSubjects(List<Subject> subjects) {
+        this.subjects = subjects;
     }
 }
 
