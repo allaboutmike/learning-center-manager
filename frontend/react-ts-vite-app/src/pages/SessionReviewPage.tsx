@@ -13,10 +13,10 @@ export default function SessionReviewModal() {
     }
     
     const { tutorId, subjectId, tutorTimeSlotId, childId } = location.state as {
-        tutorId: 1;
-        subjectId: 1;
-        tutorTimeSlotId: 1;
-        childId: 1;
+        tutorId: number;
+        subjectId: number;
+        tutorTimeSlotId: number;
+        childId: number;
     };
 
     const tutor = useLearningCenterAPI<Tutor>(`/api/tutors/${tutorId}`);
