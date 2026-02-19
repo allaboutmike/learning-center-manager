@@ -11,7 +11,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.learningcenter.dto.TutorResponse;
 import com.learningcenter.dto.TutorTimeSlotResponse;
 
+import jakarta.transaction.Transactional;
+
 @SpringBootTest
+@Transactional
 public class TutorControllerTest {
 
     @Autowired
