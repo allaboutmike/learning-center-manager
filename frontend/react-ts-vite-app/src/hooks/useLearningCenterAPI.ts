@@ -11,3 +11,20 @@ export function useLearningCenterAPI<T>(url: string) {
 
     return data;
 }
+
+export function useLearningCenterPost() {
+    return async <T, B = unknown>(url: string, body?: B): Promise<T> => {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: body ? JSON.stringify(body) : undefined,
+        });
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json() as Promise<T>;
+    };
+}
