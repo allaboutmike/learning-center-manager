@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import TutorSearchScreen from "./pages/TutorSearchScreen";
 import TutorProfilePage from "./pages/TutorProfilePage";
 import ConfirmationPage from "./pages/ConfirmationPage";
+import SessionReviewModal from "./pages/SessionReviewPage";
 
 
 function App() {
@@ -10,6 +11,7 @@ function App() {
       <Routes>
         <Route path="/" element={<TutorSearchScreen />} />
         <Route path="/tutors/:tutorId" element={<TutorProfilePage />} />
+        <Route path="/sessions/review" element={<SessionReviewModal />} />
         <Route path="/confirmation" element={<ConfirmationPage />} />
 
       </Routes>

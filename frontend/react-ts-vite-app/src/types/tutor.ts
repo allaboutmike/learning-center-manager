@@ -1,3 +1,5 @@
+import type { Subject } from "./subject";
+
 export type Tutor = {
   tutorId: number;
   name: string;
@@ -6,4 +8,5 @@ export type Tutor = {
   reviewCount: number;
   minGradeLevel: number;
   maxGradeLevel: number;
+  subjects: Subject[];
 };
