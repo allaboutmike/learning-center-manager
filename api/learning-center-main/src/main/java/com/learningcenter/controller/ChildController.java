@@ -21,6 +21,9 @@ public class ChildController {
 
     @GetMapping("/{childId}/tutors")
     public List<TutorResponse> getTutorsForChild(@PathVariable Long childId) {
+        if (childId == null) {
+            return tutorService.getAllTutors();
+        }
         return tutorService.searchTutorsByChildGradeLevel(childId);
     }
 }
