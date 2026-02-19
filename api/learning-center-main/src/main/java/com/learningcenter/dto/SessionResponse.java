@@ -40,4 +40,16 @@ public class SessionResponse {
     public Long getChildId() {
         return childId;
     }
+
+    public Long getSubject() {
+        return subject;
+    }
+
+    public String getSessionNotes() {
+        return sessionNotes;
+    }
+
+    public LocalDateTime getTime() {
+        return time;
+    }
 }

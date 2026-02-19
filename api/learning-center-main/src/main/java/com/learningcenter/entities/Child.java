@@ -61,7 +61,7 @@ public class Child {
         return gradeLevel;
     }
 
-    public void setGradeLevel(int gradeLevel) {this.gradeLevel = this.gradeLevel;
+    public void setGradeLevel(int gradeLevel) {this.gradeLevel = gradeLevel;
     }
 
     public Parent getParent() {

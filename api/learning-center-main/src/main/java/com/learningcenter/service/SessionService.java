@@ -1,12 +1,11 @@
 package com.learningcenter.service;
 
+import com.learningcenter.dto.ChildResponse;
 import com.learningcenter.dto.CreateSessionRequest;
 import com.learningcenter.dto.SessionResponse;
+import com.learningcenter.entities.Child;
 import com.learningcenter.entities.Session;
-import com.learningcenter.repository.ChildRepository;
-import com.learningcenter.repository.SessionRepository;
-import com.learningcenter.repository.SubjectRepository;
-import com.learningcenter.repository.TutorTimeSlotRepository;
+import com.learningcenter.repository.*;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -66,15 +65,15 @@ public class SessionService {
     private ChildRepository childRepository;
     private TutorTimeSlotRepository tutorTimeSlotRepository;
     private SubjectRepository subjectRepository;
+    private ParentRepository parentRepository;
 
-    public SessionService(SessionRepository sessionRepository, ChildRepository childRepository, TutorTimeSlotRepository tutorTimeSlotRepository, SubjectRepository subjectRepository) {
+    public SessionService(SessionRepository sessionRepository, ChildRepository childRepository, TutorTimeSlotRepository tutorTimeSlotRepository, SubjectRepository subjectRepository, ParentRepository parentRepository) {
         this.sessionRepository = sessionRepository;
         this.childRepository = childRepository;
         this.tutorTimeSlotRepository = tutorTimeSlotRepository;
         this.subjectRepository = subjectRepository;
+        this.parentRepository = parentRepository;
     }
-
-    ;
 
     public Session createSession(CreateSessionRequest request) {
         /*
@@ -87,14 +86,12 @@ public class SessionService {
         return sessionRepository.save(session);
     }
 
-    ;
 
     public Session getSessionById(Long sessionId) {
 
         return sessionRepository.findById(sessionId).get();
     }
 
-    ;
 
     public List<Session> getSessionsByStudent(Long childId) {
 
@@ -102,12 +99,28 @@ public class SessionService {
         return studentSessions;
     }
 
+    public List<ChildResponse> getChildrenByParent(Long parentId) {
+        var children = parentRepository.listOfChildrenByParentId(parentId);
+        var responseList = new ArrayList<ChildResponse>();
+        for (var child : children) {
+            ChildResponse childResponse = new ChildResponse(child.getChildId(), child.getName(), child.getGradeLevel());
+            responseList.add(childResponse);
+        }
+
+        return responseList;
+    }
+
     public List<SessionResponse> getUpcomingSessions(Long parentId, Long childId) {
         var now = LocalDateTime.now();
         var sessions = sessionRepository.findSessionsByParentIdAndChildId(parentId, childId);
         var responseList = new ArrayList<SessionResponse>();
         for (var session : sessions) {
-            var sessionTime = session.getTimeslot().getTimeslot().getTime();
+            var tutorTimeslot = session.getTimeslot();
+            if (tutorTimeslot == null || tutorTimeslot.getTimeslot() == null) {
+                continue;
+            }
+            var sessionTime = tutorTimeslot.getTimeslot().getTime();
+
             if (sessionTime != null && sessionTime.isAfter(now)) {
                 responseList.add(new SessionResponse(session));
             }
@@ -121,11 +134,17 @@ public class SessionService {
         var responseList = new ArrayList<SessionResponse>();
 
         for (var session : sessions) {
-            var sessionTime = session.getTimeslot().getTimeslot().getTime();
+
+            var tutorTimeslot = session.getTimeslot();
+            if (tutorTimeslot == null || tutorTimeslot.getTimeslot() == null) {
+                continue;
+            }
+            var sessionTime = tutorTimeslot.getTimeslot().getTime();
             if (sessionTime != null && sessionTime.isBefore(now)) {
                 responseList.add(new SessionResponse(session));
             }
         }
         return responseList;
+
     }
 }
