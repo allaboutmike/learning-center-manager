@@ -16,17 +16,21 @@ public interface TutorRepository extends CrudRepository<Tutor, Long> {
     @Query("SELECT t from Tutor t JOIN t.subjects s WHERE s.name = :subjectName")
     List<Tutor> findTutorsBySubject(String subjectName);
 
-    //Query to find tutors that can teach a grade level
-    @Query("SELECT t FROM Tutor t WHERE :gradeLevel BETWEEN t.minGradeLevel AND t.maxGradeLevel")
-    List<Tutor> findTutorsByGradeLevel(int gradeLevel);
+    //Query to find tutors that can teach a grade level for a child
+    @Query("SELECT t from Tutor t, Child c WHERE c.childId = :childId and c.grade_level BETWEEN t.minGradeLevel and t.maxGradeLevel")
+    List<Tutor> findTutorsByChildGradeLevel(Long childId);
+
+    //Query to find tutors that can teach a grade level regardless of child
+    @Query("SELECT t from Tutor t WHERE :gradeLevel BETWEEN t.minGradeLevel and t.maxGradeLevel")
+    List<Tutor> findTutorsByGradeLevel(Integer gradeLevel);
 
     //Query to find tutors that are available at a specific time
     @Query("SELECT t from Tutor t JOIN t.tutorTimeSlots tts JOIN tts.timeslot timeslot WHERE timeslot.time = :timeSlot")
     List<Tutor> findTutorsByAvailability(LocalDateTime timeSlot);
 
-    //Query to find tutors that can teach a grade level and subject
+    //Query to find tutors that can teach a child grade level and subject
     @Query("SELECT t from Tutor t JOIN t.subjects s, Child c WHERE c.childId = :childId and s.name = :subjectName and c.grade_level BETWEEN t.minGradeLevel and t.maxGradeLevel")
-    List<Tutor> findTutorsByGradeLevelAndSubject(Long childId, String subjectName);
+    List<Tutor> findTutorsByChildGradeLevelAndSubject(Long childId, String subjectName);
 
     //Query to find tutors that can teach a grade level and subject and are available at a specific time
     @Query("SELECT t from Tutor t JOIN t.subjects s JOIN t.tutorTimeSlots tts JOIN tts.timeslot timeslot, Child c WHERE c.childId = :childId and s.name = :subjectName and c.grade_level BETWEEN t.minGradeLevel and t.maxGradeLevel and timeslot.time = :timeSlot")

@@ -1,6 +1,8 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import TutorSearchScreen from "./pages/TutorSearchScreen";
 import TutorProfilePage from "./pages/TutorProfilePage";
+import ConfirmationPage from "./pages/ConfirmationPage";
+
 
 function App() {
   return (
@@ -8,6 +10,8 @@ function App() {
       <Routes>
         <Route path="/" element={<TutorSearchScreen />} />
         <Route path="/tutors/:tutorId" element={<TutorProfilePage />} />
+        <Route path="/confirmation" element={<ConfirmationPage />} />
+
       </Routes>
     </BrowserRouter>
   );

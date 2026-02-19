@@ -30,9 +30,9 @@ create table tutor_profile.tutor_subject
     constraint tutor_subject_pk
         primary key (subject_id, tutor_id),
     constraint subject_id__fk
-        foreign key (subject_id) references TUTOR_PROFILE.SUBJECT (subject_id),
+        foreign key (subject_id) references tutor_profile.subject (subject_id),
     constraint tutor_id__fk
-        foreign key (tutor_id) references TUTOR_PROFILE.TUTOR (tutor_id)
+        foreign key (tutor_id) references tutor_profile.tutor (tutor_id)
 );
 -- ##############  Code Review table here  #################
 CREATE SCHEMA IF NOT EXISTS review;
@@ -46,7 +46,7 @@ create table review.review
     constraint review_pk
         primary key (review_id),
     constraint tutor_id__fk
-        foreign key (tutor_id) references TUTOR_PROFILE.TUTOR (tutor_id)
+        foreign key (tutor_id) references tutor_profile.tutor (tutor_id)
 );
 
 -- ##############################################################
@@ -73,7 +73,7 @@ create table parent_account.child
     constraint child_pk
         primary key (child_id),
     constraint parent_id__fk
-        foreign key (parent_id) references PARENT_ACCOUNT.PARENT (parent_id)
+        foreign key (parent_id) references parent_account.parent (parent_id)
 );
 
 -- ##############################################################
@@ -98,15 +98,15 @@ create table session.tutor_time_slot
     constraint tutor_time_slot_pk
         primary key (tutor_time_slot_id),
     constraint tutor_id__fk
-        foreign key (tutor_id) references TUTOR_PROFILE.TUTOR (tutor_id),
+        foreign key (tutor_id) references tutor_profile.tutor (tutor_id),
     constraint time_slot_id__fk
-        foreign key (time_slot_id) references SESSION.TIME_SLOT (time_slot_id)
+        foreign key (time_slot_id) references session.time_slot (time_slot_id)
 );
 
 create table session.session
 (
     session_id        BIGINT AUTO_INCREMENT,
-    session_notes     VARCHAR(255) not null,
+    session_notes     VARCHAR(255) null,
     tutor_time_slot_id BIGINT not null,
     child_id          BIGINT not null,
     subject_id        BIGINT not null,
@@ -114,9 +114,9 @@ create table session.session
     constraint session_pk
         primary key (session_id),
     constraint tutor_time_slot_id__fk
-        foreign key (tutor_time_slot_id) references SESSION.TUTOR_TIME_SLOT (tutor_time_slot_id),
+        foreign key (tutor_time_slot_id) references session.tutor_time_slot (tutor_time_slot_id),
     constraint child_id__fk
-        foreign key (child_id) references PARENT_ACCOUNT.CHILD (child_id),
+        foreign key (child_id) references parent_account.child (child_id),
     constraint subject_id__fk
-        foreign key (subject_id) references TUTOR_PROFILE.SUBJECT (subject_id)
+        foreign key (subject_id) references tutor_profile.subject (subject_id)
 );

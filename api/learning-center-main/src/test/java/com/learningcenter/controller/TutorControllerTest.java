@@ -18,8 +18,8 @@ public class TutorControllerTest {
     private TutorController tutorController;
 
     @Test
-    void searchTutorByGradeLevelTest_returnTutorList() {
-        List<TutorResponse> tutors = tutorController.searchTutorsByGradeLevel(5);
+    void searchTutorByChildGradeLevelTest_returnTutorList() {
+        List<TutorResponse> tutors = tutorController.searchTutorsByChildGradeLevel(1L);
         assertNotNull(tutors);
         assertEquals(7, tutors.size());
     }
@@ -40,8 +40,15 @@ public class TutorControllerTest {
 
     @Test
     void searchTutorByGradeLevelTest_returnAllTutors() {
-        List<TutorResponse> tutors = tutorController.searchTutorsByGradeLevel(null);
+        List<TutorResponse> tutors = tutorController.searchTutorsByChildGradeLevel(null);
         assertNotNull(tutors);
         assertEquals(15, tutors.size());
+    }
+
+    @Test
+    void searchTutorByGradeLevelTest_returnTutorsForChild() {
+        List<TutorResponse> tutors = tutorController.searchTutorsByGradeLevel(1);
+        assertNotNull(tutors);
+        assertEquals(1, tutors.size());
     }
 }
