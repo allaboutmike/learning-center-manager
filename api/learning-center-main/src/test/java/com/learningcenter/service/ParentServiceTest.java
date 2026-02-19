@@ -1,55 +1,56 @@
 package com.learningcenter.service;
 
-import com.learningcenter.dto.ChildResponse;
 import com.learningcenter.entities.Child;
+import com.learningcenter.entities.Parent; // Ensure you have the Parent entity
 import com.learningcenter.repository.ParentRepository;
-import org.junit.jupiter.api.BeforeEach;
+import com.learningcenter.repository.ChildRepository; // You'll likely need this to set up data
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
+@SpringBootTest
+@Transactional
 public class ParentServiceTest {
-    @Mock
+
+    @Autowired
     private ParentRepository parentRepository;
+
+    @Autowired
     private ParentService parentService;
 
-    @BeforeEach
-    void setUp() {
-        parentService = new ParentService(parentRepository);
-    }
+    @Autowired
+    private ChildRepository childRepository;
 
     @Test
     void getChildrenByParent_returnsChildren() {
 
-        Long parentId = 1L;
+        Parent parent = new Parent();
+        parent.setName("Test Parent");
+        parent = parentRepository.save(parent);
+        Long parentId = parent.getParentId();
 
         Child child1 = new Child();
-        child1.setChildId(3L);
         child1.setName("Alice");
         child1.setGradeLevel(5);
+        child1.setParent(parent);
 
         Child child2 = new Child();
-        child2.setChildId(4L);
         child2.setName("Bob");
         child2.setGradeLevel(3);
+        child2.setParent(parent);
 
-        when(parentRepository.listOfChildrenByParentId(parentId))
-                .thenReturn(List.of(child1, child2));
+        childRepository.saveAll(List.of(child1, child2));
 
         var result = parentService.getChildrenByParent(parentId);
 
         assertEquals(2, result.size());
-
         assertEquals("Alice", result.get(0).firstName());
         assertEquals("Bob", result.get(1).firstName());
 
-        verify(parentRepository).listOfChildrenByParentId(parentId);
     }
 }
