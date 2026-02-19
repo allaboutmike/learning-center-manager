@@ -11,15 +11,21 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.learningcenter.dto.TutorResponse;
 import com.learningcenter.dto.TutorTimeSlotResponse;
 
+import jakarta.transaction.Transactional;
+
 @SpringBootTest
+@Transactional
 public class TutorControllerTest {
 
     @Autowired
     private TutorController tutorController;
 
+    @Autowired
+    private ChildController childController;
+
     @Test
     void searchTutorByChildGradeLevelTest_returnTutorList() {
-        List<TutorResponse> tutors = tutorController.searchTutorsByChildGradeLevel(1L);
+        List<TutorResponse> tutors = childController.getTutorsForChild(1L);
         assertNotNull(tutors);
         assertEquals(7, tutors.size());
     }
@@ -40,7 +46,7 @@ public class TutorControllerTest {
 
     @Test
     void searchTutorByGradeLevelTest_returnAllTutors() {
-        List<TutorResponse> tutors = tutorController.searchTutorsByChildGradeLevel(null);
+        List<TutorResponse> tutors = childController.getTutorsForChild(null);
         assertNotNull(tutors);
         assertEquals(15, tutors.size());
     }
