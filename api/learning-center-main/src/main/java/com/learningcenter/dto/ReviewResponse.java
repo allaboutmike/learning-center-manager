@@ -9,17 +9,15 @@ public class ReviewResponse {
     private String comment;
     private Long reviewId;
     private Integer rating;
-    private Tutor tutor;
     private LocalDateTime createdAt;
 
     public ReviewResponse(){
 
     }
 
-    public ReviewResponse(Long reviewId, Long tutorId, Tutor tutor, Long studentId, String comment, Integer rating, LocalDateTime createdAt) {
+    public ReviewResponse(Long reviewId, Long tutorId, Tutor tutor, String comment, Integer rating, LocalDateTime createdAt) {
         this.reviewId = reviewId;
         this.tutorId = tutorId;
-        this.tutor = tutor;
         this.comment = comment;
         this.rating =rating;
         this.createdAt = createdAt;
@@ -39,10 +37,6 @@ public class ReviewResponse {
 
     public Integer getRating() {
         return rating;
-    }
-
-    public Tutor getTutor() {
-        return tutor;
     }
 
     public void setRating(Integer rating) {
@@ -69,8 +63,5 @@ public class ReviewResponse {
         this.tutorId = tutorId;
     }
 
-    public void setTutor(Tutor tutor) {
-        this.tutor = tutor;
-    }
 
 }
