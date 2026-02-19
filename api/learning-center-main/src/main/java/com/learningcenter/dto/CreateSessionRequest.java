@@ -13,6 +13,7 @@ public record CreateSessionRequest (
     Long tutorId,
     Long subjectId,
     String sessionNotes,
+    Long childId,
     Long tutorTimeSlotId
 ) {
     }
