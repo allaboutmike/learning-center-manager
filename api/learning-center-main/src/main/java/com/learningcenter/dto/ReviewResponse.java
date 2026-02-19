@@ -9,7 +9,6 @@ public class ReviewResponse {
     private String comment;
     private Long reviewId;
     private Integer rating;
-    private Long studentId;
     private Tutor tutor;
     private LocalDateTime createdAt;
 
@@ -23,7 +22,6 @@ public class ReviewResponse {
         this.tutor = tutor;
         this.comment = comment;
         this.rating =rating;
-        this.studentId = studentId;
         this.createdAt = createdAt;
     }
 
@@ -33,10 +31,6 @@ public class ReviewResponse {
 
     public Long getTutorId() {
         return tutorId;
-    }
-
-    public Long getStudentId() {
-        return studentId;
     }
 
     public String getComment() {
@@ -73,10 +67,6 @@ public class ReviewResponse {
 
     public void setTutorId(Long tutorId) {
         this.tutorId = tutorId;
-    }
-
-    public void setStudentId(Long studentId) {
-        this.studentId = studentId;
     }
 
     public void setTutor(Tutor tutor) {
