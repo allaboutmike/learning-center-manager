@@ -1,12 +1,11 @@
 package com.learningcenter.service;
 
+import com.learningcenter.dto.ChildResponse;
 import com.learningcenter.dto.CreateSessionRequest;
 import com.learningcenter.dto.SessionResponse;
+import com.learningcenter.entities.Child;
 import com.learningcenter.entities.Session;
-import com.learningcenter.repository.ChildRepository;
-import com.learningcenter.repository.SessionRepository;
-import com.learningcenter.repository.SubjectRepository;
-import com.learningcenter.repository.TutorTimeSlotRepository;
+import com.learningcenter.repository.*;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -74,8 +73,6 @@ public class SessionService {
         this.subjectRepository = subjectRepository;
     }
 
-    ;
-
     public Session createSession(CreateSessionRequest request) {
         /*
         Need Child repository, Timeslot, Subject
@@ -87,14 +84,12 @@ public class SessionService {
         return sessionRepository.save(session);
     }
 
-    ;
 
     public Session getSessionById(Long sessionId) {
 
         return sessionRepository.findById(sessionId).get();
     }
 
-    ;
 
     public List<Session> getSessionsByStudent(Long childId) {
 
@@ -102,12 +97,19 @@ public class SessionService {
         return studentSessions;
     }
 
+
+
     public List<SessionResponse> getUpcomingSessions(Long parentId, Long childId) {
         var now = LocalDateTime.now();
         var sessions = sessionRepository.findSessionsByParentIdAndChildId(parentId, childId);
         var responseList = new ArrayList<SessionResponse>();
         for (var session : sessions) {
-            var sessionTime = session.getTimeslot().getTimeslot().getTime();
+            var tutorTimeslot = session.getTimeslot();
+            if (tutorTimeslot == null || tutorTimeslot.getTimeslot() == null) {
+                continue;
+            }
+            var sessionTime = tutorTimeslot.getTimeslot().getTime();
+
             if (sessionTime != null && sessionTime.isAfter(now)) {
                 responseList.add(new SessionResponse(session));
             }
@@ -121,11 +123,17 @@ public class SessionService {
         var responseList = new ArrayList<SessionResponse>();
 
         for (var session : sessions) {
-            var sessionTime = session.getTimeslot().getTimeslot().getTime();
+
+            var tutorTimeslot = session.getTimeslot();
+            if (tutorTimeslot == null || tutorTimeslot.getTimeslot() == null) {
+                continue;
+            }
+            var sessionTime = tutorTimeslot.getTimeslot().getTime();
             if (sessionTime != null && sessionTime.isBefore(now)) {
                 responseList.add(new SessionResponse(session));
             }
         }
         return responseList;
+
     }
 }

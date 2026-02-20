@@ -18,7 +18,7 @@ public class ParentService {
         this.parentRepository = parentRepository;
     }
 
-    public List<ChildResponse> getChildren(Long parentId) {
+    public List<ChildResponse> getChildrenByParent(Long parentId) {
         var children = parentRepository.listOfChildrenByParentId(parentId);
         var responseList = new ArrayList<ChildResponse>();
 
