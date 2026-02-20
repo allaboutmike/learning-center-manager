@@ -1,27 +1,23 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import ParentProfilePage from "./pages/ParentProfilePage";
 import TutorSearchScreen from "./pages/TutorSearchScreen";
 import TutorProfilePage from "./pages/TutorProfilePage";
 import ConfirmationPage from "./pages/ConfirmationPage";
-
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/" element={<ParentProfilePage />} />
         <Route path="/" element={<TutorSearchScreen />} />
         <Route path="/tutors/:tutorId" element={<TutorProfilePage />} />
         <Route path="/confirmation" element={<ConfirmationPage />} />
-
       </Routes>
     </BrowserRouter>
   );
 }
 
 export default App;
-
-
-
-
 
 /*
 import { useState } from 'react'
@@ -59,5 +55,3 @@ function App() {
   )
 }
   */
-
-
