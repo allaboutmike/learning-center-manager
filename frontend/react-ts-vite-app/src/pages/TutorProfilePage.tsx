@@ -4,7 +4,7 @@ import { type Tutor } from "../types/tutor";
 import { type TutorTimeslot } from "../types/tutor";
 import { type Reviews } from "../types/reviews";
 import { useState } from "react";
-// import { Button } from "@/components/ui/button"
+import { CardProfile } from "@/components/ui/cardProfile";
 
 export default function TutorProfilePage() {
   
@@ -23,6 +23,17 @@ export default function TutorProfilePage() {
 
   return (
     <>
+     <div className="flex gap-8 p-6 items-start">
+    <div className="w-1/3">
+      <CardProfile
+        name={tutor.name}
+        profilePictureUrl={tutor.profilePictureUrl}
+        minGradeLevel={tutor.minGradeLevel}
+        maxGradeLevel={tutor.maxGradeLevel}
+        tutorSummary={tutor.tutorSummary}
+      />
+    </div>
+    </div>
     <div style={{ textAlign: "center", marginTop: 50 }}>
       <img
         src={tutor.profilePictureUrl}
@@ -33,7 +44,8 @@ export default function TutorProfilePage() {
       <p>
         Grades I teach: {tutor.minGradeLevel} - {tutor.maxGradeLevel}
       </p>
-      <p>{tutor.tutorSummary}</p>
+       {/* {tutor.tutorSummary} */}
+        <p>Summary for the tutor (hard coded) </p> 
       <p>Rating:{tutor.avgRating}</p>
       <h3>Reviews:</h3>
 

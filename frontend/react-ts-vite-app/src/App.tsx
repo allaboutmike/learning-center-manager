@@ -9,10 +9,11 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<TutorSearchScreen />} />
-         <Route path="/dashboard" element={<DashboardPage />} />
-        <Route path="/tutors/:tutorId" element={<TutorProfilePage />} />
-        <Route path="/confirmation" element={<ConfirmationPage />} />
+       <Route path="/" element={<DashboardPage />}>
+          <Route index element={<TutorSearchScreen />} />
+          <Route path="tutors/:tutorId" element={<TutorProfilePage />} />
+          <Route path="confirmation" element={<ConfirmationPage />} />
+        </Route>
 
       </Routes>
     </BrowserRouter>
