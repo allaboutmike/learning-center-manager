@@ -2,8 +2,9 @@ import { Link, useParams } from "react-router-dom";
 import { useLearningCenterAPI } from "../hooks/useLearningCenterAPI";
 import { type Tutor } from "../types/tutor";
 import { type TutorTimeslot } from "../types/tutor";
-import { type Reviews } from "../types/reviews";
+//import { type Reviews } from "../types/reviews";
 import { useState } from "react";
+import { Button } from "@/components/ui/button"
 
 export default function TutorProfilePage() {
   
@@ -11,7 +12,7 @@ export default function TutorProfilePage() {
   const { tutorId } = useParams();
   const tutor = useLearningCenterAPI<Tutor>(tutorId ? `/api/tutors/${tutorId}` : "");
   const availability = useLearningCenterAPI<TutorTimeslot[]>(tutorId ? `/api/tutors/${tutorId}/availability` : "");
-  const reviews = useLearningCenterAPI<Reviews[]>(tutorId ? `/api/tutors/${tutorId}/reviews` : "");
+  //const reviews = useLearningCenterAPI<Reviews[]>(tutorId ? `/api/tutors/${tutorId}/reviews` : "");
 
   const [selectedTimeSlot, setSelectedTimeSlot] = useState(-1);
 
@@ -21,6 +22,7 @@ export default function TutorProfilePage() {
   if (!tutor) return <p>Loading...</p>;
 
   return (
+    <>
     <div style={{ textAlign: "center", marginTop: 50 }}>
       <img
         src={tutor.profilePictureUrl}
@@ -60,8 +62,13 @@ export default function TutorProfilePage() {
           >
             {tutorTimeslots.start} - {tutorTimeslots.end}
           </li>
+          
         ))}
       </ul>
     </div>
+    <div className="flex min-h-svh flex-col items-center justify-center">
+      <Button variant="blue">Click me</Button>
+    </div>
+    </>
   );
 }
