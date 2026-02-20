@@ -2,9 +2,9 @@ import { Link, useParams } from "react-router-dom";
 import { useLearningCenterAPI } from "../hooks/useLearningCenterAPI";
 import { type Tutor } from "../types/tutor";
 import { type TutorTimeslot } from "../types/tutor";
-//import { type Reviews } from "../types/reviews";
+import { type Reviews } from "../types/reviews";
 import { useState } from "react";
-import { Button } from "@/components/ui/button"
+// import { Button } from "@/components/ui/button"
 
 export default function TutorProfilePage() {
   
@@ -12,7 +12,7 @@ export default function TutorProfilePage() {
   const { tutorId } = useParams();
   const tutor = useLearningCenterAPI<Tutor>(tutorId ? `/api/tutors/${tutorId}` : "");
   const availability = useLearningCenterAPI<TutorTimeslot[]>(tutorId ? `/api/tutors/${tutorId}/availability` : "");
-  //const reviews = useLearningCenterAPI<Reviews[]>(tutorId ? `/api/tutors/${tutorId}/reviews` : "");
+  const reviews = useLearningCenterAPI<Reviews[]>(tutorId ? `/api/tutors/${tutorId}/reviews` : "");
 
   const [selectedTimeSlot, setSelectedTimeSlot] = useState(-1);
 
@@ -35,17 +35,20 @@ export default function TutorProfilePage() {
       </p>
       <p>{tutor.tutorSummary}</p>
       <p>Rating:{tutor.avgRating}</p>
-      <ul>
-      <h3>Reviews: </h3>
-      {tutor.reviewCount !== 0 ? tutor.reviewCount : "No reviews available"}
-{/* 
-        {reviews && reviews.map((review) => (
-          <li key={review.reviewId}>
-            <p>{review.comment}</p>
-            <p>Rating: {review.rating} ⭐</p>
-          </li>
-        ))} */}
-</ul>
+      <h3>Reviews:</h3>
+
+{reviews && reviews.length > 0 ? (
+  <ul>
+    {reviews.map((review) => (
+      <li key={review.reviewId}>
+        <p>{review.comment}</p>
+        <p>Rating: {review.rating} ⭐</p>
+      </li>
+    ))}
+  </ul>
+) : (
+  <p>No reviews available</p>
+)}
 
       <ul>
         <h2>Availability:</h2>
@@ -66,9 +69,9 @@ export default function TutorProfilePage() {
         ))}
       </ul>
     </div>
-    <div className="flex min-h-svh flex-col items-center justify-center">
+    {/* <div className="flex min-h-svh flex-col items-center justify-center">
       <Button variant="blue">Click me</Button>
-    </div>
+    </div> */}
     </>
   );
 }
