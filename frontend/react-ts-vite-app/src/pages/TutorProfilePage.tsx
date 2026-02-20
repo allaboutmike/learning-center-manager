@@ -23,30 +23,19 @@ export default function TutorProfilePage() {
 
   return (
     <>
-     <div className="flex gap-8 p-6 items-start">
-    <div className="w-1/3">
-      <CardProfile
+    <div className="flex gap-8 p-6 items-start">
+      <div className="w-1/3">
+        <CardProfile
         name={tutor.name}
         profilePictureUrl={tutor.profilePictureUrl}
         minGradeLevel={tutor.minGradeLevel}
         maxGradeLevel={tutor.maxGradeLevel}
         tutorSummary={tutor.tutorSummary}
+        avgRating={tutor.avgRating}
       />
+      </div>
     </div>
-    </div>
-    <div style={{ textAlign: "center", marginTop: 50 }}>
-      <img
-        src={tutor.profilePictureUrl}
-        alt={tutor.name}
-        style={{ width: 120, borderRadius: "50%" }}
-      />
-      <h1>{tutor.name}</h1>
-      <p>
-        Grades I teach: {tutor.minGradeLevel} - {tutor.maxGradeLevel}
-      </p>
-       {/* {tutor.tutorSummary} */}
-        <p>Summary for the tutor (hard coded) </p> 
-      <p>Rating:{tutor.avgRating}</p>
+
       <h3>Reviews:</h3>
 
 {reviews && reviews.length > 0 ? (
@@ -80,7 +69,6 @@ export default function TutorProfilePage() {
           
         ))}
       </ul>
-    </div>
     {/* <div className="flex min-h-svh flex-col items-center justify-center">
       <Button variant="blue">Click me</Button>
     </div> */}

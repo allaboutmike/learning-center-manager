@@ -1,8 +1,8 @@
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { SidebarTrigger } from "@/components/ui/sidebar"
-import { type Tutor } from "@/types/tutor"
-import { useLearningCenterAPI } from "@/hooks/useLearningCenterAPI"
+// import { type Tutor } from "@/types/tutor"
+// import { useLearningCenterAPI } from "@/hooks/useLearningCenterAPI"
 
 
 export function SiteHeader() {
