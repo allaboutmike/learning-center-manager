@@ -1,16 +1,19 @@
 package com.learningcenter.service;
 
-import com.learningcenter.dto.ChildResponse;
 import com.learningcenter.dto.CreateSessionRequest;
 import com.learningcenter.dto.SessionResponse;
-import com.learningcenter.entities.Child;
 import com.learningcenter.entities.Session;
 import com.learningcenter.repository.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ProblemDetail;
 import org.springframework.stereotype.Service;
+import org.springframework.web.ErrorResponseException;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SessionService {
@@ -84,19 +87,25 @@ public class SessionService {
         return sessionRepository.save(session);
     }
 
-
     public Session getSessionById(Long sessionId) {
+        if (sessionId == null) {
+            throw new ErrorResponseException(HttpStatus.BAD_REQUEST, ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "Session ID is required"), null);
+        }
 
-        return sessionRepository.findById(sessionId).get();
+        Optional<Session> sessionOptional = sessionRepository.findById(sessionId);
+
+        if (sessionOptional.isPresent()) {
+            return sessionOptional.get();
+        } else {
+            throw new ErrorResponseException(HttpStatus.BAD_REQUEST, ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "Invalid Session ID:"), null);
+        }
     }
-
 
     public List<Session> getSessionsByStudent(Long childId) {
 
         var studentSessions = sessionRepository.findSessionsByChildId(childId);
         return studentSessions;
     }
-
 
 
     public List<SessionResponse> getUpcomingSessions(Long parentId, Long childId) {
