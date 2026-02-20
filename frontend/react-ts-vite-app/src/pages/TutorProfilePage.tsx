@@ -69,9 +69,6 @@ export default function TutorProfilePage() {
           
         ))}
       </ul>
-    {/* <div className="flex min-h-svh flex-col items-center justify-center">
-      <Button variant="blue">Click me</Button>
-    </div> */}
     </>
   );
 }

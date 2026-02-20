@@ -16,7 +16,7 @@
     "noEmit": true,
     "jsx": "react-jsx",
 
-    /* ADD THIS */
+    /* Pathways for ShadCN */
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]

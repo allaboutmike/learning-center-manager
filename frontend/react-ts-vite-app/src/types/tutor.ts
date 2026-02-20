@@ -8,7 +8,6 @@ export type Tutor = {
   tutorSummary: string;
   avgRating: number;
   reviewCount: number;
-  reviews: Reviews[];
   minGradeLevel: number;
   maxGradeLevel: number;
   availableTimeSlots: TutorTimeslot[];
