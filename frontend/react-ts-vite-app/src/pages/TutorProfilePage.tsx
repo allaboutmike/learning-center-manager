@@ -37,12 +37,12 @@ export default function TutorProfilePage() {
       <h3>Reviews: </h3>
       {tutor.reviewCount !== 0 ? tutor.reviewCount : "No reviews available"}
 
-        {/* {reviews && reviews.map((review) => (
+        {reviews && reviews.map((review) => (
           <li key={review.reviewId}>
             <p>{review.comment}</p>
             <p>Rating: {review.rating} ⭐</p>
           </li>
-        ))} */}
+        ))}
 </ul>
 
       <ul>
