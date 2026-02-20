@@ -11,7 +11,7 @@ public class SessionResponse {
     */
     private Long sessionId;
     private Long tutorId;
-    private Long subject;
+    private Long subjectId;
     private String sessionNotes;
     private Long childId;
     private LocalDateTime time;
@@ -19,7 +19,7 @@ public class SessionResponse {
     public SessionResponse(Session session) {
         this.sessionId = session.getSessionId();
         this.tutorId = session.getTimeslot().getTutor().getTutorId();
-        this.subject = session.getSubject().getSubjectId();
+        this.subjectId = session.getSubject().getSubjectId();
         this.sessionNotes = session.getSessionNotes();
         this.childId = session.getChild().getChildId();
         this.time = session.getTimeslot().getTimeslot().getTime();
@@ -41,12 +41,8 @@ public class SessionResponse {
         return childId;
     }
 
-    public Long getSubject() {
-        return subject;
-    }
-
-    public String getSessionNotes() {
-        return sessionNotes;
+    public Long getSubjectId() {
+        return subjectId;
     }
 
     public LocalDateTime getTime() {

@@ -63,51 +63,26 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
+            <artifactId>spring-boot-starter-flyway</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-flyway</artifactId>
+            <artifactId>spring-boot-starter-flyway-test</artifactId>
+            <scope>test</scope>
         </dependency>
-
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter-flyway-test</artifactId>-->
-<!--            <scope>test</scope>-->
-<!--        </dependency>-->
-
-        <!--		<dependency>-->
-        <!--			<groupId>org.flywaydb</groupId>-->
-        <!--			<artifactId>flyway-mysql</artifactId>-->
-        <!--		</dependency>-->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-core</artifactId>
         </dependency>
         <dependency>
             <groupId>org.flywaydb</groupId>
-            <artifactId>flyway-mysql</artifactId>
-        </dependency>
-
-        <!--		<dependency>-->
-        <!--			<groupId>com.mysql</groupId>-->
-        <!--			<artifactId>mysql-connector-j</artifactId>-->
-        <!--		</dependency>-->
-
-        <dependency>
-            <groupId>com.mysql</groupId>
-            <artifactId>mysql-connector-j</artifactId>
-        </dependency>
-        <!-- Source: https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui -->
-        <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-            <version>3.0.1</version>
-            <scope>compile</scope>
+            <artifactId>flyway-database-postgresql</artifactId>
         </dependency>
     </dependencies>
-
     <build>
         <plugins>
             <plugin>
@@ -128,3 +103,4 @@
     </build>
 
 </project>
+
