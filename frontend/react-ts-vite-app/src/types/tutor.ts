@@ -1,5 +1,5 @@
 import type { TutorTimeslot } from "./tutorTimeslot.ts";
-import type { Reviews } from "./reviews.ts";
+
 
 export type Tutor = {
   tutorId: number;
