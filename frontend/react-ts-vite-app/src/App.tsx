@@ -13,7 +13,7 @@ function App() {
        <Route path="/" element={<DashboardPage />}>
           <Route index element={<TutorSearchScreen />} />
           <Route path="tutors/:tutorId" element={<TutorProfilePage />} />
-        <Route path="/sessions/review" element={<SessionReviewModal />} />
+          <Route path="/sessions/review" element={<SessionReviewModal />} />
           <Route path="confirmation" element={<ConfirmationPage />} />
         </Route>
 

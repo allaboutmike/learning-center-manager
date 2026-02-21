@@ -15,6 +15,7 @@ interface CardProfileProps {
   maxGradeLevel?: number;
   tutorSummary?: string;
   avgRating?: number;
+  subject?:string[];
 }
 export function CardProfile(props: CardProfileProps) {
   return (
@@ -34,11 +35,10 @@ export function CardProfile(props: CardProfileProps) {
           {props.tutorSummary || "This is a brief summary about the tutor. It can include their teaching style, subjects they specialize in, and any other relevant information that would help parents and students understand more about them."}
         </CardDescription>
       </CardHeader>
-      <CardFooter>
-        <Badge variant="secondary">Math</Badge>
-        <Badge variant="secondary">Science</Badge>
-        <Badge variant="secondary">English</Badge>
-        <Badge variant="secondary">History</Badge>
+      <CardFooter className="flex gap-2 flex-wrap">
+        {props.subject?.map((subject) => (<Badge key={subject} variant="secondary">
+          {subject}
+        </Badge>))}
       </CardFooter>
     </Card>
   )

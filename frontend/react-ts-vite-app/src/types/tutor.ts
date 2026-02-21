@@ -1,5 +1,5 @@
 import type { Subject } from "./subject";
-
+import type { Reviews } from "./reviews.ts";
 import type { TutorTimeslot } from "./tutorTimeslot.ts";
 
 
@@ -13,6 +13,7 @@ export type Tutor = {
   minGradeLevel: number;
   maxGradeLevel: number;
   subjects: Subject[];
+  reviews: Reviews[];
   availableTimeSlots: TutorTimeslot[];
 };
 

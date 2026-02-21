@@ -2,17 +2,21 @@ import { Link, useParams } from "react-router-dom";
 import { useLearningCenterAPI } from "../hooks/useLearningCenterAPI";
 import { type Tutor } from "../types/tutor";
 import { type TutorTimeslot } from "../types/tutor";
-// import { type Reviews } from "../types/reviews";
+import { type Reviews } from "../types/reviews";
 import { useState } from "react";
 import { CardProfile } from "@/components/ui/cardProfile";
+import { useNavigate } from "react-router-dom"; 
+import { Button } from "@/components/ui/button";
+import { type Subject } from "@/types/subject";
+import { format, parseISO } from "date-fns";
 
 export default function TutorProfilePage() {
   
-
+  const navigate = useNavigate();
   const { tutorId } = useParams();
   const tutor = useLearningCenterAPI<Tutor>(tutorId ? `/api/tutors/${tutorId}` : "");
   const availability = useLearningCenterAPI<TutorTimeslot[]>(tutorId ? `/api/tutors/${tutorId}/availability` : "");
-  // const reviews = useLearningCenterAPI<Reviews[]>(tutorId ? `/api/tutors/${tutorId}/reviews` : "");
+  const reviews = useLearningCenterAPI<Reviews[]>(tutorId ? `/api/tutors/${tutorId}/reviews` : "");
 
   const [selectedTimeSlot, setSelectedTimeSlot] = useState(-1);
 
@@ -32,11 +36,12 @@ export default function TutorProfilePage() {
         maxGradeLevel={tutor.maxGradeLevel}
         tutorSummary={tutor.tutorSummary}
         avgRating={tutor.avgRating}
+        subject={tutor.subjects.map((subject: Subject) => subject.name)}
       />
       </div>
     </div>
 
-      {/* <h3>Reviews:</h3>
+   <h3>Reviews:</h3>
 
 {reviews && reviews.length > 0 ? (
   <ul>
@@ -49,7 +54,7 @@ export default function TutorProfilePage() {
   </ul>
 ) : (
   <p>No reviews available</p>
-)} */}
+)}
 
       <ul>
         <h2>Availability:</h2>
@@ -64,11 +69,13 @@ export default function TutorProfilePage() {
             key={tutorTimeslots.tutorTimeslotId}
             onClick={() => setSelectedTimeSlot(index)}
           >
-            {tutorTimeslots.start} - {tutorTimeslots.end}
+            {format(parseISO(tutorTimeslots.start), "MMM d, yyyy h:mm a")} - {format(parseISO(tutorTimeslots.end), "h:mm a")}
           </li>
           
         ))}
       </ul>
+      <Button disabled={selectedTimeSlot === -1} variant="secondary" onClick={() => navigate("/sessions/review", 
+        { state: { tutorId: {tutorId}, subjectId: 1, tutorTimeslotId: 2, childId: 1} })}>Book Session</Button>
     </>
   );
 }
