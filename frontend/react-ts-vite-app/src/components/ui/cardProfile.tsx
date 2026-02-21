@@ -39,7 +39,7 @@ export function CardProfile(props: CardProfileProps) {
         {props.subject?.map((subject) => (<Badge key={subject} variant="secondary">
           {subject}
         </Badge>))}
-      </CardFooter>
+        </CardFooter>
     </Card>
   )
 }
