@@ -27,6 +27,7 @@ public class ReviewService {
         review.setTutor(request.tutor());
         review.setRating(request.rating());
         review.setComment(request.comment());
+        review.setCreatedAt(request.createdAt());
 
         Review savedReview = reviewRepository.save(review);
 
@@ -58,6 +59,8 @@ public class ReviewService {
         dto.setReviewId(review.getReviewId());
         dto.setComment(review.getComment());
         dto.setRating(review.getRating());
+        dto.setTutorId(review.getTutor().getTutorId());
+        dto.setCreatedAt(review.getCreatedAt());
 
         return dto;
     }
