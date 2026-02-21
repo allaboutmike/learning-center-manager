@@ -5,9 +5,11 @@ import { type TutorTimeslot } from "../types/tutor";
 // import { type Reviews } from "../types/reviews";
 import { useState } from "react";
 import { CardProfile } from "@/components/ui/cardProfile";
+import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 
 export default function TutorProfilePage() {
-  
+   const navigate = useNavigate();
 
   const { tutorId } = useParams();
   const tutor = useLearningCenterAPI<Tutor>(tutorId ? `/api/tutors/${tutorId}` : "");
@@ -15,7 +17,7 @@ export default function TutorProfilePage() {
   // const reviews = useLearningCenterAPI<Reviews[]>(tutorId ? `/api/tutors/${tutorId}/reviews` : "");
 
   const [selectedTimeSlot, setSelectedTimeSlot] = useState(-1);
-
+     
   if (!tutorId) {
     return <p> Invalid tutor id. Please go back and search for tutors here: <Link to="/"> Search all Tutors </Link></p>;
   }
@@ -67,8 +69,14 @@ export default function TutorProfilePage() {
             {tutorTimeslots.start} - {tutorTimeslots.end}
           </li>
           
+          
         ))}
       </ul>
+
+      <Button disabled={selectedTimeSlot === -1} variant="secondary" onClick={() => navigate("/sessions/review", 
+        { state: { tutorId: {tutorId}, subjectId: 1, tutorTimeslotId: 2, childId: 1} })}>Book Session</Button>
+        
     </>
+    
   );
 }
