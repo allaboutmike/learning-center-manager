@@ -94,6 +94,9 @@ export default function TutorSearchScreen() {
                         <p style={{ color: 'black' }}>
                             Grades: {tutor.minGradeLevel} - {tutor.maxGradeLevel}
                         </p>
+                        <p style={{color: 'black'}}>
+                            Subjects: {tutor.subjects.map(s => s.name).join(", ")}
+                        </p>
                     </li>
                 ))}
 
