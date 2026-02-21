@@ -1,7 +1,7 @@
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useLearningCenterAPI, useLearningCenterPost } from '../hooks/useLearningCenterAPI';
 import type { Tutor } from '../types/tutor';
-import type { TutorTimeSlot } from '../types/tutorTimeSlot';
+import type { TutorTimeslot } from '../types/tutorTimeslot';
 import type { Subject } from '../types/subject';
 
 
@@ -22,7 +22,7 @@ export default function SessionReviewModal() {
     };
 
     const tutor = useLearningCenterAPI<Tutor>(`/api/tutors/${tutorId}`);
-    const availability = useLearningCenterAPI<TutorTimeSlot[]>(`/api/tutors/${tutorId}/availability`);
+    const availability = useLearningCenterAPI<TutorTimeslot[]>(`/api/tutors/${tutorId}/availability`);
 
     const handleConfirmSession = async () => {
         try {
@@ -45,7 +45,7 @@ export default function SessionReviewModal() {
     if (!tutor || !availability) return <p>Loading...</p>;
 
     const selectedSubject = tutor.subjects.find((s: Subject) => s.subjectId === subjectId);
-    const selectedTimeslot = availability.find((t: TutorTimeSlot) => t.tutorTimeslotId === tutorTimeSlotId);
+    const selectedTimeslot = availability.find((t: TutorTimeslot) => t.tutorTimeslotId === tutorTimeSlotId);
     if (!selectedSubject || !selectedTimeslot) return <p>Invalid session details.</p>;
 
     const sessionDate = new Date(selectedTimeslot.start);
