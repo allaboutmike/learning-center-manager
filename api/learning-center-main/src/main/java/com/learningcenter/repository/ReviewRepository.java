@@ -12,12 +12,12 @@ import com.learningcenter.entities.Review;
 @Repository
 public interface ReviewRepository extends CrudRepository<Review, Long> {
 
-    @Query("SELECT tutor FROM Review WHERE tutor.tutorId =:tutorId")
+    @Query("SELECT r FROM Review r WHERE r.tutor.tutorId =:tutorId")
     List<Review> findByTutorId(Long tutorId);
 
-    @Query("SELECT AVG(rating) FROM Review WHERE tutor.tutorId =:tutorId")
+    @Query("SELECT AVG(r.rating) FROM Review r WHERE r.tutor.tutorId =:tutorId")
     Double findByAvgRating(@Param("tutorId") Long tutorId);
 
-    @Query ("SELECT COUNT(tutor.tutorId) FROM Review WHERE tutor.tutorId =:tutorId")
+    @Query ("SELECT COUNT(r.reviewId) FROM Review r WHERE r.tutor.tutorId =:tutorId")
     Integer getNumberOfReviews(@Param("tutorId") Long tutorId);
 }
