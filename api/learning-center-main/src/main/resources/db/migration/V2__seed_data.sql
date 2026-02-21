@@ -71,27 +71,27 @@ FROM (
          JOIN tutor_profile.subject s ON s.subject_name = m.subject_name;
 
 -- REVIEWS (12)
-INSERT INTO review.review (tutor_id, rating, comment)
-SELECT t.tutor_id, r.rating, r.comment
+INSERT INTO review.review (tutor_id, rating, comment, created_at)
+SELECT t.tutor_id, r.rating, r.comment, r.created_at
 FROM (
          VALUES
-             ('Ava Johnson',     5, 'Very clear explanations.'),
-             ('Ava Johnson',     4, 'Helpful and patient.'),
-             ('Noah Smith',      5, 'Great science examples.'),
-             ('Mia Davis',       4, 'Improved writing confidence.'),
-             ('Ethan Brown',     4, 'Well prepared and organized.'),
-             ('Sophia Wilson',   5, 'Great for beginner projects.'),
-             ('Liam Martinez',   4, 'Strong algebra support.'),
-             ('Olivia Taylor',   5, 'Great conversation practice.'),
-             ('James Anderson',  4, 'Good SAT strategies.'),
-             ('Isabella Thomas', 5, 'Coaching style is excellent.'),
-             ('Benjamin Moore',  4, 'Clear structure and guidance.'),
-             ('Lucas Harris',    5, 'Excellent exam prep.'),
-             ('Amelia Clark',    5, 'Helped my child love reading.'),
-             ('Henry Lewis',     4, 'Good for CS basics.'),
-             ('Harper Young',    5, 'Supportive and effective.'),
-             ('Charlotte Lee',   4, 'Great science tutor.')
-     ) AS r(tutor_name, rating, comment)
+             ('Ava Johnson',     5, 'Very clear explanations.', TIMESTAMP '2026-02-16 10:00:00'),
+             ('Ava Johnson',     4, 'Helpful and patient.', TIMESTAMP '2026-02-16 11:00:00'),
+             ('Noah Smith',      5, 'Great science examples.', TIMESTAMP '2026-02-16 12:00:00'),
+             ('Mia Davis',       4, 'Improved writing confidence.', TIMESTAMP '2026-02-16 13:00:00'),
+             ('Ethan Brown',     4, 'Well prepared and organized.', TIMESTAMP '2026-02-16 14:00:00'),
+             ('Sophia Wilson',   5, 'Great for beginner projects.', TIMESTAMP '2026-02-16 15:00:00'),
+             ('Liam Martinez',   4, 'Strong algebra support.', TIMESTAMP '2026-02-17 16:00:00'),
+             ('Olivia Taylor',   5, 'Great conversation practice.', TIMESTAMP '2026-02-17 17:00:00'),
+             ('James Anderson',  4, 'Good SAT strategies.', TIMESTAMP '2026-02-17 18:35:35'),
+             ('Isabella Thomas', 5, 'Coaching style is excellent.', TIMESTAMP '2026-02-18 19:35:35'),
+             ('Benjamin Moore',  4, 'Clear structure and guidance.', TIMESTAMP '2026-02-18 19:35:35'),
+             ('Lucas Harris',    5, 'Excellent exam prep.', TIMESTAMP '2026-02-18 19:35:35'),
+             ('Amelia Clark',    5, 'Helped my child love reading.', TIMESTAMP '2026-02-19 10:00:00'),
+             ('Henry Lewis',     4, 'Good for CS basics.', TIMESTAMP '2026-02-19 11:00:00'),
+             ('Harper Young',    5, 'Supportive and effective.', TIMESTAMP '2026-02-19 12:00:00'),
+             ('Charlotte Lee',   4, 'Great science tutor.', TIMESTAMP '2026-02-19 13:00:00')
+     ) AS r(tutor_name, rating, comment, created_at)
          JOIN tutor_profile.tutor t ON t.name = r.tutor_name;
 
 -- PARENTS (2) and CHILDREN (4)
