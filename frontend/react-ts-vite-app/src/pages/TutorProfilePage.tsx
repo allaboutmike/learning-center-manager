@@ -43,6 +43,18 @@ export default function TutorProfilePage() {
 
    <h3>Reviews:</h3>
 
+{tutor.avgRating ? (
+  <p>Average Rating: {tutor.avgRating} ⭐</p>
+) : (
+  <p>No ratings available</p>
+)}
+
+{tutor.reviewCount ? (
+  <p>Total Reviews: {tutor.reviewCount}</p>
+) : (
+  <p>0</p>
+)}
+
 {reviews && reviews.length > 0 ? (
   <ul>
     {reviews.map((review) => (
