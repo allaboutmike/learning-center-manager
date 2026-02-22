@@ -4,10 +4,8 @@ import com.learningcenter.dto.ChildResponse;
 import com.learningcenter.dto.SessionResponse;
 import com.learningcenter.service.ParentService;
 import com.learningcenter.service.SessionService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.swing.text.html.parser.Entity;
 import java.util.List;
 
 @RestController
@@ -29,7 +27,7 @@ public class ParentController {
 
     //Handles GET request to get a child's past sessions
     @GetMapping("/{parentId}/children/{childId}/sessions/past")
-    public List<SessionResponse> getPastSessionsByChildId(@PathVariable(required = true) Long parentId, @PathVariable(required = true) Long childId) {
+    public List<SessionResponse> getPastSessionsByParentIdAndChildId(@PathVariable(required = true) Long parentId, @PathVariable(required = true) Long childId) {
 
         return sessionService.getPastSessions(parentId, childId);
     }
