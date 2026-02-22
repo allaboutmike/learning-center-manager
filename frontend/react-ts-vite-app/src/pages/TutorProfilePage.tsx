@@ -28,17 +28,47 @@ export default function TutorProfilePage() {
 
   return (
     <>
-    <div className="grid grid-cols-2 grid-rows-3 gap-7 pl-10 pr-15 pt-8 h-screen">
-      <div className=" bg-amber-600 rounded-2xl"> <div className="flex gap-8 p-6 items-start">
-    
-    </div></div>
-      <div className="bg-amber-300 row-span-6 rounded-2xl"> 02</div>
-      <div className="bg-amber-950 rounded-2xl"> 03 </div>
-      <div className="bg-amber-800 rounded-2xl"> 04</div>
+<div className="grid grid-cols-[40%_60%] h-screen bg-amber-50">
+
+  {/* LEFT COLUMN */}
+  <div className="flex flex-col gap-3 p-8">
+
+    <div className="grid grid-cols-2 gap-3">
+      <div className="bg-amber-600 rounded-2xl p-4 flex items-center justify-center">
+      <img
+          src={tutor.profilePictureUrl}
+          alt={tutor.name}
+          style={{
+          width: 250,
+          height: 250,
+          borderRadius: "10%"
+          }}
+        />
       </div>
+      <div className="bg-amber-600 rounded-2xl p-4">
+        1.1
+      </div>
+      <div className="bg-amber-600 rounded-2xl col-span-2 p-2">
+        <h6 className="text-2xl font-bold pl-5">Name:</h6> <p className="text-2xl"> {tutor.name}</p>
+      </div>
+    </div>
+
+    <div className="bg-amber-950 rounded-2xl p-4">03</div>
+
+    <div className="bg-amber-800 rounded-2xl p-4 flex-1">
+      04
+    </div>
+
+  </div>
+
+  {/* RIGHT COLUMN */}
+  <div className="bg-amber-300 rounded-2xl m-3">
+    02
+  </div>
+
+</div>
 
 
-  <div className="w-1/3">
         <CardProfile
         name={tutor.name}
         profilePictureUrl={tutor.profilePictureUrl}
@@ -48,7 +78,7 @@ export default function TutorProfilePage() {
         avgRating={tutor.avgRating}
         subject={tutor.subjects.map((subject: Subject) => subject.name)}
       />
-      </div>
+    
 
 
 
