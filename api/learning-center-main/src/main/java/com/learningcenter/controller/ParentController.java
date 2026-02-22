@@ -28,15 +28,12 @@ public class ParentController {
     //Handles GET request to get a child's past sessions
     @GetMapping("/{parentId}/children/{childId}/sessions/past")
     public List<SessionResponse> getPastSessionsByParentIdAndChildId(@PathVariable(required = true) Long parentId, @PathVariable(required = true) Long childId) {
-
         return sessionService.getPastSessions(parentId, childId);
     }
 
     //Handles GET request to get a child's upcoming sessions
     @GetMapping("/{parentId}/children/{childId}/sessions/upcoming")
     public List<SessionResponse> getUpcomingSessionsByParentIdAndChildId(@PathVariable(required = true) Long parentId, @PathVariable(required = true) Long childId) {
-        var upcomingSessions = sessionService.getUpcomingSessions(parentId, childId);
-
-        return upcomingSessions;
+        return sessionService.getUpcomingSessions(parentId, childId);
     }
 }
