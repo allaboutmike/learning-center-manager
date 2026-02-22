@@ -43,7 +43,6 @@ create table review.review
     tutor_id   BIGINT not null,
     rating     INTEGER not null check (rating >= 0 and rating <= 5),
     comment    VARCHAR(255) not null,
-    created_at TIMESTAMP not null,
     constraint review_pk
         primary key (review_id),
     constraint tutor_id__fk
