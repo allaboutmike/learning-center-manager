@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { type Subject } from "@/types/subject";
 import { format, parseISO } from "date-fns";
+import { Calendar } from "@/components/ui/calendar";
 
 export default function TutorProfilePage() {
   
@@ -27,8 +28,17 @@ export default function TutorProfilePage() {
 
   return (
     <>
-    <div className="flex gap-8 p-6 items-start">
-      <div className="w-1/3">
+    <div className="grid grid-cols-2 grid-rows-3 gap-7 pl-10 pr-15 pt-8 h-screen">
+      <div className=" bg-amber-600 rounded-2xl"> <div className="flex gap-8 p-6 items-start">
+    
+    </div></div>
+      <div className="bg-amber-300 row-span-6 rounded-2xl"> 02</div>
+      <div className="bg-amber-950 rounded-2xl"> 03 </div>
+      <div className="bg-amber-800 rounded-2xl"> 04</div>
+      </div>
+
+
+  <div className="w-1/3">
         <CardProfile
         name={tutor.name}
         profilePictureUrl={tutor.profilePictureUrl}
@@ -39,7 +49,10 @@ export default function TutorProfilePage() {
         subject={tutor.subjects.map((subject: Subject) => subject.name)}
       />
       </div>
-    </div>
+
+
+
+    
 
    <h3>Reviews:</h3>
 
@@ -70,6 +83,8 @@ export default function TutorProfilePage() {
 
       <ul>
         <h2>Availability:</h2>
+
+        <Calendar />
         {!availability && <p>There are no available time slots.</p>}
         {availability && availability.map((tutorTimeslots, index) => (
           <li
