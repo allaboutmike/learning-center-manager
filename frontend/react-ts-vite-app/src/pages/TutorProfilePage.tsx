@@ -5,6 +5,14 @@ import { type TutorTimeslot } from "../types/tutor";
 // import { type Reviews } from "../types/reviews";
 import { useState } from "react";
 import { CardProfile } from "@/components/ui/cardProfile";
+import { Dialog, DialogContent } from "@/components/ui/dialog"
+import SessionReviewPage from "./SessionReviewPage";
+import { Button } from "@/components/ui/button";
+import { type Subject } from "../types/subject";
+import type { Reviews } from "../types/reviews";
+import { format, parseISO } from "date-fns";
+
+
 
 export default function TutorProfilePage() {
   
@@ -12,9 +20,10 @@ export default function TutorProfilePage() {
   const { tutorId } = useParams();
   const tutor = useLearningCenterAPI<Tutor>(tutorId ? `/api/tutors/${tutorId}` : "");
   const availability = useLearningCenterAPI<TutorTimeslot[]>(tutorId ? `/api/tutors/${tutorId}/availability` : "");
-  // const reviews = useLearningCenterAPI<Reviews[]>(tutorId ? `/api/tutors/${tutorId}/reviews` : "");
+  const reviews = useLearningCenterAPI<Reviews[]>(tutorId ? `/api/tutors/${tutorId}/reviews` : "");
 
   const [selectedTimeSlot, setSelectedTimeSlot] = useState(-1);
+  const [isOpen, setIsOpen] = useState(false)
 
   if (!tutorId) {
     return <p> Invalid tutor id. Please go back and search for tutors here: <Link to="/"> Search all Tutors </Link></p>;
@@ -32,11 +41,12 @@ export default function TutorProfilePage() {
         maxGradeLevel={tutor.maxGradeLevel}
         tutorSummary={tutor.tutorSummary}
         avgRating={tutor.avgRating}
+        subject={tutor.subjects.map((subject: Subject) => subject.name)}
       />
       </div>
     </div>
 
-      {/* <h3>Reviews:</h3>
+      <h3>Reviews:</h3>
 
 {reviews && reviews.length > 0 ? (
   <ul>
@@ -49,9 +59,21 @@ export default function TutorProfilePage() {
   </ul>
 ) : (
   <p>No reviews available</p>
-)} */}
+)}
 
       <ul>
+        <Dialog open={isOpen} onOpenChange={setIsOpen}>
+  <DialogContent className="max-w-lg">
+    {availability && selectedTimeSlot !== -1 && (
+  <SessionReviewPage
+  tutor={tutor}
+  slot={availability[selectedTimeSlot]}
+  onClose={() => setIsOpen(false)}
+/>
+    )}
+  </DialogContent>
+  
+</Dialog>
         <h2>Availability:</h2>
         {!availability && <p>There are no available time slots.</p>}
         {availability && availability.map((tutorTimeslots, index) => (
@@ -64,11 +86,18 @@ export default function TutorProfilePage() {
             key={tutorTimeslots.tutorTimeslotId}
             onClick={() => setSelectedTimeSlot(index)}
           >
-            {tutorTimeslots.start} - {tutorTimeslots.end}
+            {format(parseISO(tutorTimeslots.start), "MMM d, yyyy h:mm a")} - {format(parseISO(tutorTimeslots.end), "h:mm a")}
           </li>
           
         ))}
       </ul>
-    </>
+
+  <Button
+    variant={"secondary"}
+    disabled={selectedTimeSlot === -1}
+    className="mt-6"
+    onClick={() => setIsOpen(true)}> Book this Session
+  </Button>
+</>
   );
 }
