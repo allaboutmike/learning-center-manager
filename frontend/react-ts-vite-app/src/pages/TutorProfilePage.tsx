@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { type Subject } from "../types/subject";
 import type { Reviews } from "../types/reviews";
 import { format, parseISO } from "date-fns";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 
 
 
@@ -24,6 +25,7 @@ export default function TutorProfilePage() {
 
   const [selectedTimeSlot, setSelectedTimeSlot] = useState(-1);
   const [isOpen, setIsOpen] = useState(false)
+  const [selectedSubjectId, setSelectedSubjectId] = useState<number | null>(null)
 
   if (!tutorId) {
     return <p> Invalid tutor id. Please go back and search for tutors here: <Link to="/"> Search all Tutors </Link></p>;
@@ -73,6 +75,27 @@ export default function TutorProfilePage() {
     )}
   </DialogContent>
   
+  <div className="mt-6 space-y-2">
+  <h2 className="text-lg font-semibold">Choose Subject</h2>
+
+  <Select
+    value={selectedSubjectId !== null ? String(selectedSubjectId) : ""}
+    onValueChange={(value) => setSelectedSubjectId(Number(value))}
+  >
+    <SelectTrigger className="w-[250px]">
+      <SelectValue placeholder="Select a subject" />
+    </SelectTrigger>
+
+    <SelectContent>
+      {tutor.subjects.map((s: Subject) => (
+        <SelectItem key={s.subjectId} value={String(s.subjectId)}>
+          {s.name}
+        </SelectItem>
+      ))}
+    </SelectContent>
+  </Select>
+</div>
+
 </Dialog>
         <h2>Availability:</h2>
         {!availability && <p>There are no available time slots.</p>}

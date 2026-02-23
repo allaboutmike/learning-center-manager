@@ -7,6 +7,7 @@ import type { TutorTimeslot } from "../types/tutorTimeslot"
 type Props = {
   tutor: Tutor
   slot: TutorTimeslot
+  subjectId: number | null
   onClose: () => void
 }
 
@@ -17,6 +18,7 @@ export default function SessionReviewModal({
 }: Props) {
 
   const sessionDate = new Date(slot.start)
+  const selectedSubject = tutor.subjects.find((s) => s.subjectId === subjectId);
 
   const formattedDate = sessionDate.toLocaleDateString("en-US", {
     weekday: "long",
@@ -33,7 +35,7 @@ export default function SessionReviewModal({
 
   const handleConfirmSession = async () => {
     try {
-         // Creates the session via POST request with all required IDs
+      // Creates the session via POST request with all required IDs
       await fetch("/api/sessions", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -51,7 +53,7 @@ export default function SessionReviewModal({
     }
   };
   if (!tutor || !slot) return <p>Loading...</p>;
-  
+
   return (
     <div className="space-y-6">
       <h2 className="text-xl font-semibold">
@@ -60,12 +62,12 @@ export default function SessionReviewModal({
 
       <div className="space-y-2">
         <h3>
-            You've booked a session with {tutor.name} on {formattedDate} at {formattedTime}.
+          You've booked a session with {tutor.name} on {formattedDate} at {formattedTime}.
         </h3>
-            <p>Choose your Subject: {tutor.name}</p>
-            <p>Click the button below to confirm your session.</p>
+        <p>Subject: {selectedSubject?.name ?? "Not selected"}</p>
+        <p>Click the button below to confirm your session.</p>
       </div>
-    <div className="flex gap-4">
+      <div className="flex gap-4">
         <Button variant="secondary" onClick={handleConfirmSession}>
           Confirm Session
         </Button>
@@ -73,7 +75,7 @@ export default function SessionReviewModal({
         <Button variant="secondary" onClick={onClose}>
           Cancel
         </Button>
-</div>
       </div>
+    </div>
   )
 }
