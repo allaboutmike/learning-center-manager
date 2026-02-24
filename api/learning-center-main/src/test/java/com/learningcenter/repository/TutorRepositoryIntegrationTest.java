@@ -82,7 +82,7 @@ public class TutorRepositoryIntegrationTest {
         entityManager.persist(tutor2);
 
         //Create a parent and child to test the query
-        Parent parent = new Parent("Bob Smith");
+        Parent parent = new Parent("Bob Smith", 67);
         Child child = new Child("Alice Smith", 99, parent);
         Child child2 = new Child("Charlie Smith", 100, parent);
         parent.getChild().add(child);
@@ -153,7 +153,7 @@ public class TutorRepositoryIntegrationTest {
         entityManager.persist(tutor3);
 
         //Create a parent and child to test the query
-        Parent parent = new Parent("Bob Smith");
+        Parent parent = new Parent("Bob Smith", 15);
         Child child = new Child("Alice Smith", 8, parent);
         Child child2 = new Child("Charlie Smith", 4, parent);
         parent.getChild().add(child);
@@ -215,7 +215,7 @@ public class TutorRepositoryIntegrationTest {
         entityManager.persist(tutorTimeslot4);
 
         //Create a parent and child to test the query
-        Parent parent = new Parent("Bob Smith");
+        Parent parent = new Parent("Bob Smith", 24);
         Child child = new Child("Alice Smith", 10, parent);
         Child child2 = new Child("Charlie Smith", 4, parent);
         parent.getChild().add(child);

@@ -1,16 +1,21 @@
 package com.learningcenter.repository;
 
-import com.learningcenter.entities.*;
+import java.time.LocalDateTime;
+import java.util.List;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
 import org.springframework.boot.jpa.test.autoconfigure.TestEntityManager;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.util.List;
-
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import com.learningcenter.entities.Child;
+import com.learningcenter.entities.Parent;
+import com.learningcenter.entities.Session;
+import com.learningcenter.entities.Subject;
+import com.learningcenter.entities.Timeslot;
+import com.learningcenter.entities.Tutor;
+import com.learningcenter.entities.TutorTimeslot;
 
 @DataJpaTest
 public class SessionRepositoryIntegrationTest {
@@ -27,7 +32,7 @@ public class SessionRepositoryIntegrationTest {
         //Set time session was created
         LocalDateTime createdAt = LocalDateTime.now();
         //Create a parent
-        Parent parent = new Parent("Trixie Mattel");
+        Parent parent = new Parent("Trixie Mattel", 15);
         //Create a child for the parent
         Child child = new Child("Tracy Martel", 6, parent);
         //Create a tutor
@@ -59,7 +64,7 @@ public class SessionRepositoryIntegrationTest {
         //Set time session was created
         LocalDateTime createdAt = LocalDateTime.now();
         //Create a parent
-        Parent parent = new Parent("Kai Wachi");
+        Parent parent = new Parent("Kai Wachi", 10);
         //Create a child for the parent
         Child child = new Child("Sullivan King", 6, parent);
         //Create a tutor
@@ -91,7 +96,7 @@ public class SessionRepositoryIntegrationTest {
         //Set time session was created
         LocalDateTime createdAt = LocalDateTime.now();
         //Create a parent
-        Parent parent = new Parent("Sara Landry");
+        Parent parent = new Parent("Sara Landry", 15);
         //Create a child for the parent
         Child child = new Child("Charlotte de Witte", 6, parent);
         //Create a tutor
@@ -122,7 +127,7 @@ public class SessionRepositoryIntegrationTest {
         //Set time session was created
         LocalDateTime createdAt = LocalDateTime.now();
         //Create a parent
-        Parent parent = new Parent("Sara Landry");
+        Parent parent = new Parent("Sara Landry", 15);
         //Create a child for the parent
         Child child = new Child("Charlotte de Witte", 6, parent);
         //Create a tutor
