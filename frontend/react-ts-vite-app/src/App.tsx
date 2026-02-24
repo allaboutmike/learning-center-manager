@@ -11,10 +11,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<DashboardPage />}>
-          <Route
-            path="/parents/:parentId"
-            element={<ParentProfilePage />}
-          ></Route>
+          <Route path="/parents/:parentId" element={<ParentProfilePage />} />
           <Route index element={<TutorSearchScreen />} />
           <Route path="tutors/:tutorId" element={<TutorProfilePage />} />
           <Route path="/sessions/review" element={<SessionReviewModal />} />

@@ -1,17 +1,9 @@
 import type { Session } from "./session";
 
-export type ParentView = {
-  sessionId: number;
-  tutorId: string;
-  subject: string;
-  student: Child;
-  sessionNotes: string;
-};
-
 export type Parent = {
-  name: string;
-  parentId: number;
+  parentId: string;
   children: Child[];
+  childSessions: Session[];
 };
 
 export type Child = {

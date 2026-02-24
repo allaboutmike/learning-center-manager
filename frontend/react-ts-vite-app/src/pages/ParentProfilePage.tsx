@@ -1,6 +1,6 @@
-import React, { useState, useMemo } from "react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
-import type { TabType, SessionData, Child } from "../types/parents";
+import type { TabType, Child, Parent } from "../types/parents";
 import { useLearningCenterAPI } from "../hooks/useLearningCenterAPI";
 import type { Session } from "@/types/session";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -10,21 +10,29 @@ import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 
 export default function ParentProfilePage() {
   // extracting parentId from URL params
-  const { parentId } = useParams<{ parentId: string }>();
+  const { parentId } = useParams<{
+    parentId: string;
+  }>();
 
   // Use child or string as the useState reference?
   const [activeTab, setActiveTab] = useState<TabType>("upcoming");
   const [selectedChildId, setSelectedChildId] = useState<string>("all");
 
   // Fetching the children from the API
-  const children = useLearningCenterAPI<Child[]>(
-    parentId ? `/api/parents/${parentId}/children` : "",
+  const children = useLearningCenterAPI<Parent[]>(
+    parentId ? `/api/parents/${parentId}` : "",
   );
 
-  // Fetching the session data (keyed by childId)
+  // Used selectedChildId instead of childId because it is directly tied to the dropdown list so that the page can update dynamically.
   const sessionData = useLearningCenterAPI<
     Record<string, Record<TabType, Session[]>>
-  >(parentId ? `/api/parents/${parentId}/sessions/upcoming` : "");
+  >(
+    parentId
+      ? selectedChildId === "all"
+        ? `/api/parents/${parentId}/children/${selectedChildId}/sessions`
+        : `/api/parents/${parentId}/children/sessions`
+      : "",
+  );
 
   // Logic to get sessions based on selection
   const getCurrentSessions = (): Session[] => {
@@ -45,7 +53,7 @@ export default function ParentProfilePage() {
 
   // Find the selected child object for the empty state message
   const selectedChild = Array.isArray(children)
-    ? children.find((c) => c.id.toString() === selectedChildId)
+    ? children.find((c) => c.parentId.toString() === selectedChildId)
     : undefined;
 
   return (
@@ -105,11 +113,15 @@ export default function ParentProfilePage() {
                     onChange={(e) => setSelectedChildId(e.target.value)}
                   >
                     <option value="all">All Children</option>
-                    {children?.map((child) => (
-                      <option key={child.id} value={child.id}>
-                        {child.childName}
-                      </option>
-                    ))}
+                    {Array.isArray(children) &&
+                      children.map((children) => (
+                        <option
+                          key={children.parentId}
+                          value={children.parentId}
+                        >
+                          {children.parentId}
+                        </option>
+                      ))}
                   </select>
                 </div>
 
@@ -123,7 +135,7 @@ export default function ParentProfilePage() {
                       <p className="text-gray-500">
                         {selectedChildId === "all"
                           ? `No ${activeTab} sessions scheduled for any children.`
-                          : `${selectedChild?.childName} does not have any ${activeTab} sessions ${activeTab === "upcoming" ? "scheduled" : "recorded"}.`}
+                          : `${selectedChild?.parentId} does not have any ${activeTab} sessions ${activeTab === "upcoming" ? "scheduled" : "recorded"}.`}
                       </p>
                     </div>
                   ) : (
