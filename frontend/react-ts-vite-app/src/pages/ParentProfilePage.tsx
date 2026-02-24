@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import type { TabType, Child, Parent } from "../types/parents";
+import type { TabType, Parent } from "../types/parents";
 import { useLearningCenterAPI } from "../hooks/useLearningCenterAPI";
 import type { Session } from "@/types/session";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
