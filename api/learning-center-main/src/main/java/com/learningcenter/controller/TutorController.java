@@ -3,7 +3,6 @@ package com.learningcenter.controller;
 
 import java.util.List;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,8 +46,7 @@ public class TutorController {
     }
 
     @GetMapping("/{tutorId}/reviews")
-    public ResponseEntity<List<ReviewResponse>> getAllReviewsForTutor(@PathVariable Long tutorId) {
-        List<ReviewResponse> reviews = reviewService.findByTutorId(tutorId);
-        return ResponseEntity.ok(reviews);
+    public List<ReviewResponse> getAllReviewsForTutor(@PathVariable Long tutorId) {
+        return reviewService.findByTutorId(tutorId);
     }
 }

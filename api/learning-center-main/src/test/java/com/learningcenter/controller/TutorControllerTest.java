@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.learningcenter.dto.ReviewResponse;
 import com.learningcenter.dto.TutorResponse;
 import com.learningcenter.dto.TutorTimeSlotResponse;
 
@@ -56,5 +57,12 @@ public class TutorControllerTest {
         List<TutorResponse> tutors = tutorController.searchTutorsByGradeLevel(1);
         assertNotNull(tutors);
         assertEquals(1, tutors.size());
+    }
+
+    @Test
+    void getReviewsForTutorTest_returnTutorReviews() {
+        List<ReviewResponse> reviews = tutorController.getAllReviewsForTutor(1L);
+        assertNotNull(reviews);
+        assertEquals(2, reviews.size());
     }
 }
