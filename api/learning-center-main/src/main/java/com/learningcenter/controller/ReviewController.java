@@ -1,7 +1,6 @@
 package com.learningcenter.controller;
 
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
@@ -44,11 +43,5 @@ public class ReviewController {
         Optional<ReviewResponse> response = reviewService.findByReviewId(reviewId);
 
         return response.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
-    @GetMapping("/tutors/{tutorId}/reviews")
-    public ResponseEntity<List<ReviewResponse>> getAllReviewsForTutor(@PathVariable Long tutorId) {
-        List<ReviewResponse> reviews = reviewService.findByTutorId(tutorId);
-        return ResponseEntity.ok(reviews);
     }
 }
