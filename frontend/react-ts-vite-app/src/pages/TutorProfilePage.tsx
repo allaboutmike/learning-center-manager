@@ -11,12 +11,12 @@ import { Button } from "@/components/ui/button";
 import { type Subject } from "../types/subject";
 import type { Reviews } from "../types/reviews";
 import { format, parseISO } from "date-fns";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 
 
 export default function TutorProfilePage() {
-  
+
 
   const { tutorId } = useParams();
   const tutor = useLearningCenterAPI<Tutor>(tutorId ? `/api/tutors/${tutorId}` : "");
@@ -34,69 +34,69 @@ export default function TutorProfilePage() {
 
   return (
     <>
-    <div className="flex gap-8 p-6 items-start">
-      <div className="w-1/3">
-        <CardProfile
-        name={tutor.name}
-        profilePictureUrl={tutor.profilePictureUrl}
-        minGradeLevel={tutor.minGradeLevel}
-        maxGradeLevel={tutor.maxGradeLevel}
-        tutorSummary={tutor.tutorSummary}
-        avgRating={tutor.avgRating}
-        subject={tutor.subjects.map((subject: Subject) => subject.name)}
-      />
+      <div className="flex gap-8 p-6 items-start">
+        <div className="w-1/3">
+          <CardProfile
+            name={tutor.name}
+            profilePictureUrl={tutor.profilePictureUrl}
+            minGradeLevel={tutor.minGradeLevel}
+            maxGradeLevel={tutor.maxGradeLevel}
+            tutorSummary={tutor.tutorSummary}
+            avgRating={tutor.avgRating}
+            subject={tutor.subjects.map((subject: Subject) => subject.name)}
+          />
+        </div>
       </div>
-    </div>
 
       <h3>Reviews:</h3>
 
-{reviews && reviews.length > 0 ? (
-  <ul>
-    {reviews.map((review) => (
-      <li key={review.reviewId}>
-        <p>{review.comment}</p>
-        <p>Rating: {review.rating} ⭐</p>
-      </li>
-    ))}
-  </ul>
-) : (
-  <p>No reviews available</p>
-)}
+      {reviews && reviews.length > 0 ? (
+        <ul>
+          {reviews.map((review) => (
+            <li key={review.reviewId}>
+              <p>{review.comment}</p>
+              <p>Rating: {review.rating} ⭐</p>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>No reviews available</p>
+      )}
 
       <ul>
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
-  <DialogContent className="max-w-lg">
-    {availability && selectedTimeSlot !== -1 && (
-  <SessionReviewPage
-  tutor={tutor}
-  slot={availability[selectedTimeSlot]}
-  onClose={() => setIsOpen(false)}
-/>
-    )}
-  </DialogContent>
-  
-  <div className="mt-6 space-y-2">
-  <h2 className="text-lg font-semibold">Choose Subject</h2>
+          <DialogContent className="max-w-lg">
+            {availability && selectedTimeSlot !== -1 && (
+              <SessionReviewPage
+                tutor={tutor}
+                slot={availability[selectedTimeSlot]}
+                subjectId={selectedSubjectId}
+                onClose={() => setIsOpen(false)}
+              />
+            )}
+          </DialogContent>
 
-  <Select
-    value={selectedSubjectId !== null ? String(selectedSubjectId) : ""}
-    onValueChange={(value) => setSelectedSubjectId(Number(value))}
-  >
-    <SelectTrigger className="w-[250px]">
-      <SelectValue placeholder="Select a subject" />
-    </SelectTrigger>
+          <div className="mt-6 space-y-2">
+            <h2 className="text-lg font-semibold">Choose Subject</h2>
+            <Select
+              value={selectedSubjectId !== null ? String(selectedSubjectId) : ""}
+              onValueChange={(value) => setSelectedSubjectId(Number(value))}
+            >
+              <SelectTrigger className="w-[250px]">
+                <SelectValue placeholder="Select a subject" />
+              </SelectTrigger>
 
-    <SelectContent>
-      {tutor.subjects.map((s: Subject) => (
-        <SelectItem key={s.subjectId} value={String(s.subjectId)}>
-          {s.name}
-        </SelectItem>
-      ))}
-    </SelectContent>
-  </Select>
-</div>
+              <SelectContent>
+                {tutor.subjects.map((s: Subject) => (
+                  <SelectItem key={s.subjectId} value={String(s.subjectId)}>
+                    {s.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
 
-</Dialog>
+        </Dialog>
         <h2>Availability:</h2>
         {!availability && <p>There are no available time slots.</p>}
         {availability && availability.map((tutorTimeslots, index) => (
@@ -111,16 +111,16 @@ export default function TutorProfilePage() {
           >
             {format(parseISO(tutorTimeslots.start), "MMM d, yyyy h:mm a")} - {format(parseISO(tutorTimeslots.end), "h:mm a")}
           </li>
-          
+
         ))}
       </ul>
 
-  <Button
-    variant={"secondary"}
-    disabled={selectedTimeSlot === -1}
-    className="mt-6"
-    onClick={() => setIsOpen(true)}> Book this Session
-  </Button>
-</>
+      <Button
+        variant={"secondary"}
+        disabled={selectedTimeSlot === -1}
+        className="mt-6"
+        onClick={() => setIsOpen(true)}> Book this Session
+      </Button>
+    </>
   );
 }

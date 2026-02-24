@@ -14,6 +14,7 @@ type Props = {
 export default function SessionReviewModal({
   tutor,
   slot,
+  subjectId,
   onClose,
 }: Props) {
 
