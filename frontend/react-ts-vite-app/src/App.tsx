@@ -3,28 +3,24 @@ import TutorSearchScreen from "./pages/TutorSearchScreen";
 import TutorProfilePage from "./pages/TutorProfilePage";
 import ConfirmationPage from "./pages/ConfirmationPage";
 import DashboardPage from "./pages/DashboardPage";
-
+import ParentProfilePage from "./pages/ParentProfilePage";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-       <Route path="/" element={<DashboardPage />}>
+        <Route path="/" element={<DashboardPage />}>
+          <Route path="/parents/:parentId" element={<ParentProfilePage />} />
           <Route index element={<TutorSearchScreen />} />
           <Route path="tutors/:tutorId" element={<TutorProfilePage />} />
           <Route path="confirmation" element={<ConfirmationPage />} />
         </Route>
-
       </Routes>
     </BrowserRouter>
   );
 }
 
 export default App;
-
-
-
-
 
 /*
 import { useState } from 'react'
@@ -62,5 +58,3 @@ function App() {
   )
 }
   */
-
-
