@@ -9,17 +9,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.learningcenter.dto.ReviewResponse;
 import com.learningcenter.dto.TutorResponse;
 import com.learningcenter.dto.TutorTimeSlotResponse;
+import com.learningcenter.service.ReviewService;
 import com.learningcenter.service.TutorService;
 
 @RestController
 @RequestMapping("/api/tutors")
 public class TutorController {
     private final TutorService tutorService;
+    private final ReviewService reviewService;
 
-    public TutorController(TutorService tutorService) {
+    public TutorController(TutorService tutorService, ReviewService reviewService) {
         this.tutorService = tutorService;
+        this.reviewService = reviewService;
     }
 
 
@@ -39,5 +43,10 @@ public class TutorController {
     @GetMapping("/{tutorId}/availability")
     public List<TutorTimeSlotResponse> getTutorAvailability(@PathVariable Long tutorId) {
         return tutorService.getTutorAvailability(tutorId);
+    }
+
+    @GetMapping("/{tutorId}/reviews")
+    public List<ReviewResponse> getAllReviewsForTutor(@PathVariable Long tutorId) {
+        return reviewService.findByTutorId(tutorId);
     }
 }
