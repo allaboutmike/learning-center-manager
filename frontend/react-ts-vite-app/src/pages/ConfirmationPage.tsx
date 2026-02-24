@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import { useLocation } from "react-router-dom";
 
 type ConfirmationState = {
@@ -9,18 +10,7 @@ export default function ConfirmationPage() {
     const state = location.state as ConfirmationState | null;
 
     return (
-        <div
-            style={{
-                height: "100vh",
-                width: "100vw",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                textAlign: "center",
-                backgroundColor: "white",
-                color: "black",
-            }}
-        >
+        <div className="h-200 flex flex-col justify-center items-center text-black">
             <div>
                 <h1>Confirmed ✅</h1>
                 <p style={{ marginTop: 12, fontSize: 18 }}>
@@ -28,7 +18,10 @@ export default function ConfirmationPage() {
                         ? `You booked a session with ${state.tutorName}.`
                         : "Your session has been confirmed."}
                 </p>
+             
             </div>
+            <Button className="mt-10 mr-10" variant="secondary" onClick={() => window.location.href = "/"}>Return to Search Tutors</Button>
+            
         </div>
     );
 }

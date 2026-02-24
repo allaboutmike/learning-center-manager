@@ -1,79 +1,82 @@
-import { useNavigate, useLocation, Link } from 'react-router-dom';
-import { useLearningCenterAPI, useLearningCenterPost } from '../hooks/useLearningCenterAPI';
-import type { Tutor } from '../types/tutor';
-import type { TutorTimeslot } from '../types/tutorTimeslot';
-import type { Subject } from '../types/subject';
+import { Button } from "@/components/ui/button"
+import type { Tutor } from "../types/tutor"
+import type { TutorTimeslot } from "../types/tutorTimeslot"
 
 
-export default function SessionReviewModal() {
-    const navigate = useNavigate();
-    const location = useLocation();
-    const postData = useLearningCenterPost();
 
-    if (!location.state) {
-        return <p>No session data. Please <Link to="/tutors">select a tutor</Link> to book a session.</p>;
+type Props = {
+  tutor: Tutor
+  slot: TutorTimeslot
+  subjectId: number | null
+  onClose: () => void
+}
+
+export default function SessionReviewModal({
+  tutor,
+  slot,
+  subjectId,
+  onClose,
+}: Props) {
+
+  const sessionDate = new Date(slot.start)
+  const selectedSubject = tutor.subjects.find((s) => s.subjectId === subjectId);
+
+  const formattedDate = sessionDate.toLocaleDateString("en-US", {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  })
+
+  const formattedTime = sessionDate.toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+  })
+
+  const handleConfirmSession = async () => {
+    try {
+      // Creates the session via POST request with all required IDs
+      await fetch("/api/sessions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          tutorId: tutor.tutorId,
+          tutorTimeSlotId: slot.tutorTimeslotId,
+        }),
+      })
+
+      onClose()
+      window.location.href = "/confirmation"
+    } catch (error) {
+      console.error("Failed to create session:", error)
+      alert("Failed to create session. Please try again.")
     }
-    
-    const { tutorId, subjectId, tutorTimeSlotId, childId } = location.state as {
-        tutorId: number;
-        subjectId: number;
-        tutorTimeSlotId: number;
-        childId: number;
-    };
+  };
+  if (!tutor || !slot) return <p>Loading...</p>;
 
-    const tutor = useLearningCenterAPI<Tutor>(`/api/tutors/${tutorId}`);
-    const availability = useLearningCenterAPI<TutorTimeslot[]>(`/api/tutors/${tutorId}/availability`);
+  return (
+    <div className="space-y-6">
+      <h2 className="text-xl font-semibold">
+        Confirm Your Session
+      </h2>
 
-    const handleConfirmSession = async () => {
-        try {
-            // Create the session via POST request with all required IDs
-            await postData<{ sessionId: string }>('/api/sessions', {
-                tutorId,
-                subjectId,
-                childId,
-                tutorTimeSlotId
-            });
+      <div className="space-y-2">
+        <h3>
+          You've booked a session with {tutor.name} on {formattedDate} at {formattedTime}.
+        </h3>
+        <p>Subject: {selectedSubject?.name ?? "Not selected"}</p>
+        <p>Click the button below to confirm your session.</p>
+      </div>
+      <div className="flex gap-4">
+        <Button variant="secondary" onClick={handleConfirmSession}>
+          Confirm Session
+        </Button>
 
-            // Navigate to confirmation page with the new session ID
-            navigate(`/confirmation`);
-        } catch (error) {
-            console.error('Failed to create session:', error);
-            alert('Failed to create session. Please try again.');
-        }
-    };
-
-    if (!tutor || !availability) return <p>Loading...</p>;
-
-    const selectedSubject = tutor.subjects.find((s: Subject) => s.subjectId === subjectId);
-    const selectedTimeslot = availability.find((t: TutorTimeslot) => t.tutorTimeslotId === tutorTimeSlotId);
-    if (!selectedSubject || !selectedTimeslot) return <p>Invalid session details.</p>;
-
-    const sessionDate = new Date(selectedTimeslot.start);
-    const formattedDate = sessionDate.toLocaleDateString('en-US', { 
-        weekday: 'long', 
-        month: 'long', 
-        day: 'numeric', 
-        year: 'numeric' 
-    });
-    const formattedTime = sessionDate.toLocaleTimeString('en-US', { 
-        hour: 'numeric', 
-        minute: '2-digit',
-        hour12: true 
-    });
-
-    return (
-        <div style={{ textAlign: 'center', marginTop: 50 }}>
-            <h1>
-                You've booked a session with {tutor.name} on {formattedDate} at {formattedTime}.
-            </h1>
-            <p>Subject: {selectedSubject.name}</p>
-            <p>Click the button below to confirm your session.</p>
-            <button 
-                style={{ padding: '10px 20px', fontSize: 16 }} 
-                onClick={handleConfirmSession}
-            >
-                Confirm Session
-            </button>
-        </div>
-    );
+        <Button variant="secondary" onClick={onClose}>
+          Cancel
+        </Button>
+      </div>
+    </div>
+  )
 }
