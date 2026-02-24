@@ -24,11 +24,15 @@ public class Parent {
     @Column(nullable = false, name="name")
     private String name;
 
+    @Column(nullable=false, name="credits")
+    private int credits;
+
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
     private List<Child> child = new ArrayList<>();
 
-    public Parent(String name) {
+    public Parent(String name, int credits) {
         this.name = name;
+        this.credits = credits;
     }
 
     public Parent() {
@@ -59,11 +63,20 @@ public class Parent {
         this.child = child;
     }
 
+    public int getCredits() {
+        return credits;
+    }
+
+    public void setCredits(int credits) {
+        this.credits = credits;
+    }
+
     @Override
     public String toString() {
         return "ParentEntity{" +
                 "id=" + parentId +
                 ", name='" + name + '\'' +
+                ", credits=" + credits +
                 ", children='" + child + '\'' +
                 '}';
     }
