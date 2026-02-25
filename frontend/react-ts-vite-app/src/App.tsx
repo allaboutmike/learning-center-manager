@@ -11,7 +11,7 @@ function App() {
       <Routes>
         <Route index element={<ParentProfilePage />} />
         <Route path="/" element={<DashboardPage />}>
-          {/* <Route path="/parents/:parentId" element={<ParentProfilePage />} /> */}
+          <Route path="/tutors" element={<TutorSearchScreen />} />
           <Route path="tutors/:tutorId" element={<TutorProfilePage />} />
           <Route path="confirmation" element={<ConfirmationPage />} />
         </Route>
