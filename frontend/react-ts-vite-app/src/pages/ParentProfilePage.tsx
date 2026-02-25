@@ -90,7 +90,7 @@ export default function ParentProfilePage() {
             <div className="flex justify-between items-center w-full">
               <h1 className="text-2xl font-bold">Parent Profile</h1>
               <div className="booking-btn">
-                <button className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">
+                <button className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors" onClick={() => window.location.href = "/tutors"}>
                   Book A Session
                 </button>
               </div>
