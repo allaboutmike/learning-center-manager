@@ -5,30 +5,46 @@ import { type TutorTimeslot } from "../types/tutor";
 // import { type Reviews } from "../types/reviews";
 import { useState } from "react";
 import { CardProfile } from "@/components/ui/cardProfile";
-import { Dialog, DialogContent } from "@/components/ui/dialog"
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import SessionReviewPage from "./SessionReviewPage";
 import { Button } from "@/components/ui/button";
 import { type Subject } from "../types/subject";
 import type { Reviews } from "../types/reviews";
-import { format, parseISO } from "date-fns";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-
-
+//import { format, parseISO } from "date-fns";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export default function TutorProfilePage() {
-
-
   const { tutorId } = useParams();
-  const tutor = useLearningCenterAPI<Tutor>(tutorId ? `/api/tutors/${tutorId}` : "");
-  const availability = useLearningCenterAPI<TutorTimeslot[]>(tutorId ? `/api/tutors/${tutorId}/availability` : "");
-  const reviews = useLearningCenterAPI<Reviews[]>(tutorId ? `/api/tutors/${tutorId}/reviews` : "");
+  const tutor = useLearningCenterAPI<Tutor>(
+    tutorId ? `/api/tutors/${tutorId}` : "",
+  );
+  const availability = useLearningCenterAPI<TutorTimeslot[]>(
+    tutorId ? `/api/tutors/${tutorId}/availability` : "",
+  );
+  const reviews = useLearningCenterAPI<Reviews[]>(
+    tutorId ? `/api/tutors/${tutorId}/reviews` : "",
+  );
 
   const [selectedTimeSlot, setSelectedTimeSlot] = useState(-1);
-  const [isOpen, setIsOpen] = useState(false)
-  const [selectedSubjectId, setSelectedSubjectId] = useState<number | null>(null)
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedSubjectId, setSelectedSubjectId] = useState<number | null>(
+    null,
+  );
 
   if (!tutorId) {
-    return <p> Invalid tutor id. Please go back and search for tutors here: <Link to="/"> Search all Tutors </Link></p>;
+    return (
+      <p>
+        {" "}
+        Invalid tutor id. Please go back and search for tutors here:{" "}
+        <Link to="/"> Search all Tutors </Link>
+      </p>
+    );
   }
   if (!tutor) return <p>Loading...</p>;
 
@@ -79,7 +95,9 @@ export default function TutorProfilePage() {
           <div className="mt-6 space-y-2">
             <h2 className="text-lg font-semibold">Choose Subject</h2>
             <Select
-              value={selectedSubjectId !== null ? String(selectedSubjectId) : ""}
+              value={
+                selectedSubjectId !== null ? String(selectedSubjectId) : ""
+              }
               onValueChange={(value) => setSelectedSubjectId(Number(value))}
             >
               <SelectTrigger className="w-[250px]">
@@ -95,31 +113,32 @@ export default function TutorProfilePage() {
               </SelectContent>
             </Select>
           </div>
-
         </Dialog>
         <h2>Availability:</h2>
         {!availability && <p>There are no available time slots.</p>}
-        {availability && availability.map((tutorTimeslots, index) => (
-          <li
-            className={
-              selectedTimeSlot === index
-                ? "bg-blue-500 text-white"
-                : ""
-            }
-            key={tutorTimeslots.tutorTimeslotId}
-            onClick={() => setSelectedTimeSlot(index)}
-          >
-            {format(parseISO(tutorTimeslots.start), "MMM d, yyyy h:mm a")} - {format(parseISO(tutorTimeslots.end), "h:mm a")}
-          </li>
-
-        ))}
+        {availability &&
+          availability.map((tutorTimeslots, index) => (
+            <li
+              className={
+                selectedTimeSlot === index ? "bg-blue-500 text-white" : ""
+              }
+              key={tutorTimeslots.tutorTimeslotId}
+              onClick={() => setSelectedTimeSlot(index)}
+            >
+              {format(parseISO(tutorTimeslots.start), "MMM d, yyyy h:mm a")} -{" "}
+              {format(parseISO(tutorTimeslots.end), "h:mm a")}
+            </li>
+          ))}
       </ul>
 
       <Button
         variant={"secondary"}
         disabled={selectedTimeSlot === -1}
         className="mt-6"
-        onClick={() => setIsOpen(true)}> Book this Session
+        onClick={() => setIsOpen(true)}
+      >
+        {" "}
+        Book this Session
       </Button>
     </>
   );
