@@ -1,14 +1,14 @@
 import type { Session } from "./session";
 
 export type Parent = {
-  parentId: string;
-  children: Child[];
+  parentId: number;
+  children: ChildResponse[];
   childSessions: Session[];
 };
 
-export type Child = {
-  id: string;
-  childName: string;
+export type ChildResponse = {
+  childId: string;
+  firstName: string;
   gradeLevel: number;
 };
 
