@@ -1,5 +1,5 @@
 export type TutorTimeslot = {
-  tutorTimeslotId: number;
+  tutorTimeSlotId: number;
   tutorId: number;
   timeslotId: number;
   start: string;

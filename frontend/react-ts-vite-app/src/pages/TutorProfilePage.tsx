@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { type Subject } from "../types/subject";
 import type { Reviews } from "../types/reviews";
 import { format, parseISO } from "date-fns";
+import type { ChildResponse } from "@/types/parents";
 import {
   Select,
   SelectContent,
@@ -30,6 +31,21 @@ export default function TutorProfilePage() {
   const reviews = useLearningCenterAPI<Reviews[]>(
     tutorId ? `/api/tutors/${tutorId}/reviews` : "",
   );
+
+  //const parentIdStr = localStorage.getItem("currentParentId");
+  // const parentId = parentIdStr ? Number(parentIdStr) : 1;
+  // console.log("Current Parent ID being used:", parentId);
+  const parentId = 1;
+
+ const children = useLearningCenterAPI<ChildResponse[]>(
+  `/api/parents/${parentId}/children`
+);
+
+  // console.log("currentParentId raw:", parentIdStr);
+  // console.log("parentId:", parentId);
+  // console.log("children:", children);
+
+  const [selectedChildId, setSelectedChildId] = useState<number | null>(null);
 
   const [selectedTimeSlot, setSelectedTimeSlot] = useState(-1);
   const [isOpen, setIsOpen] = useState(false);
@@ -83,12 +99,37 @@ export default function TutorProfilePage() {
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
           <DialogContent className="max-w-lg">
             {availability && selectedTimeSlot !== -1 && (
-              <SessionReviewPage
-                tutor={tutor}
-                slot={availability[selectedTimeSlot]}
-                subjectId={selectedSubjectId}
-                onClose={() => setIsOpen(false)}
-              />
+              <div className="space-y-4">
+
+                <div className="space-y-2">
+                  <h2 className="text-lg font-semibold">Select Child</h2>
+
+                  <Select
+                    value={selectedChildId !== null ? String(selectedChildId) : ""}
+                    onValueChange={(value) => setSelectedChildId(Number(value))}
+                  >
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Select a child" />
+                    </SelectTrigger>
+
+                    <SelectContent>
+                      {children?.map((c) => (
+                        <SelectItem key={c.childId} value={String(c.childId)}>
+                          {c.firstName} (Grade {c.gradeLevel})
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <SessionReviewPage
+                  tutor={tutor}
+                  slot={availability[selectedTimeSlot]}
+                  subjectId={selectedSubjectId}
+                  childId={selectedChildId}
+                  onClose={() => setIsOpen(false)}
+                />
+              </div>
             )}
           </DialogContent>
 
@@ -122,7 +163,7 @@ export default function TutorProfilePage() {
               className={
                 selectedTimeSlot === index ? "bg-blue-500 text-white" : ""
               }
-              key={tutorTimeslots.tutorTimeslotId}
+              key={tutorTimeslots.tutorTimeSlotId}
               onClick={() => setSelectedTimeSlot(index)}
             >
               {format(parseISO(tutorTimeslots.start), "MMM d, yyyy h:mm a")} -{" "}

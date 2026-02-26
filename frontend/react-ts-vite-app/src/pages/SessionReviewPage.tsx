@@ -8,6 +8,7 @@ type Props = {
   tutor: Tutor
   slot: TutorTimeslot
   subjectId: number | null
+  childId: number | null
   onClose: () => void
 }
 
@@ -15,8 +16,38 @@ export default function SessionReviewModal({
   tutor,
   slot,
   subjectId,
+  childId,
   onClose,
 }: Props) {
+  const handleConfirmSession = async () => {
+    if (!childId || !subjectId) return alert("Please select a child and subject first.");
+
+    // Using var for the payload as requested
+    var sessionData = {
+      tutorId: tutor.tutorId,
+      childId: childId,
+      sessionNotes: "",
+      tutorTimeSlotId: slot.tutorTimeslotId,
+      subjectId: subjectId
+    };
+
+    try {
+      var response = await fetch("/api/sessions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(sessionData),
+      });
+
+      if (response.ok) {
+        // Redirecting to parent profile so you can see the new session
+        window.location.href = "/confirmation";
+      } else {
+        alert("Save failed.");
+      }
+    } catch (error) {
+      console.error("Network error:", error);
+    }
+  };
 
   const sessionDate = new Date(slot.start)
   const selectedSubject = tutor.subjects.find((s) => s.subjectId === subjectId);
@@ -34,25 +65,8 @@ export default function SessionReviewModal({
     hour12: true,
   })
 
-  const handleConfirmSession = async () => {
-    try {
-      // Creates the session via POST request with all required IDs
-      await fetch("/api/sessions", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          tutorId: tutor.tutorId,
-          tutorTimeSlotId: slot.tutorTimeslotId,
-        }),
-      })
 
-      onClose()
-      window.location.href = "/confirmation"
-    } catch (error) {
-      console.error("Failed to create session:", error)
-      alert("Failed to create session. Please try again.")
-    }
-  };
+
   if (!tutor || !slot) return <p>Loading...</p>;
 
   return (
