@@ -9,7 +9,6 @@ import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 export default function ParentProfilePage() {
   // extracting parentId from URL params
   const parentId = 1;
-  //localStorage.setItem("currentParentId", String(parentId));
 
 
   // Use child or string as the useState reference?
@@ -25,15 +24,7 @@ export default function ParentProfilePage() {
 
 
 
-  console.log("parentId:", parentId);
-  console.log("children value:", children);
-  console.log(
-    "isArray:",
-    Array.isArray(children),
-    "length:",
-    Array.isArray(children) ? children.length : "n/a"
-  );
-  // Looping through all of the children and fetching their sessions into allSessions state.
+
   useEffect(() => {
     if (!children || !Array.isArray(children)) return;
 
