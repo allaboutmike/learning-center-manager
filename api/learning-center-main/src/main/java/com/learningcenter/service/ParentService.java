@@ -28,12 +28,13 @@ public class ParentService {
         return responseList;
     }
     public Integer getCreditsByParentId(Long parentId) {
-        return parentRepository.getCredits(parentId);
+        return parentRepository.findById(parentId).get().getCredits();
 }
 
     public Integer addCreditsByParentId(Long parentId, Integer credits) {
-        var creditBalance = parentRepository.getCredits(parentId);
-        credits+= creditBalance;
-        return creditBalance;
+    var creditBalance = parentRepository.findById(parentId).get().getCredits();
+    creditBalance += credits;
+    return creditBalance;
+
     }
 }

@@ -64,7 +64,7 @@ public class Parent {
     }
 
     public int getCredits() {
-        return credits;
+        return this.credits;
     }
 
     public void setCredits(int credits) {
