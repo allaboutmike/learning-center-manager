@@ -6,11 +6,13 @@ import com.learningcenter.repository.ParentRepository;
 import com.learningcenter.repository.ChildRepository; // You'll likely need this to set up data
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.jpa.test.autoconfigure.TestEntityManager;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
@@ -25,6 +27,9 @@ public class ParentServiceTest {
 
     @Autowired
     private ChildRepository childRepository;
+
+
+    TestEntityManager entityManager;
 
     @Test
     void getChildrenByParent_returnsChildren() {
@@ -53,4 +58,20 @@ public class ParentServiceTest {
         assertEquals("Bob", result.get(1).firstName());
 
     }
+
+    @Test
+    public void getCreditsByParentId()
+    {
+    Parent parent = new Parent("joe", 15);
+    System.out.println(parent.toString());
+    entityManager.persist(parent);
+
+        assertEquals(10, entityManager.find(Parent.class, parentRepository.getCredits(parent.getParentId())));;
+    }
+//
+//    @Test
+//    void addCreditsByParentId()
+//    {
+//
+//    }
 }

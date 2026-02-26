@@ -56,7 +56,6 @@ public class ParentRepositoryIntegrationTest {
 
         Parent parent = new Parent("Bob Smith", 67);
         Child child = new Child("Alice Smith", 5, parent);
-        System.out.println(child.toString());
         Child child2 = new Child("Charlie Smith", 7, parent);
         parent.getChild().add(child);
         parent.getChild().add(child2);

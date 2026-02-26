@@ -27,6 +27,13 @@ public class ParentService {
         }
         return responseList;
     }
+    public Integer getCreditsByParentId(Long parentId) {
+        return parentRepository.getCredits(parentId);
+}
 
-
+    public Integer addCreditsByParentId(Long parentId, Integer credits) {
+        var creditBalance = parentRepository.getCredits(parentId);
+        credits+= creditBalance;
+        return creditBalance;
+    }
 }
