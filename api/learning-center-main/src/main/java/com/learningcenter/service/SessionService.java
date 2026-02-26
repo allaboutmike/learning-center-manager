@@ -85,8 +85,11 @@ public class SessionService {
         var child = childRepository.findById(request.childId());
         var tutorTimeSlot = tutorTimeSlotRepository.findById(request.tutorTimeSlotId());
         var subject = subjectRepository.findById(request.subjectId());
-        Session session = new Session("", LocalDateTime.now(), child.get(), tutorTimeSlot.get(), subject.get());
         var parent = parentRepository.findById(child.get().getParent().getParentId()).get();
+        if(parent.getCredits() <= 0) {
+            throw new ErrorResponseException(HttpStatus.BAD_REQUEST, ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "Insufficient credits"), null);
+        }
+        Session session = new Session("", LocalDateTime.now(), child.get(), tutorTimeSlot.get(), subject.get());
         parent.setCredits(parent.getCredits() - 1);
         parentRepository.save(parent);
         return sessionRepository.save(session);
