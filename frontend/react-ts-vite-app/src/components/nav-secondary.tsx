@@ -10,7 +10,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { Collapsible } from "radix-ui";
+// import { Collapsible } from "radix-ui";
 
 export function NavSecondary({
   items,
