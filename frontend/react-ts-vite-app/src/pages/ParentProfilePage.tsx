@@ -1,8 +1,6 @@
-import { useState } from "react";
-import { useParams } from "react-router-dom";
-import type { TabType, Parent } from "../types/parents";
+import { useEffect, useRef, useState, useMemo } from "react";
+import type { TabType, ChildResponse, SessionData } from "../types/parents";
 import { useLearningCenterAPI } from "../hooks/useLearningCenterAPI";
-import type { Session } from "@/types/session";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AppSidebar } from "@/components/app-sidebar";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
@@ -10,50 +8,77 @@ import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 
 export default function ParentProfilePage() {
   // extracting parentId from URL params
-  const { parentId } = useParams<{
-    parentId: string;
-  }>();
+  const parentId = 1;
 
   // Use child or string as the useState reference?
   const [activeTab, setActiveTab] = useState<TabType>("upcoming");
   const [selectedChildId, setSelectedChildId] = useState<string>("all");
+  const [allSessions, setAllSessions] = useState<SessionData>({});
+  const fetchedRef = useRef<Set<string>>(new Set());
 
   // Fetching the children from the API
-  const children = useLearningCenterAPI<Parent[]>(
-    parentId ? `/api/parents/${parentId}` : "",
+  const children = useLearningCenterAPI<ChildResponse[]>(
+    `/api/parents/${parentId}/children`,
   );
 
-  // Used selectedChildId instead of childId because it is directly tied to the dropdown list so that the page can update dynamically.
-  const sessionData = useLearningCenterAPI<
-    Record<string, Record<TabType, Session[]>>
-  >(
-    parentId
-      ? selectedChildId === "all"
-        ? `/api/parents/${parentId}/children/${selectedChildId}/sessions`
-        : `/api/parents/${parentId}/children/sessions`
-      : "",
-  );
+  // Looping through all of the children and fetching their sessions into allSessions state.
+  useEffect(() => {
+    if (!children || !Array.isArray(children)) return;
 
-  // Logic to get sessions based on selection
-  const getCurrentSessions = (): Session[] => {
-    if (!sessionData) return [];
+    const fetchAll = async () => {
+      const toFetch = children.filter(
+        (c) => !fetchedRef.current.has(c.childId.toString()),
+      );
 
+      if (toFetch.length === 0) return;
+
+      await Promise.all(
+        toFetch.map(async (child) => {
+          const cId = child.childId.toString();
+          fetchedRef.current.add(cId);
+
+          // Using a try/catch as a safety net in case one specific child data is unavailable
+          try {
+            const [upcoming, past] = await Promise.all([
+              fetch(
+                `/api/parents/${parentId}/children/${cId}/sessions/upcoming`,
+              ).then((res) => res.json()),
+
+              fetch(
+                `/api/parents/${parentId}/children/${cId}/sessions/past`,
+              ).then((res) => res.json()),
+            ]);
+
+            setAllSessions((prev) => ({
+              ...prev,
+              [cId]: { upcoming, past },
+            }));
+          } catch (err) {
+            console.error(`Failed to fetch sessions for child ${cId}`, err);
+          }
+        }),
+      );
+    };
+
+    fetchAll();
+  }, [children, parentId]);
+
+  // Logic to get sessions based on childId selection. Replaced the session hook with memoized logic to handle both "all" and specific child selection.
+  const currentSessions = useMemo(() => {
     if (selectedChildId === "all") {
-      return Object.values(sessionData).flatMap(
-        (childData) => childData[activeTab] ?? [],
+      // return [1,2,3,4,5,6].map(item => item);
+      return Object.values(allSessions).flatMap(
+        (data) => data[activeTab] || [],
       );
     }
+    return allSessions[selectedChildId]?.[activeTab] || [];
+  }, [allSessions, selectedChildId, activeTab]);
 
-    const childData = sessionData[selectedChildId];
-    return childData ? (childData[activeTab] ?? []) : [];
-  };
-
-  const currentSessions = getCurrentSessions();
   const hasNoSessions = currentSessions.length === 0;
 
   // Find the selected child object for the empty state message
   const selectedChild = Array.isArray(children)
-    ? children.find((c) => c.parentId.toString() === selectedChildId)
+    ? children.find((c) => c.childId.toString() === selectedChildId)
     : undefined;
 
   return (
@@ -66,16 +91,19 @@ export default function ParentProfilePage() {
             <div className="flex justify-between items-center w-full">
               <h1 className="text-2xl font-bold">Parent Profile</h1>
               <div className="booking-btn">
-                <button className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">
+                <button
+                  className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+                  onClick={() => (window.location.href = "/tutors")}
+                >
                   Book A Session
                 </button>
               </div>
             </div>
 
             <div className="parent-session-container w-full flex flex-col items-center">
-              {/* Tab Navigation */}
               <Tabs
-                defaultValue="upcoming"
+                value={activeTab}
+                onValueChange={(v) => setActiveTab(v as TabType)}
                 className="w-full flex flex-col items-center"
               >
                 <TabsList
@@ -84,15 +112,13 @@ export default function ParentProfilePage() {
                 >
                   <TabsTrigger
                     value="upcoming"
-                    className={`text-white data-[state=active]:text-white ${activeTab === "upcoming" ? "active" : ""}`}
-                    onClick={() => setActiveTab("upcoming")}
+                    className="text-white data-[state=active]:text-white"
                   >
                     Upcoming
                   </TabsTrigger>
                   <TabsTrigger
                     value="past"
-                    className={`text-white data-[state=active]:text-white ${activeTab === "past" ? "active" : ""}`}
-                    onClick={() => setActiveTab("past")}
+                    className="text-white data-[state=active]:text-white"
                   >
                     Past
                   </TabsTrigger>
@@ -114,12 +140,9 @@ export default function ParentProfilePage() {
                   >
                     <option value="all">All Children</option>
                     {Array.isArray(children) &&
-                      children.map((children) => (
-                        <option
-                          key={children.parentId}
-                          value={children.parentId}
-                        >
-                          {children.parentId}
+                      children.map((child) => (
+                        <option key={child.childId} value={child.childId}>
+                          {child.firstName} (Grade {child.gradeLevel})
                         </option>
                       ))}
                   </select>
@@ -134,8 +157,8 @@ export default function ParentProfilePage() {
                       </h3>
                       <p className="text-gray-500">
                         {selectedChildId === "all"
-                          ? `No ${activeTab} sessions scheduled for any children.`
-                          : `${selectedChild?.parentId} does not have any ${activeTab} sessions ${activeTab === "upcoming" ? "scheduled" : "recorded"}.`}
+                          ? `Select a specific child to view ${activeTab} sessions.`
+                          : `${selectedChild?.firstName} does not have any ${activeTab} sessions ${activeTab === "upcoming" ? "scheduled" : "recorded"}.`}
                       </p>
                     </div>
                   ) : (
@@ -146,16 +169,16 @@ export default function ParentProfilePage() {
                           className="session-card p-4 border rounded-lg shadow-sm"
                         >
                           <h2 className="font-bold text-xl">
-                            {session.childId}
+                            Session #{session.sessionId}
                           </h2>
                           <h4 className="text-blue-600 font-medium">
-                            {session.subjectId}
+                            Subject ID: {session.subjectId}
                           </h4>
                           <p className="text-sm text-gray-600">
-                            Tutor: {session.tutorId}
+                            Tutor ID: {session.tutorId}
                           </p>
-                          <p className="mt-2 italic text-gray-700">
-                            Notes: {session.sessionNotes}
+                          <p className="text-sm text-gray-500">
+                            Date: {new Date(session.date).toLocaleDateString()}
                           </p>
                         </div>
                       ))}

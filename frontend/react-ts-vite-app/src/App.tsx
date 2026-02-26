@@ -1,17 +1,17 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import TutorSearchScreen from "./pages/TutorSearchScreen";
 import TutorProfilePage from "./pages/TutorProfilePage";
 import ConfirmationPage from "./pages/ConfirmationPage";
 import DashboardPage from "./pages/DashboardPage";
 import ParentProfilePage from "./pages/ParentProfilePage";
+import TutorSearchScreen from "./pages/TutorSearchScreen";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route index element={<ParentProfilePage />} />
         <Route path="/" element={<DashboardPage />}>
-          <Route path="/parents/:parentId" element={<ParentProfilePage />} />
-          <Route index element={<TutorSearchScreen />} />
+          <Route path="/tutors" element={<TutorSearchScreen />} />
           <Route path="tutors/:tutorId" element={<TutorProfilePage />} />
           <Route path="confirmation" element={<ConfirmationPage />} />
         </Route>

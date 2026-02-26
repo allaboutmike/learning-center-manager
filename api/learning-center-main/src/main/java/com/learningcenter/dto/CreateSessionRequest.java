@@ -1,9 +1,5 @@
 package com.learningcenter.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
-import java.time.LocalDateTime;
-
 public record CreateSessionRequest (
     /*
     CreateSessionRequest Object
