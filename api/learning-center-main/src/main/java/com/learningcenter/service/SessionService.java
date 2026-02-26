@@ -68,12 +68,14 @@ public class SessionService {
     private ChildRepository childRepository;
     private TutorTimeSlotRepository tutorTimeSlotRepository;
     private SubjectRepository subjectRepository;
+    private ParentRepository parentRepository;
 
-    public SessionService(SessionRepository sessionRepository, ChildRepository childRepository, TutorTimeSlotRepository tutorTimeSlotRepository, SubjectRepository subjectRepository) {
+    public SessionService(SessionRepository sessionRepository, ChildRepository childRepository, TutorTimeSlotRepository tutorTimeSlotRepository, SubjectRepository subjectRepository, ParentRepository parentRepository) {
         this.sessionRepository = sessionRepository;
         this.childRepository = childRepository;
         this.tutorTimeSlotRepository = tutorTimeSlotRepository;
         this.subjectRepository = subjectRepository;
+        this.parentRepository = parentRepository;
     }
 
     public Session createSession(CreateSessionRequest request) {
@@ -84,6 +86,9 @@ public class SessionService {
         var tutorTimeSlot = tutorTimeSlotRepository.findById(request.tutorTimeSlotId());
         var subject = subjectRepository.findById(request.subjectId());
         Session session = new Session("", LocalDateTime.now(), child.get(), tutorTimeSlot.get(), subject.get());
+        var parent = parentRepository.findById(child.get().getParent().getParentId()).get();
+        parent.setCredits(parent.getCredits() - 1);
+        parentRepository.save(parent);
         return sessionRepository.save(session);
     }
 

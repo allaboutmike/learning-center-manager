@@ -1,16 +1,31 @@
 package com.learningcenter.service;
 
-import com.learningcenter.dto.SessionResponse;
-import com.learningcenter.entities.*;
-import com.learningcenter.repository.*;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
+
+import com.learningcenter.dto.CreateSessionRequest;
+import com.learningcenter.dto.SessionResponse;
+import com.learningcenter.entities.Child;
+import com.learningcenter.entities.Session;
+import com.learningcenter.entities.Subject;
+import com.learningcenter.entities.Timeslot;
+import com.learningcenter.entities.Tutor;
+import com.learningcenter.entities.TutorTimeslot;
+import com.learningcenter.entities.Parent;
+import com.learningcenter.repository.ChildRepository;
+import com.learningcenter.repository.ParentRepository;
+import com.learningcenter.repository.SessionRepository;
+import com.learningcenter.repository.SubjectRepository;
+import com.learningcenter.repository.TutorTimeSlotRepository;
 
 
 public class SessionServiceTest {
@@ -19,6 +34,7 @@ public class SessionServiceTest {
     private TutorTimeSlotRepository tutorTimeSlotRepository;
     private SubjectRepository subjectRepository;
     private SessionService sessionService;
+    private ParentRepository parentRepository;
 
 
     @BeforeEach
@@ -27,8 +43,10 @@ public class SessionServiceTest {
         childRepository = mock(ChildRepository.class);
         tutorTimeSlotRepository = mock(TutorTimeSlotRepository.class);
         subjectRepository = mock(SubjectRepository.class);
+        parentRepository = mock(ParentRepository.class);
+        
 
-        sessionService = new SessionService(sessionRepository, childRepository, tutorTimeSlotRepository, subjectRepository);
+        sessionService = new SessionService(sessionRepository, childRepository, tutorTimeSlotRepository, subjectRepository, parentRepository);
     }
 
     @Test
@@ -91,9 +109,48 @@ public class SessionServiceTest {
         return session;
     }
 
+    @Test
+    void createSession_decreasesParentCredits() {
+        // Arrange
+        Long childId = 99L;
+        Long tutorTimeSlotId = 99L;
+        Long subjectId = 99L;
+        Long parentId = 99L;
+        int initialCredits = 10;
+
+        // Create request
+        CreateSessionRequest request = mock(CreateSessionRequest.class);
+        when(request.childId()).thenReturn(childId);
+        when(request.tutorTimeSlotId()).thenReturn(tutorTimeSlotId);
+        when(request.subjectId()).thenReturn(subjectId);
+
+        // Create mock entities
+        Child child = mock(Child.class);
+        Parent parent = mock(Parent.class);
+        when(parent.getParentId()).thenReturn(parentId);
+        when(parent.getCredits()).thenReturn(initialCredits);
+        when(child.getParent()).thenReturn(parent);
+
+        Subject subject = mock(Subject.class);
+        Timeslot timeslot = mock(Timeslot.class);
+        TutorTimeslot tutorTimeslot = mock(TutorTimeslot.class);
+        when(tutorTimeslot.getTimeslot()).thenReturn(timeslot);
+
+        // Setup mocks to return Optional values
+        when(childRepository.findById(childId)).thenReturn(Optional.of(child));
+        when(tutorTimeSlotRepository.findById(tutorTimeSlotId)).thenReturn(Optional.of(tutorTimeslot));
+        when(subjectRepository.findById(subjectId)).thenReturn(Optional.of(subject));
+        when(parentRepository.findById(parentId)).thenReturn(Optional.of(parent));
+
+        Session mockSession = mock(Session.class);
+        when(sessionRepository.save(any(Session.class))).thenReturn(mockSession);
+
+        // Act
+        sessionService.createSession(request);
+
+        // Assert - verify credits were decreased by 1
+        verify(parent).setCredits(initialCredits - 1);
+        verify(parentRepository).save(parent);
+        verify(sessionRepository).save(any(Session.class));
+    }
 }
-
-
-
-
-
