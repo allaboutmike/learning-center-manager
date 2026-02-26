@@ -39,7 +39,6 @@ export default function SessionReviewModal({
       });
 
       if (response.ok) {
-        // Redirecting to parent profile so you can see the new session
         window.location.href = "/confirmation";
       } else {
         alert("Save failed.");
