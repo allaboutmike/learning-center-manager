@@ -60,13 +60,15 @@ public class ParentServiceTest {
     }
 
     @Test
-    public void getCreditsByParentId()
+    void getCreditsByParentId_returnCreditBalance()
     {
-    Parent parent = new Parent("joe", 15);
-    System.out.println(parent.toString());
-    entityManager.persist(parent);
+    Parent parent = new Parent();
+    parent.setName("Tim");
+    parent.setCredits(10);
+    parent = parentRepository.save(parent);
+    var result = parentService.getCreditsByParentId(parent.getParentId());
 
-        assertEquals(10, entityManager.find(Parent.class, parentRepository.getCredits(parent.getParentId())));;
+        assertEquals(10, result.getCredits(0));
     }
 //
 //    @Test

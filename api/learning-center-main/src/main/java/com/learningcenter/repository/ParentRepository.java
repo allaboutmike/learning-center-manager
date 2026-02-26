@@ -15,6 +15,6 @@ public interface ParentRepository extends CrudRepository<Parent, Long> {
     @Query("SELECT c FROM Parent p JOIN p.child c WHERE p.parentId = :parentId")
     List<Child> listOfChildrenByParentId(Long parentId);
 
-    Integer getCredits(@Param("tutorId") Long tutorId);
+    Integer getCredits(@Param("parentId") Long parentId);
 
 }

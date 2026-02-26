@@ -6,5 +6,5 @@ public record ParentResponse(
     Long parentId,
     List<ChildResponse> children,
     List<SessionResponse> childSessions,
-    Integer creditBalance
+    Integer credits
 ){}
