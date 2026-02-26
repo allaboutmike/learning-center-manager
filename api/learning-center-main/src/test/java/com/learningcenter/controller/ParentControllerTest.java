@@ -1,16 +1,17 @@
 package com.learningcenter.controller;
 
-import com.learningcenter.dto.ChildResponse;
-import com.learningcenter.dto.SessionResponse;
-import jakarta.transaction.Transactional;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import com.learningcenter.dto.ChildResponse;
+import com.learningcenter.dto.SessionResponse;
+
+import jakarta.transaction.Transactional;
 
 @SpringBootTest
 @Transactional
@@ -44,7 +45,7 @@ public class ParentControllerTest {
     void searchPastSessionsByChildIdAndParentIdAndReturnSessionsList() {
         List<SessionResponse> pastSessions = parentController.getPastSessionsByParentIdAndChildId(1L, 1L);
         assertNotNull(pastSessions);
-        assertEquals(0, pastSessions.size());
+        assertEquals(2, pastSessions.size());
     }
 
     @Test

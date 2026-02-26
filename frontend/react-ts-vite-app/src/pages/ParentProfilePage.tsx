@@ -66,6 +66,7 @@ export default function ParentProfilePage() {
   // Logic to get sessions based on childId selection. Replaced the session hook with memoized logic to handle both "all" and specific child selection.
   const currentSessions = useMemo(() => {
     if (selectedChildId === "all") {
+      // return [1,2,3,4,5,6].map(item => item);
       return Object.values(allSessions).flatMap(
         (data) => data[activeTab] || [],
       );
@@ -90,7 +91,10 @@ export default function ParentProfilePage() {
             <div className="flex justify-between items-center w-full">
               <h1 className="text-2xl font-bold">Parent Profile</h1>
               <div className="booking-btn">
-                <button className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors" onClick={() => window.location.href = "/tutors"}>
+                <button
+                  className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+                  onClick={() => (window.location.href = "/tutors")}
+                >
                   Book A Session
                 </button>
               </div>
