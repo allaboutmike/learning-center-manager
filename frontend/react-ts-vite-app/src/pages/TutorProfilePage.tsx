@@ -34,9 +34,9 @@ export default function TutorProfilePage() {
 
   const parentId = 1;
 
- const children = useLearningCenterAPI<ChildResponse[]>(
-  `/api/parents/${parentId}/children`
-);
+  const children = useLearningCenterAPI<ChildResponse[]>(
+    `/api/parents/${parentId}/children`
+  );
 
 
   const [selectedChildId, setSelectedChildId] = useState<number | null>(null);
@@ -157,8 +157,7 @@ export default function TutorProfilePage() {
               className={
                 selectedTimeSlot === index ? "bg-blue-500 text-white" : ""
               }
-              key={tutorTimeslots.tutorTimeslotId}
-              onClick={() => setSelectedTimeSlot(index)}
+              key={tutorTimeslots.tutorTimeslotId} onClick={() => setSelectedTimeSlot(index)}
             >
               {format(parseISO(tutorTimeslots.start), "MMM d, yyyy h:mm a")} -{" "}
               {format(parseISO(tutorTimeslots.end), "h:mm a")}
