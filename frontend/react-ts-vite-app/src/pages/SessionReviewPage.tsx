@@ -73,8 +73,7 @@ export default function SessionReviewModal({
 
       <div className="space-y-2">
         <h3>
-          You've booked a session with {tutor.name} on {formattedDate} at {formattedTime}.
-        </h3>
+          You're about to book a session with {tutor.name} on {formattedDate} at {formattedTime}.        </h3>
         <p>Subject: {selectedSubject?.name ?? "Not selected"}</p>
         <p>Click the button below to confirm your session.</p>
       </div>
