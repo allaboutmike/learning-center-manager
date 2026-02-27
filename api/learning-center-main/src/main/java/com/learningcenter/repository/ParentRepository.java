@@ -7,7 +7,6 @@ import org.springframework.data.repository.CrudRepository;
 
 import com.learningcenter.entities.Child;
 import com.learningcenter.entities.Parent;
-import org.springframework.data.repository.query.Param;
 
 public interface ParentRepository extends CrudRepository<Parent, Long> {
 

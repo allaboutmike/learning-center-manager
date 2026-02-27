@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
@@ -28,21 +27,21 @@ public class ParentServiceTest {
     @Autowired
     private ChildRepository childRepository;
 
-
-    TestEntityManager entityManager;
-
     @Test
     void getChildrenByParent_returnsChildren() {
 
         Parent parent = new Parent();
         parent.setName("Test Parent");
+        parent.setCredits(10);
         parent = parentRepository.save(parent);
         Long parentId = parent.getParentId();
+
 
         Child child1 = new Child();
         child1.setName("Alice");
         child1.setGradeLevel(5);
         child1.setParent(parent);
+
 
         Child child2 = new Child();
         child2.setName("Bob");
@@ -51,7 +50,9 @@ public class ParentServiceTest {
 
         childRepository.saveAll(List.of(child1, child2));
 
+
         var result = parentService.getChildrenByParent(parentId);
+
 
         assertEquals(2, result.size());
         assertEquals("Alice", result.get(0).firstName());

@@ -45,11 +45,12 @@ public class ParentController {
     }
 
 
-    //Handles POST request to increase credit balance by amount purchased
+    //Handles PUT request to increase credit balance by amount purchased
     @PutMapping("/{parentId}/creditBalance/purchasedCredits")
     @ResponseStatus(HttpStatus.OK)
     public Integer addCreditsByParentId(@PathVariable(required = true) Long parentId, Integer credits) {
-        return parentService.addCreditsByParentId(parentId, credits);
+       return parentService.addCreditsByParentId(parentId, credits);
     }
 
 }
+
