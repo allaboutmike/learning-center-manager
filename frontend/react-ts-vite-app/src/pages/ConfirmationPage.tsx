@@ -27,29 +27,6 @@ export default function ConfirmationPage() {
                         }.`
                         : "Loading confirmation details..."}
                 </p>
-                {/* {data && (
-                    <>
-                        <p>Child ID: {data.childId}</p>
-                        <p>Subject ID: {data.subjectId}</p>
-                        <p>Tutor ID: {data.tutorId}</p>
-
-                        <p>
-                            Time: {data.time
-                                ? new Date(data.time).toLocaleDateString("en-US", {
-                                    weekday: "long",
-                                    month: "long",
-                                    day: "numeric",
-                                    year: "numeric",
-                                }) + " at " +
-                                new Date(data.time).toLocaleTimeString("en-US", {
-                                    hour: "numeric",
-                                    minute: "2-digit",
-                                    hour12: true,
-                                })
-                                : "Not available"}
-                        </p>
-                    </>
-                )} */}
             </div>
             <Button className="mt-10 mr-10" variant="secondary" onClick={() => window.location.href = "/"}>Return to Search Tutors</Button>
 
