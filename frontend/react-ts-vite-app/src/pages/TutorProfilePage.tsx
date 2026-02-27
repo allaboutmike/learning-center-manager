@@ -32,18 +32,12 @@ export default function TutorProfilePage() {
     tutorId ? `/api/tutors/${tutorId}/reviews` : "",
   );
 
-  //const parentIdStr = localStorage.getItem("currentParentId");
-  // const parentId = parentIdStr ? Number(parentIdStr) : 1;
-  // console.log("Current Parent ID being used:", parentId);
   const parentId = 1;
 
  const children = useLearningCenterAPI<ChildResponse[]>(
   `/api/parents/${parentId}/children`
 );
 
-  // console.log("currentParentId raw:", parentIdStr);
-  // console.log("parentId:", parentId);
-  // console.log("children:", children);
 
   const [selectedChildId, setSelectedChildId] = useState<number | null>(null);
 
@@ -163,7 +157,7 @@ export default function TutorProfilePage() {
               className={
                 selectedTimeSlot === index ? "bg-blue-500 text-white" : ""
               }
-              key={tutorTimeslots.tutorTimeSlotId}
+              key={tutorTimeslots.tutorTimeslotId}
               onClick={() => setSelectedTimeSlot(index)}
             >
               {format(parseISO(tutorTimeslots.start), "MMM d, yyyy h:mm a")} -{" "}
