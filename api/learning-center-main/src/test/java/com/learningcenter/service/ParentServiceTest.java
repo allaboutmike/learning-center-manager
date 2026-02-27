@@ -60,37 +60,4 @@ public class ParentServiceTest {
 
     }
 
-    @Test
-    void getCreditsByParentId_returnsCreditBalance() {
-
-
-        Parent parent = new Parent();
-        parent.setName("Tim");
-        parent.setCredits(10);
-
-        parent = parentRepository.save(parent);
-
-
-        Integer result = parentService.getCreditsByParentId(parent.getParentId());
-
-
-        assertEquals(10, result);
-    }
-
-    @Test
-    void addCreditsByParentId_returnsCreditBalance() {
-
-
-        Parent parent = new Parent();
-        parent.setName("Tim");
-        parent.setCredits(10);
-
-        parent = parentRepository.save(parent);
-
-
-        Integer result = parentService.addCreditsByParentId(parent.getParentId(), 10);
-
-
-        assertEquals(20, result);
-    }
 }

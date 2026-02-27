@@ -4,6 +4,9 @@ package com.learningcenter.repository;
 import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import com.learningcenter.service.ParentService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
@@ -20,6 +23,9 @@ public class ParentRepositoryIntegrationTest {
 
     @Autowired
     TestEntityManager entityManager;
+
+    ParentService parentService;
+
 
 
     @Test
@@ -65,5 +71,39 @@ public class ParentRepositoryIntegrationTest {
 
         List<Child> childrenOfParent = parentRepository.listOfChildrenByParentId(parent.getParentId());
         assertThat(childrenOfParent.size()).isEqualTo(2);
+    }
+
+    @Test
+    void getCreditsByParentId_returnsCreditBalance() {
+
+
+        Parent parent = new Parent();
+        parent.setName("Tim");
+        parent.setCredits(10);
+
+        parent = parentRepository.save(parent);
+
+
+        Integer result = parentService.getCreditsByParentId(parent.getParentId());
+
+
+        assertEquals(10, result);
+    }
+
+    @Test
+    void addCreditsByParentId_returnsCreditBalance() {
+
+
+        Parent parent = new Parent();
+        parent.setName("Tim");
+        parent.setCredits(10);
+
+        parent = parentRepository.save(parent);
+
+
+        Integer result = parentService.addCreditsByParentId(parent.getParentId(), 10);
+
+
+        assertEquals(20, result);
     }
 }
