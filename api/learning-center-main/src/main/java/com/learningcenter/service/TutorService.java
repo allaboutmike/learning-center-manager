@@ -59,7 +59,7 @@ public class TutorService {
 
 
     public List<TutorTimeSlotResponse> getTutorAvailability(Long tutorId) {
-        var timeSlots = tutorTimeSlotRepository.findByTutorId(tutorId);
+        var timeSlots = tutorTimeSlotRepository.findAvailableByTutorId(tutorId);
         List<TutorTimeSlotResponse> responses = new ArrayList<>();
         for (var timeSlot : timeSlots) {
             responses.add(new TutorTimeSlotResponse(timeSlot.getTutorTimeslotId(), timeSlot.getTutor().getTutorId(), timeSlot.getTimeslot().getTimeslotId(), timeSlot.getTimeslot().getTime(), timeSlot.getTimeslot().getTime().plusHours(1)));
