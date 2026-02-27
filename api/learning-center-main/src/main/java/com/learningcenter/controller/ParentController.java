@@ -4,6 +4,7 @@ import com.learningcenter.dto.ChildResponse;
 import com.learningcenter.dto.SessionResponse;
 import com.learningcenter.service.ParentService;
 import com.learningcenter.service.SessionService;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,4 +37,20 @@ public class ParentController {
     public List<SessionResponse> getUpcomingSessionsByParentIdAndChildId(@PathVariable(required = true) Long parentId, @PathVariable(required = true) Long childId) {
         return sessionService.getUpcomingSessions(parentId, childId);
     }
+
+    //Handles GET request to get credit balance
+    @GetMapping("/{parentId}/creditBalance")
+    public Integer getCreditsByParentId(@PathVariable(required = true) Long parentId){
+        return parentService.getCreditsByParentId(parentId);
+    }
+
+
+    //Handles PUT request to increase credit balance by amount purchased
+    @PutMapping("/{parentId}/creditBalance/purchasedCredits")
+    @ResponseStatus(HttpStatus.OK)
+    public Integer addCreditsByParentId(@PathVariable(required = true) Long parentId, Integer credits) {
+       return parentService.addCreditsByParentId(parentId, credits);
+    }
+
 }
+

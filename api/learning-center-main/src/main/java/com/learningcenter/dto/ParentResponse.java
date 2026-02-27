@@ -5,5 +5,6 @@ import java.util.List;
 public record ParentResponse(
     Long parentId,
     List<ChildResponse> children,
-    List<SessionResponse> childSessions
+    List<SessionResponse> childSessions,
+    Integer credits
 ){}

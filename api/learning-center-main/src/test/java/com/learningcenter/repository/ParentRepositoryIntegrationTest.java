@@ -4,6 +4,9 @@ package com.learningcenter.repository;
 import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import com.learningcenter.service.ParentService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
@@ -20,6 +23,7 @@ public class ParentRepositoryIntegrationTest {
 
     @Autowired
     TestEntityManager entityManager;
+
 
 
     @Test
@@ -56,7 +60,6 @@ public class ParentRepositoryIntegrationTest {
 
         Parent parent = new Parent("Bob Smith", 67);
         Child child = new Child("Alice Smith", 5, parent);
-        System.out.println(child.toString());
         Child child2 = new Child("Charlie Smith", 7, parent);
         parent.getChild().add(child);
         parent.getChild().add(child2);
@@ -67,4 +70,5 @@ public class ParentRepositoryIntegrationTest {
         List<Child> childrenOfParent = parentRepository.listOfChildrenByParentId(parent.getParentId());
         assertThat(childrenOfParent.size()).isEqualTo(2);
     }
+
 }
