@@ -39,7 +39,7 @@ export default function SessionReviewModal({
       });
 
       if (response.ok) {
-        const createdSession = await response.json(); // SessionResponse
+        const createdSession = await response.json();
         window.location.href = `/confirmation?sessionId=${createdSession.sessionId}`;
       } else {
         alert("Save failed.");
