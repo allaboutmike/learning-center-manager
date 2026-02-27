@@ -53,7 +53,6 @@ REST API controller for managing tutoring session operations in the Learning Cen
     // Handles POST requests to /api/sessions
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-   @CrossOrigin(origins = "http://localhost:5173")
     public SessionResponse createSession(@RequestBody CreateSessionRequest request) {
 
 

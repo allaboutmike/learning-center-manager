@@ -9,7 +9,7 @@ export function useLearningCenterAPI<T>(url: string) {
         fetch(`${API_BASE_URL}${url}`)
             .then((res) => res.json())
             .then((json) => setData(json as T));
-    }, [url]);
+    }, [url]); 
 
     return data;
 }
@@ -23,7 +23,7 @@ export function useLearningCenterPost() {
             },
             body: body ? JSON.stringify(body) : undefined,
         });
-        
+
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
