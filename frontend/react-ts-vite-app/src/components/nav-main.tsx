@@ -11,12 +11,14 @@ import {
 
 export function NavMain({
   items,
+  onItemClick,
 }: {
   items: {
     title: string;
     url: string;
     icon?: Icon;
   }[];
+  onItemClick?: (item: { title: string; url: string }) => void;
 }) {
   return (
     <SidebarGroup>
@@ -46,6 +48,7 @@ export function NavMain({
               <SidebarMenuButton
                 tooltip={item.title}
                 style={{ color: "white" }}
+                onClick={() => onItemClick?.(item)}
               >
                 {item.icon && <item.icon />}
                 <span>{item.title}</span>
