@@ -15,6 +15,8 @@ public class SessionResponse {
     private String sessionNotes;
     private Long childId;
     private LocalDateTime time;
+    private String childName;
+    private String tutorName;
 
     public SessionResponse(Session session) {
         this.sessionId = session.getSessionId();
@@ -23,6 +25,8 @@ public class SessionResponse {
         this.sessionNotes = session.getSessionNotes();
         this.childId = session.getChild().getChildId();
         this.time = session.getTimeslot().getTimeslot().getTime();
+        this.childName = session.getChild().getName();
+        this.tutorName = session.getTimeslot().getTutor().getName();
     }
 
     public Long getSessionId() {
@@ -31,6 +35,14 @@ public class SessionResponse {
 
     public void setSessionId(Long sessionId) {
         this.sessionId = sessionId;
+    }
+
+    public String getChildName() {
+        return childName;
+    }
+
+    public String getTutorName() {
+        return tutorName;
     }
 
     public Long getTutorId() {
