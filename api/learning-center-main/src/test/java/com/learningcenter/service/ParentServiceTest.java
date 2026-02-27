@@ -6,6 +6,7 @@ import com.learningcenter.repository.ParentRepository;
 import com.learningcenter.repository.ChildRepository; // You'll likely need this to set up data
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.jpa.test.autoconfigure.TestEntityManager;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,13 +32,16 @@ public class ParentServiceTest {
 
         Parent parent = new Parent();
         parent.setName("Test Parent");
+        parent.setCredits(10);
         parent = parentRepository.save(parent);
         Long parentId = parent.getParentId();
+
 
         Child child1 = new Child();
         child1.setName("Alice");
         child1.setGradeLevel(5);
         child1.setParent(parent);
+
 
         Child child2 = new Child();
         child2.setName("Bob");
@@ -46,11 +50,47 @@ public class ParentServiceTest {
 
         childRepository.saveAll(List.of(child1, child2));
 
+
         var result = parentService.getChildrenByParent(parentId);
+
 
         assertEquals(2, result.size());
         assertEquals("Alice", result.get(0).firstName());
         assertEquals("Bob", result.get(1).firstName());
 
+    }
+
+    @Test
+    void getCreditsByParentId_returnsCreditBalance() {
+
+
+        Parent parent = new Parent();
+        parent.setName("Tim");
+        parent.setCredits(10);
+
+        parent = parentRepository.save(parent);
+
+
+        Integer result = parentService.getCreditsByParentId(parent.getParentId());
+
+
+        assertEquals(10, result);
+    }
+
+    @Test
+    void addCreditsByParentId_returnsCreditBalance() {
+
+
+        Parent parent = new Parent();
+        parent.setName("Tim");
+        parent.setCredits(10);
+
+        parent = parentRepository.save(parent);
+
+
+        Integer result = parentService.addCreditsByParentId(parent.getParentId(), 10);
+
+
+        assertEquals(20, result);
     }
 }

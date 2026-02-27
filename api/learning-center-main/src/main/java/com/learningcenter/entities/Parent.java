@@ -25,16 +25,18 @@ public class Parent {
     private String name;
 
     @Column(nullable=false, name="credits")
-    private int credits;
+    private Integer credits;
 
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
     private List<Child> child = new ArrayList<>();
 
+    public Parent( int credits) {
+        this.credits = credits;
+    }
     public Parent(String name, int credits) {
         this.name = name;
         this.credits = credits;
     }
-
     public Parent() {
         
     }
@@ -64,7 +66,7 @@ public class Parent {
     }
 
     public int getCredits() {
-        return credits;
+        return this.credits;
     }
 
     public void setCredits(int credits) {

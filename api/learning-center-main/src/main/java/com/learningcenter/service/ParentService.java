@@ -1,6 +1,7 @@
 package com.learningcenter.service;
 
 import com.learningcenter.dto.ChildResponse;
+import com.learningcenter.entities.Parent;
 import com.learningcenter.repository.ParentRepository;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,7 @@ import java.util.List;
 @Service
 public class ParentService {
     private final ParentRepository parentRepository;
+    private Parent parent;
 
 
     public ParentService(ParentRepository parentRepository) {
@@ -27,6 +29,17 @@ public class ParentService {
         }
         return responseList;
     }
+    public Integer getCreditsByParentId(Long parentId) {
+        return parentRepository.findById(parentId).get().getCredits();
+}
 
 
+
+    public Integer addCreditsByParentId(Long parentId, Integer credits) {
+        parent = parentRepository.findById(parentId).get();
+        var creditBalance = parent.getCredits();
+        parent.setCredits(creditBalance + credits);
+        parentRepository.save(parent);
+        return parent.getCredits();
+    }
 }
