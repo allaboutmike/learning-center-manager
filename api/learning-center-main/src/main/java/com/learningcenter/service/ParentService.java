@@ -37,8 +37,9 @@ public class ParentService {
 
     public Integer addCreditsByParentId(Long parentId, Integer credits) {
         parent = parentRepository.findById(parentId).get();
-        var creditBalance = parentRepository.findById(parentId).get().getCredits();
-       parent.setCredits(creditBalance + credits);
+        var creditBalance = parent.getCredits();
+        parent.setCredits(creditBalance + credits);
+        parentRepository.save(parent);
         return parent.getCredits();
     }
 }
