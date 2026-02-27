@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button"
 import type { Tutor } from "../types/tutor"
 import type { TutorTimeslot } from "../types/tutorTimeslot"
+import { useLearningCenterPost } from "../hooks/useLearningCenterAPI";
 
 
 
@@ -8,6 +9,7 @@ type Props = {
   tutor: Tutor
   slot: TutorTimeslot
   subjectId: number | null
+  childId: number | null
   onClose: () => void
 }
 
@@ -15,9 +17,34 @@ export default function SessionReviewModal({
   tutor,
   slot,
   subjectId,
+  childId,
   onClose,
 }: Props) {
+  const post = useLearningCenterPost();
+  const handleConfirmSession = async () => {
+    if (!childId || !subjectId) return alert("Please select a child and subject first.");
 
+    // Using var for the payload as requested
+    var sessionData = {
+      tutorId: tutor.tutorId,
+      childId: childId,
+      sessionNotes: "",
+      tutorTimeSlotId: slot.tutorTimeslotId,
+      subjectId: subjectId
+    };
+
+    try {
+      const createdSession = await post<{ sessionId: number }>(
+        "/api/sessions",
+        sessionData
+      );
+
+      window.location.href = `/confirmation?sessionId=${createdSession.sessionId}`;
+    } catch (error) {
+      console.error("Error creating session:", error);
+      alert("Save failed. Please try again.");
+    }
+  };
   const sessionDate = new Date(slot.start)
   const selectedSubject = tutor.subjects.find((s) => s.subjectId === subjectId);
 
@@ -34,25 +61,8 @@ export default function SessionReviewModal({
     hour12: true,
   })
 
-  const handleConfirmSession = async () => {
-    try {
-      // Creates the session via POST request with all required IDs
-      await fetch("/api/sessions", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          tutorId: tutor.tutorId,
-          tutorTimeSlotId: slot.tutorTimeslotId,
-        }),
-      })
 
-      onClose()
-      window.location.href = "/confirmation"
-    } catch (error) {
-      console.error("Failed to create session:", error)
-      alert("Failed to create session. Please try again.")
-    }
-  };
+
   if (!tutor || !slot) return <p>Loading...</p>;
 
   return (
@@ -63,8 +73,7 @@ export default function SessionReviewModal({
 
       <div className="space-y-2">
         <h3>
-          You've booked a session with {tutor.name} on {formattedDate} at {formattedTime}.
-        </h3>
+          You're about to book a session with {tutor.name} on {formattedDate} at {formattedTime}.        </h3>
         <p>Subject: {selectedSubject?.name ?? "Not selected"}</p>
         <p>Click the button below to confirm your session.</p>
       </div>

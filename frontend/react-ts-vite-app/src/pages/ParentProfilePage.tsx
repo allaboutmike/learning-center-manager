@@ -10,6 +10,7 @@ export default function ParentProfilePage() {
   // extracting parentId from URL params
   const parentId = 1;
 
+
   // Use child or string as the useState reference?
   const [activeTab, setActiveTab] = useState<TabType>("upcoming");
   const [selectedChildId, setSelectedChildId] = useState<string>("all");
@@ -21,7 +22,9 @@ export default function ParentProfilePage() {
     `/api/parents/${parentId}/children`,
   );
 
-  // Looping through all of the children and fetching their sessions into allSessions state.
+
+
+
   useEffect(() => {
     if (!children || !Array.isArray(children)) return;
 
