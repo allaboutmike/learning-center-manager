@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button"
 import type { Tutor } from "../types/tutor"
 import type { TutorTimeslot } from "../types/tutorTimeslot"
+import { useLearningCenterPost } from "../hooks/useLearningCenterAPI";
 
 
 
@@ -19,6 +20,7 @@ export default function SessionReviewModal({
   childId,
   onClose,
 }: Props) {
+  const post = useLearningCenterPost();
   const handleConfirmSession = async () => {
     if (!childId || !subjectId) return alert("Please select a child and subject first.");
 
@@ -32,23 +34,17 @@ export default function SessionReviewModal({
     };
 
     try {
-      var response = await fetch("/api/sessions", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(sessionData),
-      });
+      const createdSession = await post<{ sessionId: number }>(
+        "/api/sessions",
+        sessionData
+      );
 
-      if (response.ok) {
-        const createdSession = await response.json();
-        window.location.href = `/confirmation?sessionId=${createdSession.sessionId}`;
-      } else {
-        alert("Save failed.");
-      }
+      window.location.href = `/confirmation?sessionId=${createdSession.sessionId}`;
     } catch (error) {
-      console.error("Network error:", error);
+      console.error("Error creating session:", error);
+      alert("Save failed. Please try again.");
     }
   };
-
   const sessionDate = new Date(slot.start)
   const selectedSubject = tutor.subjects.find((s) => s.subjectId === subjectId);
 
