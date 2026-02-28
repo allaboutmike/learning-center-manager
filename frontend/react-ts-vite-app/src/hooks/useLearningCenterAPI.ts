@@ -16,7 +16,7 @@ export function useLearningCenterAPI<T>(url: string) {
 
 export function useLearningCenterPost() {
     return async <T, B = unknown>(url: string, body?: B): Promise<T> => {
-        const response = await fetch(url, {
+        const response = await fetch(`${API_BASE_URL}${url}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
