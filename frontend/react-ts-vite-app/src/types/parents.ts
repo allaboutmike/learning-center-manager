@@ -4,6 +4,7 @@ export type Parent = {
   parentId: number;
   children: ChildResponse[];
   childSessions: Session[];
+  credits: number;
 };
 
 export type ChildResponse = {

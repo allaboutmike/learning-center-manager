@@ -5,6 +5,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AppSidebar } from "@/components/app-sidebar";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 // import { useNavigate } from "react-router-dom";
+import CreditsDisplay from '../components/CreditsDisplay';
 
 export default function ParentProfilePage() {
   // extracting parentId from URL params
@@ -93,7 +94,8 @@ export default function ParentProfilePage() {
             {/* Top Header Row: Title and Button */}
             <div className="flex justify-between items-center w-full">
               <h1 className="text-2xl font-bold">Parent Profile</h1>
-              <div className="booking-btn">
+              <div className="flex items-center gap-4">
+                <CreditsDisplay />
                 <button
                   className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
                   onClick={() => (window.location.href = "/tutors")}

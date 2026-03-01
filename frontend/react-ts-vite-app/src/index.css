@@ -184,3 +184,12 @@ button:focus-visible {
     @apply bg-background text-foreground;
   }
 }
+
+@keyframes spin3d {
+    0%, 100% { transform: rotateY(0deg); }
+    50% { transform: rotateY(180deg); }
+}
+
+.animate-spin-coin {
+    animation: spin3d 1.5s ease-in-out infinite;
+}
