@@ -11,6 +11,7 @@ import {
 
 export function NavMain({
   items,
+  onClick,
 }: {
   items: {
     title: string;
@@ -52,7 +53,7 @@ export function NavMain({
                   if (item.title === "Book a Session") {
                     item.onClick?.();
                   } else {
-                    // possible different path
+                    onClick?.({ title: item.title, url: item.url });
                   }
                 }}
               >
