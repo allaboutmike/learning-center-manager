@@ -1,6 +1,8 @@
 package com.learningcenter.controller;
 
 import com.learningcenter.dto.ChildResponse;
+import com.learningcenter.dto.ParentResponse;
+import com.learningcenter.dto.PurchaseCreditsRequest;
 import com.learningcenter.dto.SessionResponse;
 import com.learningcenter.service.ParentService;
 import com.learningcenter.service.SessionService;
@@ -18,6 +20,16 @@ public class ParentController {
     public ParentController(ParentService parentService, SessionService sessionService) {
         this.parentService = parentService;
         this.sessionService = sessionService;
+    }
+
+    @GetMapping("/{parentId}/credits")
+    public Integer getCreditsResponseByParentId(@PathVariable Long parentId) {
+        return parentService.getCreditsByParentId(parentId);
+    }
+
+    @PostMapping("/{parentId}/credits")
+    public void addPurchasedCreditsByParentId(@PathVariable Long parentId, @RequestBody PurchaseCreditsRequest request) {
+        parentService.addCreditsByParentId(parentId, request.credits());
     }
 
     //Handles GET request to get children associated to a parent by the parentId

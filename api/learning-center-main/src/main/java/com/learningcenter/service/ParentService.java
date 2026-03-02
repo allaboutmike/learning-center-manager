@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ParentService {
@@ -33,9 +34,11 @@ public class ParentService {
         return parentRepository.findById(parentId).get().getCredits();
 }
 
-
-
     public Integer addCreditsByParentId(Long parentId, Integer credits) {
+        if (credits == null) {
+            credits = 0;
+        };
+
         parent = parentRepository.findById(parentId).get();
         var creditBalance = parent.getCredits();
         parent.setCredits(creditBalance + credits);
