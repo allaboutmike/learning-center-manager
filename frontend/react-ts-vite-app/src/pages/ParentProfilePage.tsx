@@ -1,71 +1,60 @@
-import { useEffect, useRef, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useCallback } from "react";
 import type { TabType, ChildResponse, SessionData } from "../types/parents";
 import { useLearningCenterAPI } from "../hooks/useLearningCenterAPI";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AppSidebar } from "@/components/app-sidebar";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import type { Session } from "../types/session";
 // import { useNavigate } from "react-router-dom";
 import CreditsDisplay from '../components/CreditsDisplay';
+
+function ChildSessionFetcher({
+  parentId,
+  childId,
+  onData,
+}: {
+  parentId: number;
+  childId: string;
+  onData: (
+    childId: string,
+    data: { upcoming: Session[]; past: Session[] },
+  ) => void;
+}) {
+  const upcoming = useLearningCenterAPI<Session[]>(
+    `/api/parents/${parentId}/children/${childId}/sessions/upcoming`,
+  );
+  const past = useLearningCenterAPI<Session[]>(
+    `/api/parents/${parentId}/children/${childId}/sessions/past`,
+  );
+
+  useEffect(() => {
+    if (upcoming && past) {
+      onData(childId, { upcoming, past });
+    }
+  }, [upcoming, past, childId, onData]);
+  return null;
+}
 
 export default function ParentProfilePage() {
   // extracting parentId from URL params
   const parentId = 1;
 
-
   // Use child or string as the useState reference?
   const [activeTab, setActiveTab] = useState<TabType>("upcoming");
   const [selectedChildId, setSelectedChildId] = useState<string>("all");
   const [allSessions, setAllSessions] = useState<SessionData>({});
-  const fetchedRef = useRef<Set<string>>(new Set());
 
   // Fetching the children from the API
   const children = useLearningCenterAPI<ChildResponse[]>(
     `/api/parents/${parentId}/children`,
   );
 
-
-
-
-  useEffect(() => {
-    if (!children || !Array.isArray(children)) return;
-
-    const fetchAll = async () => {
-      const toFetch = children.filter(
-        (c) => !fetchedRef.current.has(c.childId.toString()),
-      );
-
-      if (toFetch.length === 0) return;
-
-      await Promise.all(
-        toFetch.map(async (child) => {
-          const cId = child.childId.toString();
-          fetchedRef.current.add(cId);
-
-          // Using a try/catch as a safety net in case one specific child data is unavailable
-          try {
-            const [upcoming, past] = await Promise.all([
-              fetch(
-                `/api/parents/${parentId}/children/${cId}/sessions/upcoming`,
-              ).then((res) => res.json()),
-
-              fetch(
-                `/api/parents/${parentId}/children/${cId}/sessions/past`,
-              ).then((res) => res.json()),
-            ]);
-
-            setAllSessions((prev) => ({
-              ...prev,
-              [cId]: { upcoming, past },
-            }));
-          } catch (err) {
-            console.error(`Failed to fetch sessions for child ${cId}`, err);
-          }
-        }),
-      );
-    };
-
-    fetchAll();
-  }, [children, parentId]);
+  const handleSessionData = useCallback(
+    (childId: string, data: { upcoming: Session[]; past: Session[] }) => {
+      setAllSessions((prev) => ({ ...prev, [childId]: data }));
+    },
+    [],
+  );
 
   // Logic to get sessions based on childId selection. Replaced the session hook with memoized logic to handle both "all" and specific child selection.
   const currentSessions = useMemo(() => {
@@ -91,6 +80,15 @@ export default function ParentProfilePage() {
         <AppSidebar variant="inset" />
         <SidebarInset>
           <div className="p-6 flex flex-col w-full gap-6">
+            {Array.isArray(children) &&
+              children.map((child) => (
+                <ChildSessionFetcher
+                  key={child.childId}
+                  parentId={parentId}
+                  childId={child.childId.toString()}
+                  onData={handleSessionData}
+                />
+              ))}
             {/* Top Header Row: Title and Button */}
             <div className="flex justify-between items-center w-full">
               <h1 className="text-2xl font-bold">Parent Profile</h1>
