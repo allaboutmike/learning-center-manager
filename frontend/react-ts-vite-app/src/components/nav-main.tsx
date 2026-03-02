@@ -11,14 +11,14 @@ import {
 
 export function NavMain({
   items,
-  onItemClick,
 }: {
   items: {
     title: string;
     url: string;
     icon?: Icon;
+    onClick?: () => void;
   }[];
-  onItemClick?: (item: { title: string; url: string }) => void;
+  onClick?: (item: { title: string; url: string }) => void;
 }) {
   return (
     <SidebarGroup>
@@ -48,7 +48,13 @@ export function NavMain({
               <SidebarMenuButton
                 tooltip={item.title}
                 style={{ color: "white" }}
-                onClick={() => onItemClick?.(item)}
+                onClick={() => {
+                  if (item.title === "Book a Session") {
+                    item.onClick?.();
+                  } else {
+                    // possible different path
+                  }
+                }}
               >
                 {item.icon && <item.icon />}
                 <span>{item.title}</span>

@@ -41,7 +41,7 @@ const data = {
   navMain: [
     {
       title: "Parent Dashboard",
-      url: "#",
+      url: "/dashboard",
       icon: IconDashboard,
     },
     {
@@ -197,7 +197,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
 
       <SidebarContent>
-        <NavMain items={data.navMain} onItemClick={handleBookingFlow} />
+        <NavMain
+          items={data.navMain.map((item) =>
+            item.title === "Book a Session"
+              ? { ...item, onClick: handleBookingFlow }
+              : item,
+          )}
+        />
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
 
