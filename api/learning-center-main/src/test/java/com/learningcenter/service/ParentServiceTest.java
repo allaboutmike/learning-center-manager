@@ -1,5 +1,6 @@
 package com.learningcenter.service;
 
+import com.learningcenter.dto.ParentResponse;
 import com.learningcenter.entities.Child;
 import com.learningcenter.entities.Parent; // Ensure you have the Parent entity
 import com.learningcenter.repository.ParentRepository;
@@ -88,9 +89,9 @@ public class ParentServiceTest {
         parent = parentRepository.save(parent);
 
 
-        Integer result = parentService.addCreditsByParentId(parent.getParentId(), 10);
+        ParentResponse result = parentService.addCreditsByParentId(parent.getParentId(), 10);
 
 
-        assertEquals(20, result);
+        assertEquals(20, result.credits());
     }
 }

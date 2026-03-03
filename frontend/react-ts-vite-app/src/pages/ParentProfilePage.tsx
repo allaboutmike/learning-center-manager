@@ -1,9 +1,11 @@
 import { useEffect, useState, useMemo, useCallback } from "react";
-import type { TabType, ChildResponse, SessionData } from "../types/parents";
+import type { TabType, ChildResponse, SessionData, Parent } from "../types/parents";
 import { useLearningCenterAPI } from "../hooks/useLearningCenterAPI";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AppSidebar } from "@/components/app-sidebar";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { Button } from "@/components/ui/button"
+import BuyCreditsDialog from "./BuyCreditsDialog"
 import type { Session } from "../types/session";
 // import { useNavigate } from "react-router-dom";
 import CreditsDisplay from '../components/CreditsDisplay';
@@ -44,11 +46,21 @@ export default function ParentProfilePage() {
   const [selectedChildId, setSelectedChildId] = useState<string>("all");
   const [allSessions, setAllSessions] = useState<SessionData>({});
 
+  // controls opening and closing the BuyCreditsDialog
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => setIsModalOpen(true);
+
   // Fetching the children from the API
   const children = useLearningCenterAPI<ChildResponse[]>(
     `/api/parents/${parentId}/children`,
   );
 
+  const parent = useLearningCenterAPI<Parent>(
+    `/api/parents/${parentId}`,
+  );
+
+  
   const handleSessionData = useCallback(
     (childId: string, data: { upcoming: Session[]; past: Session[] }) => {
       setAllSessions((prev) => ({ ...prev, [childId]: data }));
@@ -93,13 +105,16 @@ export default function ParentProfilePage() {
             <div className="flex justify-between items-center w-full">
               <h1 className="text-2xl font-bold">Parent Profile</h1>
               <div className="flex items-center gap-4">
-                <CreditsDisplay />
-                <button
+                <CreditsDisplay openModal={openModal} />
+
+                <Button
                   className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
-                  onClick={() => (window.location.href = "/tutors")}
+                  disabled={!parent || parent.credits === 0}
+                  onClick={() => (      window.location.href = "/tutors"
+                  )}
                 >
                   Book A Session
-                </button>
+                </Button>
               </div>
             </div>
 
@@ -151,6 +166,7 @@ export default function ParentProfilePage() {
                   </select>
                 </div>
 
+
                 {/* Sessions Display */}
                 <div className="session-content w-full flex flex-col items-center">
                   {hasNoSessions ? (
@@ -193,6 +209,7 @@ export default function ParentProfilePage() {
           </div>
         </SidebarInset>
       </SidebarProvider>
+      <BuyCreditsDialog parentId={parentId} open={isModalOpen} onOpenChange={(open) => setIsModalOpen(open)} />
     </div>
   );
 }
