@@ -149,7 +149,18 @@ export default function ChildProgressDashboardPage({ parentId, childId }: Props)
                             <div className="h-64">
                                 <ResponsiveContainer width="100%" height="100%">
                                     <PieChart>
-                                        <Pie data={subjectChartData} dataKey="value" nameKey="name" />
+                                        <Pie
+                                            data={subjectChartData}
+                                            dataKey="value"
+                                            nameKey="name"
+                                        >
+                                            {subjectChartData.map((_, index) => (
+                                                <Cell
+                                                    key={`cell-${index}`}
+                                                    fill={COLORS[index % COLORS.length]}
+                                                />
+                                            ))}
+                                        </Pie>
                                         <Tooltip />
                                         <Legend />
                                     </PieChart>
