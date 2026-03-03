@@ -7,6 +7,7 @@ import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import type { Session } from "../types/session";
 // import { useNavigate } from "react-router-dom";
 import CreditsDisplay from '../components/CreditsDisplay';
+import ChildProgressDashboardPage from "./ChildProgressDashboardPage";
 
 function ChildSessionFetcher({
   parentId,
@@ -58,13 +59,17 @@ export default function ParentProfilePage() {
 
   // Logic to get sessions based on childId selection. Replaced the session hook with memoized logic to handle both "all" and specific child selection.
   const currentSessions = useMemo(() => {
+    if (activeTab === "reports") return [];
+
+    const sessionTab = activeTab as "upcoming" | "past";
+
     if (selectedChildId === "all") {
-      // return [1,2,3,4,5,6].map(item => item);
       return Object.values(allSessions).flatMap(
-        (data) => data[activeTab] || [],
+        (data) => data[sessionTab] || [],
       );
     }
-    return allSessions[selectedChildId]?.[activeTab] || [];
+
+    return allSessions[selectedChildId]?.[sessionTab] || [];
   }, [allSessions, selectedChildId, activeTab]);
 
   const hasNoSessions = currentSessions.length === 0;
@@ -151,43 +156,61 @@ export default function ParentProfilePage() {
                   </select>
                 </div>
 
+                {/* Progress Reports Display */}
+                {activeTab === "reports" && (
+                  <div className="w-full flex flex-col items-center">
+                    {selectedChildId === "all" ? (
+                      <div className="empty-state text-center py-10">
+                        <h3 className="text-lg font-semibold">Select a child</h3>
+                        <p className="text-gray-500">
+                          Progress reports are shown per child. Please select a specific child.
+                        </p>
+                      </div>
+                    ) : (
+                      <div className="w-full">
+                        <ChildProgressDashboardPage
+                          parentId={parentId}
+                          childId={Number(selectedChildId)}
+                        />
+                      </div>
+                    )}
+                  </div>
+                )}
+
                 {/* Sessions Display */}
-                <div className="session-content w-full flex flex-col items-center">
-                  {hasNoSessions ? (
-                    <div className="empty-state text-center py-10">
-                      <h3 className="text-lg font-semibold">
-                        No {activeTab} sessions
-                      </h3>
-                      <p className="text-gray-500">
-                        {selectedChildId === "all"
-                          ? `Select a specific child to view ${activeTab} sessions.`
-                          : `${selectedChild?.firstName} does not have any ${activeTab} sessions ${activeTab === "upcoming" ? "scheduled" : "recorded"}.`}
-                      </p>
-                    </div>
-                  ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-4xl">
-                      {currentSessions.map((session) => (
-                        <div
-                          key={session.sessionId}
-                          className="session-card p-4 border rounded-lg shadow-sm"
-                        >
-                          <h2 className="font-bold text-xl">
-                            Session #{session.sessionId}
-                          </h2>
-                          <h4 className="text-blue-600 font-medium">
-                            Subject ID: {session.subjectId}
-                          </h4>
-                          <p className="text-sm text-gray-600">
-                            Tutor ID: {session.tutorId}
-                          </p>
-                          <p className="text-sm text-gray-500">
-                            Date: {new Date(session.date).toLocaleDateString()}
-                          </p>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
+                {activeTab !== "reports" && (
+                  <div className="session-content w-full flex flex-col items-center">
+                    {hasNoSessions ? (
+                      <div className="empty-state text-center py-10">
+                        <h3 className="text-lg font-semibold">No {activeTab} sessions</h3>
+                        <p className="text-gray-500">
+                          {selectedChildId === "all"
+                            ? `Select a specific child to view ${activeTab} sessions.`
+                            : `${selectedChild?.firstName} does not have any ${activeTab} sessions ${activeTab === "upcoming" ? "scheduled" : "recorded"
+                            }.`}
+                        </p>
+                      </div>
+                    ) : (
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-4xl">
+                        {currentSessions.map((session) => (
+                          <div
+                            key={session.sessionId}
+                            className="session-card p-4 border rounded-lg shadow-sm"
+                          >
+                            <h2 className="font-bold text-xl">Session #{session.sessionId}</h2>
+                            <h4 className="text-blue-600 font-medium">
+                              Subject ID: {session.subjectId}
+                            </h4>
+                            <p className="text-sm text-gray-600">Tutor ID: {session.tutorId}</p>
+                            <p className="text-sm text-gray-500">
+                              Date: {new Date(session.date).toLocaleDateString()}
+                            </p>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                )}
               </Tabs>
             </div>
           </div>
