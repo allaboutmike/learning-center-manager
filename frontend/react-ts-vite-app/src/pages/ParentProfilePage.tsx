@@ -46,6 +46,11 @@ export default function ParentProfilePage() {
   const [selectedChildId, setSelectedChildId] = useState<string>("all");
   const [allSessions, setAllSessions] = useState<SessionData>({});
 
+  // controls opening and closing the BuyCreditsDialog
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => setIsModalOpen(true);
+
   // Fetching the children from the API
   const children = useLearningCenterAPI<ChildResponse[]>(
     `/api/parents/${parentId}/children`,
@@ -100,14 +105,15 @@ export default function ParentProfilePage() {
             <div className="flex justify-between items-center w-full">
               <h1 className="text-2xl font-bold">Parent Profile</h1>
               <div className="flex items-center gap-4">
-                <CreditsDisplay />
+                <CreditsDisplay openModal={openModal} />
+
                 {parent?.credits ? <Button
                   className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
                   onClick={() => (      window.location.href = "/tutors"
                   )}
                 >
                   Book A Session
-                </Button> : <BuyCreditsDialog parentId={parentId} availableCredits={parent?.credits ?? 0}/>}
+                </Button> : <BuyCreditsDialog parentId={parentId} />}
               </div>
             </div>
 

@@ -13,11 +13,13 @@ import type { Parent } from "@/types/parents";
 
 interface DialogProps {
   parentId: number;
-  availableCredits: number;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
 }
 
-export default function BuyCreditsDialog({ parentId, availableCredits }: DialogProps) {
+export default function BuyCreditsDialog({ parentId, open, onOpenChange }: DialogProps) {
   const [credits, setCredits] = useState<number>(0);
+  console.log("This console log is firing. ParentId: ", parentId)
 
   const handleCreditsChange = (event: ChangeEvent<HTMLInputElement>) => {
     const stringValue = event.target.value;
@@ -55,7 +57,7 @@ export default function BuyCreditsDialog({ parentId, availableCredits }: DialogP
 
   return (
     <>
-      <Dialog>
+      <Dialog open={open ?? false} onOpenChange={onOpenChange ?? (() => {})}>
         <DialogTrigger>Buy Credits</DialogTrigger>
         <DialogContent>
           <DialogHeader>
