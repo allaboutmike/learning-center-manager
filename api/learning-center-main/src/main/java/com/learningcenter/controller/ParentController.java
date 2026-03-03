@@ -55,8 +55,8 @@ public class ParentController {
     //Handles PUT request to increase credit balance by amount purchased
     @PatchMapping("/{parentId}")
     @ResponseStatus(HttpStatus.OK)
-    public ParentResponse addCreditsByParentId(@PathVariable(required = true) Long parentId, Integer credits) {
-       parentService.addCreditsByParentId(parentId, credits);
+    public ParentResponse addCreditsByParentId(@PathVariable(required = true) Long parentId, @RequestBody(required = true) PurchaseCreditsRequest request) {
+       parentService.addCreditsByParentId(parentId, request.credits());
        return parentService.getParentByParentId(parentId);
     }
 

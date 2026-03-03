@@ -47,8 +47,6 @@ public class ParentService {
 }
 
     public ParentResponse addCreditsByParentId(Long parentId, Integer credits) {
-        System.out.println(credits);
-
         parent = parentRepository.findById(parentId).get();
         var creditBalance = parent.getCredits();
 
