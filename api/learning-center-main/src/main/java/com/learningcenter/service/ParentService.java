@@ -1,6 +1,8 @@
 package com.learningcenter.service;
 
 import com.learningcenter.dto.ChildResponse;
+import com.learningcenter.dto.ParentResponse;
+import com.learningcenter.entities.Child;
 import com.learningcenter.entities.Parent;
 import com.learningcenter.repository.ParentRepository;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,16 @@ public class ParentService {
         this.parentRepository = parentRepository;
     }
 
+    public ParentResponse getParentByParentId(Long parentId) {
+        var parent = parentRepository.findById(parentId);
+
+        if (parent.isPresent()) {
+            var p = parent.get();
+            return buildParentResponse(p);
+        }
+        return null;
+    }
+
     public List<ChildResponse> getChildrenByParent(Long parentId) {
         var children = parentRepository.listOfChildrenByParentId(parentId);
         var responseList = new ArrayList<ChildResponse>();
@@ -34,15 +46,29 @@ public class ParentService {
         return parentRepository.findById(parentId).get().getCredits();
 }
 
-    public Integer addCreditsByParentId(Long parentId, Integer credits) {
-        if (credits == null) {
-            credits = 0;
-        };
+    public ParentResponse addCreditsByParentId(Long parentId, Integer credits) {
+        System.out.println(credits);
 
         parent = parentRepository.findById(parentId).get();
         var creditBalance = parent.getCredits();
+
+        if (credits == null || credits <= 0) {
+            return buildParentResponse(parent);
+        };
+
         parent.setCredits(creditBalance + credits);
-        parentRepository.save(parent);
-        return parent.getCredits();
+        parent = parentRepository.save(parent);
+        return buildParentResponse(parent);
+    }
+
+    private ParentResponse buildParentResponse(Parent p) {
+        var childList = new ArrayList<ChildResponse>();
+
+        for (var child : p.getChild()) {
+            childList.add(new ChildResponse(child.getChildId(), child.getName(), child.getGradeLevel()));
+        }
+
+        ParentResponse parentResponse = new ParentResponse(p.getParentId(), childList, List.of(), p.getCredits());
+        return parentResponse;
     }
 }

@@ -1,9 +1,11 @@
 import { useEffect, useState, useMemo, useCallback } from "react";
-import type { TabType, ChildResponse, SessionData } from "../types/parents";
+import type { TabType, ChildResponse, SessionData, Parent } from "../types/parents";
 import { useLearningCenterAPI } from "../hooks/useLearningCenterAPI";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AppSidebar } from "@/components/app-sidebar";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { Button } from "@/components/ui/button"
+import BuyCreditsDialog from "./BuyCreditsDialog"
 import type { Session } from "../types/session";
 // import { useNavigate } from "react-router-dom";
 import CreditsDisplay from '../components/CreditsDisplay';
@@ -49,6 +51,11 @@ export default function ParentProfilePage() {
     `/api/parents/${parentId}/children`,
   );
 
+  const parent = useLearningCenterAPI<Parent>(
+    `/api/parents/${parentId}`,
+  );
+
+  
   const handleSessionData = useCallback(
     (childId: string, data: { upcoming: Session[]; past: Session[] }) => {
       setAllSessions((prev) => ({ ...prev, [childId]: data }));
@@ -94,12 +101,13 @@ export default function ParentProfilePage() {
               <h1 className="text-2xl font-bold">Parent Profile</h1>
               <div className="flex items-center gap-4">
                 <CreditsDisplay />
-                <button
+                {parent?.credits ? <Button
                   className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
-                  onClick={() => (window.location.href = "/tutors")}
+                  onClick={() => (      window.location.href = "/tutors"
+                  )}
                 >
                   Book A Session
-                </button>
+                </Button> : <BuyCreditsDialog parentId={parentId} availableCredits={parent?.credits ?? 0}/>}
               </div>
             </div>
 
@@ -150,6 +158,7 @@ export default function ParentProfilePage() {
                       ))}
                   </select>
                 </div>
+
 
                 {/* Sessions Display */}
                 <div className="session-content w-full flex flex-col items-center">

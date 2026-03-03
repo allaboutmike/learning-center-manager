@@ -22,14 +22,9 @@ public class ParentController {
         this.sessionService = sessionService;
     }
 
-    @GetMapping("/{parentId}/credits")
-    public Integer getCreditsResponseByParentId(@PathVariable Long parentId) {
-        return parentService.getCreditsByParentId(parentId);
-    }
-
-    @PostMapping("/{parentId}/credits")
-    public void addPurchasedCreditsByParentId(@PathVariable Long parentId, @RequestBody PurchaseCreditsRequest request) {
-        parentService.addCreditsByParentId(parentId, request.credits());
+    @GetMapping("/{parentId}")
+    public ParentResponse getParentById(@PathVariable Long parentId) {
+        return parentService.getParentByParentId(parentId);
     }
 
     //Handles GET request to get children associated to a parent by the parentId
@@ -58,10 +53,11 @@ public class ParentController {
 
 
     //Handles PUT request to increase credit balance by amount purchased
-    @PutMapping("/{parentId}/creditBalance/purchasedCredits")
+    @PatchMapping("/{parentId}")
     @ResponseStatus(HttpStatus.OK)
-    public Integer addCreditsByParentId(@PathVariable(required = true) Long parentId, Integer credits) {
-       return parentService.addCreditsByParentId(parentId, credits);
+    public ParentResponse addCreditsByParentId(@PathVariable(required = true) Long parentId, Integer credits) {
+       parentService.addCreditsByParentId(parentId, credits);
+       return parentService.getParentByParentId(parentId);
     }
 
 }
