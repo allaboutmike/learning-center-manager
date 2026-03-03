@@ -107,13 +107,14 @@ export default function ParentProfilePage() {
               <div className="flex items-center gap-4">
                 <CreditsDisplay openModal={openModal} />
 
-                {parent?.credits ? <Button
+                <Button
                   className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+                  disabled={!parent || parent.credits === 0}
                   onClick={() => (      window.location.href = "/tutors"
                   )}
                 >
                   Book A Session
-                </Button> : <BuyCreditsDialog parentId={parentId} />}
+                </Button>
               </div>
             </div>
 
@@ -208,6 +209,7 @@ export default function ParentProfilePage() {
           </div>
         </SidebarInset>
       </SidebarProvider>
+      <BuyCreditsDialog parentId={parentId} open={isModalOpen} onOpenChange={(open) => setIsModalOpen(open)} />
     </div>
   );
 }

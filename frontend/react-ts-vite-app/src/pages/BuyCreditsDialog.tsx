@@ -5,7 +5,6 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { useLearningCenterPatch } from "@/hooks/useLearningCenterAPI";
@@ -19,7 +18,6 @@ interface DialogProps {
 
 export default function BuyCreditsDialog({ parentId, open, onOpenChange }: DialogProps) {
   const [credits, setCredits] = useState<number>(0);
-  console.log("This console log is firing. ParentId: ", parentId)
 
   const handleCreditsChange = (event: ChangeEvent<HTMLInputElement>) => {
     const stringValue = event.target.value;
@@ -43,7 +41,7 @@ export default function BuyCreditsDialog({ parentId, open, onOpenChange }: Dialo
 
   const postPurchasedCredits = async () => {
     try {
-      const purchasedCredits = await patch<Parent>(
+      await patch<Parent>(
         `/api/parents/${parentId}`,
         { credits: credits }
       );
@@ -58,7 +56,6 @@ export default function BuyCreditsDialog({ parentId, open, onOpenChange }: Dialo
   return (
     <>
       <Dialog open={open ?? false} onOpenChange={onOpenChange ?? (() => {})}>
-        <DialogTrigger>Buy Credits</DialogTrigger>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Buy Credits</DialogTitle>

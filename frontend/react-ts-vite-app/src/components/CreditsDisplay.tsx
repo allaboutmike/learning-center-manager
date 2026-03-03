@@ -1,5 +1,4 @@
 import { useLearningCenterAPI } from "@/hooks/useLearningCenterAPI"
-import BuyCreditsDialog from "../pages/BuyCreditsDialog"
 
 type Props = {
     openModal: () => void;
@@ -15,7 +14,7 @@ export default function CreditsDisplay({ openModal }: Props) {
 
     return (
         <button
-            onClick={() => openModal }
+            onClick={() => openModal() }
             aria-label={`Buy credits - you currently have ${parentCredits} credits`}
             title="Click to buy more credits"
             className="flex items-center gap-2 px-4 py-2 bg-green-100 text-green-800 rounded-md hover:bg-green-200 transition-colors"
