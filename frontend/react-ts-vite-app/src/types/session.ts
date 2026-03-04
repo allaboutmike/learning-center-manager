@@ -1,3 +1,5 @@
+import type { Subject } from "./subject";
+
 export type Session = {
   sessionId: number;
   tutorId: number;
@@ -6,6 +8,7 @@ export type Session = {
   date: string;
   childId: number;
   childName: string;
-  time: string; 
+  time: string;
   tutorName: string;
+  subjectName: Subject[];
 };

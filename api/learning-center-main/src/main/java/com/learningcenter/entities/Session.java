@@ -1,6 +1,5 @@
 package com.learningcenter.entities;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.CascadeType;
@@ -40,6 +39,7 @@ public class Session {
     @ManyToOne(optional=false)
     @JoinColumn(name = "subject_id", nullable = false)
     private Subject subject;
+
 
     public Session(String session_notes, LocalDateTime createdAt, Child child, TutorTimeslot tutorTimeslot, Subject subject) {
         this.sessionNotes = sessionNotes;
