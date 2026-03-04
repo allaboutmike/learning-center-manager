@@ -71,4 +71,28 @@ public class ParentRepositoryIntegrationTest {
         assertThat(childrenOfParent.size()).isEqualTo(2);
     }
 
+    @Test
+    public void givenMultipleParents_sumAllCredits_returnsTotalCredits() {
+        long creditsBefore = parentRepository.sumAllCredits();
+
+        Parent parent1 = new Parent("Anna", 40);
+        Parent parent2 = new Parent("Mike", 60);
+        entityManager.persist(parent1);
+        entityManager.persist(parent2);
+        entityManager.flush();
+
+        long total = parentRepository.sumAllCredits();
+        assertThat(total).isEqualTo(creditsBefore + 100);
+    }
+
+    @Test
+    public void givenNoParents_sumAllCredits_returnsZero() {
+        Iterable<Parent> all = parentRepository.findAll();
+        all.forEach(p -> parentRepository.delete(p));
+        entityManager.flush();
+
+        long total = parentRepository.sumAllCredits();
+        assertThat(total).isEqualTo(0L);
+    }
+
 }
