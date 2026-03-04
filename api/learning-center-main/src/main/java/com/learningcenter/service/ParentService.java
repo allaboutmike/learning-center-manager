@@ -55,7 +55,7 @@ public class ParentService {
         };
 
         parent.setCredits(creditBalance + credits);
-        parent = parentRepository.save(parent);
+        parentRepository.save(parent);
         return buildParentResponse(parent);
     }
 
