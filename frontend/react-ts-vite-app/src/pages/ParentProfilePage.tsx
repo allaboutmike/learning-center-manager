@@ -1,50 +1,51 @@
 // src/pages/ParentProfilePage.tsx
 
-import { useEffect, useState, useMemo, useCallback } from "react"
-import type { ChildResponse, SessionData, Parent } from "../types/parents"
-import { useLearningCenterAPI } from "../hooks/useLearningCenterAPI"
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { AppSidebar } from "@/components/app-sidebar"
-import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
-import { Button } from "@/components/ui/button"
-import BuyCreditsDialog from "./BuyCreditsDialog"
-import type { Session } from "../types/session"
-import CreditsDisplay from "../components/CreditsDisplay"
-import ChildProgressDashboardPage from "./ChildProgressDashboardPage"
+import { useEffect, useState, useMemo, useCallback } from "react";
+import type { ChildResponse, SessionData, Parent } from "../types/parents";
+import { useLearningCenterAPI } from "../hooks/useLearningCenterAPI";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { AppSidebar } from "@/components/app-sidebar";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { Button } from "@/components/ui/button";
+import BuyCreditsDialog from "./BuyCreditsDialog";
+import type { Session } from "../types/session";
+import CreditsDisplay from "../components/CreditsDisplay";
+import ChildProgressDashboardPage from "./ChildProgressDashboardPage";
 
-type ParentTab = "upcoming" | "past" | "reports"
-type SessionTab = "upcoming" | "past"
+type ParentTab = "upcoming" | "past" | "reports";
+type SessionTab = "upcoming" | "past";
 
 function ChildSessionFetcher({
   parentId,
   childId,
   onData,
 }: {
-  parentId: number
-  childId: string
-  onData: (childId: string, data: { upcoming: Session[]; past: Session[] }) => void
+  parentId: number;
+  childId: string;
+  onData: (
+    childId: string,
+    data: { upcoming: Session[]; past: Session[] },
+  ) => void;
 }) {
   const upcoming = useLearningCenterAPI<Session[]>(
     `/api/parents/${parentId}/children/${childId}/sessions/upcoming`,
-  )
+  );
 
   const past = useLearningCenterAPI<Session[]>(
     `/api/parents/${parentId}/children/${childId}/sessions/past`,
-  )
+  );
 
   useEffect(() => {
     if (upcoming && past) {
-      onData(childId, { upcoming, past })
+      onData(childId, { upcoming, past });
     }
-  }, [upcoming, past, childId, onData])
+  }, [upcoming, past, childId, onData]);
 
-  return null
+  return null;
 }
 
 export default function ParentProfilePage() {
-  const parentId = 1
-
-  
+  const parentId = 1;
 
   // controls opening and closing the BuyCreditsDialog
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -52,44 +53,43 @@ export default function ParentProfilePage() {
   const openModal = () => setIsModalOpen(true);
 
   // Fetching the children from the API
-  const [activeTab, setActiveTab] = useState<ParentTab>("upcoming")
-  const [selectedChildId, setSelectedChildId] = useState<string>("all")
-  const [allSessions, setAllSessions] = useState<SessionData>({})
+  const [activeTab, setActiveTab] = useState<ParentTab>("upcoming");
+  const [selectedChildId, setSelectedChildId] = useState<string>("all");
+  const [allSessions, setAllSessions] = useState<SessionData>({});
 
   const children = useLearningCenterAPI<ChildResponse[]>(
     `/api/parents/${parentId}/children`,
-  )
-
-  const parent = useLearningCenterAPI<Parent>(
-    `/api/parents/${parentId}`,
   );
 
-  
+  const parent = useLearningCenterAPI<Parent>(`/api/parents/${parentId}`);
+
   const handleSessionData = useCallback(
     (childId: string, data: { upcoming: Session[]; past: Session[] }) => {
-      setAllSessions((prev) => ({ ...prev, [childId]: data }))
+      setAllSessions((prev) => ({ ...prev, [childId]: data }));
     },
     [],
-  )
+  );
 
   const currentSessions = useMemo(() => {
-    if (activeTab === "reports") return []
+    if (activeTab === "reports") return [];
 
-    const sessionTab: SessionTab = activeTab
+    const sessionTab: SessionTab = activeTab;
 
     if (selectedChildId === "all") {
-      return Object.values(allSessions).flatMap((data) => data[sessionTab] || [])
+      return Object.values(allSessions).flatMap(
+        (data) => data[sessionTab] || [],
+      );
     }
 
-    return allSessions[selectedChildId]?.[sessionTab] || []
-  }, [allSessions, selectedChildId, activeTab])
+    return allSessions[selectedChildId]?.[sessionTab] || [];
+  }, [allSessions, selectedChildId, activeTab]);
 
-  const hasNoSessions = currentSessions.length === 0
+  const hasNoSessions = currentSessions.length === 0;
 
   const selectedChild =
     Array.isArray(children) && selectedChildId !== "all"
       ? children.find((c) => c.childId.toString() === selectedChildId)
-      : undefined
+      : undefined;
 
   // Refactor the view for accessibility options
   return (
@@ -116,8 +116,7 @@ export default function ParentProfilePage() {
                 <Button
                   className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
                   disabled={!parent || parent.credits === 0}
-                  onClick={() => (      window.location.href = "/tutors"
-                  )}
+                  onClick={() => (window.location.href = "/tutors")}
                 >
                   Book A Session
                 </Button>
@@ -185,7 +184,10 @@ export default function ParentProfilePage() {
                             Student Name: {session.childName}
                           </h4>
                           <h4 className="text-blue-600 font-medium">
-                            Subject: {session.subjectName}
+                            Subject:{" "}
+                            {Array.isArray(session.subjectName)
+                              ? session.subjectName.join(", ")
+                              : session.subjectName}
                           </h4>
                           <p className="text-sm text-gray-600">
                             Tutor Name: {session.tutorName}
@@ -199,14 +201,16 @@ export default function ParentProfilePage() {
                   )}
                 </div>
 
-
                 {activeTab === "reports" && (
                   <div className="w-full flex flex-col items-center">
                     {selectedChildId === "all" ? (
                       <div className="text-center py-10">
-                        <h3 className="text-lg font-semibold">Select a child</h3>
+                        <h3 className="text-lg font-semibold">
+                          Select a child
+                        </h3>
                         <p className="text-gray-500">
-                          Progress reports are shown per child. Please select a specific child.
+                          Progress reports are shown per child. Please select a
+                          specific child.
                         </p>
                       </div>
                     ) : (
@@ -224,7 +228,9 @@ export default function ParentProfilePage() {
                   <div className="w-full flex flex-col items-center">
                     {hasNoSessions ? (
                       <div className="text-center py-10">
-                        <h3 className="text-lg font-semibold">No {activeTab} sessions</h3>
+                        <h3 className="text-lg font-semibold">
+                          No {activeTab} sessions
+                        </h3>
                         <p className="text-gray-500">
                           {selectedChildId === "all"
                             ? `Select a specific child to view ${activeTab} sessions.`
@@ -242,7 +248,8 @@ export default function ParentProfilePage() {
                               Session #{session.sessionId}
                             </h2>
                             <p className="text-sm text-gray-500">
-                              Date: {new Date(session.date).toLocaleDateString()}
+                              Date:{" "}
+                              {new Date(session.date).toLocaleDateString()}
                             </p>
                           </div>
                         ))}
@@ -255,7 +262,11 @@ export default function ParentProfilePage() {
           </div>
         </SidebarInset>
       </SidebarProvider>
-      <BuyCreditsDialog parentId={parentId} open={isModalOpen} onOpenChange={(open) => setIsModalOpen(open)} />
+      <BuyCreditsDialog
+        parentId={parentId}
+        open={isModalOpen}
+        onOpenChange={(open) => setIsModalOpen(open)}
+      />
     </div>
-  )
+  );
 }

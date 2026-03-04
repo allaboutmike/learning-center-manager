@@ -28,7 +28,7 @@ public class SessionResponse {
         this.time = session.getTimeslot().getTimeslot().getTime();
         this.childName = session.getChild().getName();
         this.tutorName = session.getTimeslot().getTutor().getName();
-        this.subjectName = session.getSubjectName();
+        this.subjectName = session.getSubject().getName();
     }
 
     public Long getSessionId() {
