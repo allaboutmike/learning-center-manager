@@ -13,5 +13,6 @@ public interface ParentRepository extends CrudRepository<Parent, Long> {
     //Query method to find all children by parent
     @Query("SELECT c FROM Parent p JOIN p.child c WHERE p.parentId = :parentId")
     List<Child> listOfChildrenByParentId(Long parentId);
-
+      @Query("SELECT COALESCE(SUM(p.credits), 0) FROM Parent p")
+    long sumAllCredits();
 }
