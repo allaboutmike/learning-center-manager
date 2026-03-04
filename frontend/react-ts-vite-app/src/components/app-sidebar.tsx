@@ -31,6 +31,11 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { useNavigate } from "react-router-dom";
+import { useLearningCenterAPI } from "@/hooks/useLearningCenterAPI";
+import type { Parent } from "@/types/parents";
+import BuyCreditsDialog from "@/pages/BuyCreditsDialog";
+
+
 
 const data = {
   user: {
@@ -150,6 +155,12 @@ const data = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const parentId = 1;
+
+  const getParent = useLearningCenterAPI<Parent>(
+    `/api/parents/${parentId}`,
+  );
+
   const navigate = useNavigate();
 
   const [credits, setCredits] = React.useState(0);
@@ -158,7 +169,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   // If the parent has 0 credits, then they will be redirected to the Buy Credit Dialog. Otherwise, they will continue to the next step of the booking flow.
   const handleBookingFlow = () => {
     if (credits === 0) {
-      setShowBuyCreditsDialog(true);
+      <BuyCreditsDialog parentId={getParent?.parentId ?? 1} />;
     } else {
       navigate("/booking-dialog");
     }

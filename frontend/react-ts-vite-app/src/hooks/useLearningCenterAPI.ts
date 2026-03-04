@@ -30,3 +30,20 @@ export function useLearningCenterPost() {
         return response.json() as Promise<T>;
     };
 }
+
+export function useLearningCenterPatch() {
+    return async <T, B = unknown>(url: string, body?: B): Promise<T> => {
+        const response = await fetch(`${API_BASE_URL}${url}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: body ? JSON.stringify(body) : undefined,
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json() as Promise<T>;
+    };
+}
