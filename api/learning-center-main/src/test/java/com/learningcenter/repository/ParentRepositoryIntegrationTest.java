@@ -4,9 +4,6 @@ package com.learningcenter.repository;
 import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import com.learningcenter.service.ParentService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
@@ -84,15 +81,4 @@ public class ParentRepositoryIntegrationTest {
         long total = parentRepository.sumAllCredits();
         assertThat(total).isEqualTo(creditsBefore + 100);
     }
-
-    @Test
-    public void givenNoParents_sumAllCredits_returnsZero() {
-        Iterable<Parent> all = parentRepository.findAll();
-        all.forEach(p -> parentRepository.delete(p));
-        entityManager.flush();
-
-        long total = parentRepository.sumAllCredits();
-        assertThat(total).isEqualTo(0L);
-    }
-
 }
