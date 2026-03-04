@@ -1,8 +1,8 @@
 package com.learningcenter.dto;
 
-import com.learningcenter.entities.Session;
-
 import java.time.LocalDateTime;
+
+import com.learningcenter.entities.Session;
 
 public class SessionResponse {
     /*
@@ -17,6 +17,7 @@ public class SessionResponse {
     private LocalDateTime time;
     private String childName;
     private String tutorName;
+    private String subjectName;
 
     public SessionResponse(Session session) {
         this.sessionId = session.getSessionId();
@@ -27,6 +28,7 @@ public class SessionResponse {
         this.time = session.getTimeslot().getTimeslot().getTime();
         this.childName = session.getChild().getName();
         this.tutorName = session.getTimeslot().getTutor().getName();
+        this.subjectName = session.getSubjectName();
     }
 
     public Long getSessionId() {
@@ -55,6 +57,10 @@ public class SessionResponse {
 
     public Long getSubjectId() {
         return subjectId;
+    }
+
+    public String getSubjectName(){
+        return subjectName;
     }
 
     public LocalDateTime getTime() {

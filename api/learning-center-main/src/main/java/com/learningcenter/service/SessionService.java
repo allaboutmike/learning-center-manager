@@ -89,7 +89,7 @@ public class SessionService {
         if(parent.getCredits() <= 0) {
             throw new ErrorResponseException(HttpStatus.BAD_REQUEST, ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "Insufficient credits"), null);
         }
-        Session session = new Session("", LocalDateTime.now(), child.get(), tutorTimeSlot.get(), subject.get());
+        Session session = new Session("", LocalDateTime.now(), child.get(), tutorTimeSlot.get(), subject.get(), subject.get().getName());
         parent.setCredits(parent.getCredits() - 1);
         parentRepository.save(parent);
         return sessionRepository.save(session);
