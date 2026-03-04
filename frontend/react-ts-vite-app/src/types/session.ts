@@ -6,6 +6,7 @@ export type Session = {
   date: string;
   childId: number;
   childName: string;
-  time: string; 
+  time: string;
   tutorName: string;
+  subjectName: string;
 };

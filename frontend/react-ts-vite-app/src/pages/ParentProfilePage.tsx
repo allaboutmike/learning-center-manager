@@ -6,7 +6,7 @@ import { AppSidebar } from "@/components/app-sidebar";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import type { Session } from "../types/session";
 // import { useNavigate } from "react-router-dom";
-import CreditsDisplay from '../components/CreditsDisplay';
+import CreditsDisplay from "../components/CreditsDisplay";
 
 function ChildSessionFetcher({
   parentId,
@@ -74,6 +74,7 @@ export default function ParentProfilePage() {
     ? children.find((c) => c.childId.toString() === selectedChildId)
     : undefined;
 
+  // Refactor the view for accessibility options
   return (
     <div>
       <SidebarProvider>
@@ -169,19 +170,22 @@ export default function ParentProfilePage() {
                       {currentSessions.map((session) => (
                         <div
                           key={session.sessionId}
-                          className="session-card p-4 border rounded-lg shadow-sm"
+                          className="session-card p-4 border rounded-lg shadow-sm bg-white hover:border-blue-400 hover:scale-[1.01] transition-all duration-200 ease-in-out cursor-pointer focus-within:ring-2 focus-within:ring-blue-500 outline-none"
                         >
                           <h2 className="font-bold text-xl">
                             Session #{session.sessionId}
                           </h2>
                           <h4 className="text-blue-600 font-medium">
-                            Subject ID: {session.subjectId}
+                            Student Name: {session.childName}
+                          </h4>
+                          <h4 className="text-blue-600 font-medium">
+                            Subject: {session.subjectName}
                           </h4>
                           <p className="text-sm text-gray-600">
-                            Tutor ID: {session.tutorId}
+                            Tutor Name: {session.tutorName}
                           </p>
                           <p className="text-sm text-gray-500">
-                            Date: {new Date(session.date).toLocaleDateString()}
+                            Date: {session.time}
                           </p>
                         </div>
                       ))}
