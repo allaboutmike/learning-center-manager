@@ -8,10 +8,6 @@ export default function CreditsDisplay({ openModal }: Props) {
     const parentId = 1;
     const parentCredits = useLearningCenterAPI<number>(`/api/parents/${parentId}/creditBalance`);
 
-    if (!parentCredits) return null;
-    console.log(parentCredits);
-
-
     return (
         <button
             onClick={() => openModal() }
