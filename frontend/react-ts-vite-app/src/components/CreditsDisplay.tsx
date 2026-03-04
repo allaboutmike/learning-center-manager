@@ -1,15 +1,16 @@
 import { useLearningCenterAPI } from "@/hooks/useLearningCenterAPI"
-export default function CreditsDisplay() {
+
+type Props = {
+    openModal: () => void;
+};
+
+export default function CreditsDisplay({ openModal }: Props) {
     const parentId = 1;
     const parentCredits = useLearningCenterAPI<number>(`/api/parents/${parentId}/creditBalance`);
 
-    if (!parentCredits) return null;
-    console.log(parentCredits);
-
-
     return (
         <button
-            onClick={() => window.location.href = "/buy-credits"}
+            onClick={() => openModal() }
             aria-label={`Buy credits - you currently have ${parentCredits} credits`}
             title="Click to buy more credits"
             className="flex items-center gap-2 px-4 py-2 bg-green-100 text-green-800 rounded-md hover:bg-green-200 transition-colors"
