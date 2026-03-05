@@ -39,8 +39,12 @@ public class AdminServiceTest {
     @Test
     void getStats_parentCount_reflectsPersistedParents() {
         long before = parentRepository.count();
-        parentRepository.save(new Parent("Laura", 15));
-        parentRepository.save(new Parent("James", 25));
+        Parent laura = new Parent("Laura", "laura@example.com", null);
+        laura.setCredits(15);
+        parentRepository.save(laura);
+        Parent james = new Parent("James", "james@example.com", null);
+        james.setCredits(25);
+        parentRepository.save(james);
 
         AdminStatsResponse stats = adminService.getStats();
         assertEquals(before + 2, stats.getParents());
@@ -49,7 +53,9 @@ public class AdminServiceTest {
     @Test
     void getStats_studentCount_reflectsPersistedChildren() {
         long before = childRepository.count();
-        Parent parent = parentRepository.save(new Parent("Sara", 10));
+        Parent sara = new Parent("Sara", "sara@example.com", null);
+        sara.setCredits(10);
+        Parent parent = parentRepository.save(sara);
         childRepository.save(new Child("Lily", 4, parent));
         childRepository.save(new Child("Max", 6, parent));
 
@@ -66,8 +72,12 @@ public class AdminServiceTest {
     @Test
     void getStats_creditsPurchased_reflectsSumOfAllParentCredits() {
         long creditsBefore = parentRepository.sumAllCredits();
-        parentRepository.save(new Parent("Nick", 100));
-        parentRepository.save(new Parent("Mia", 50));
+        Parent nick = new Parent("Nick", "nick@example.com", null);
+        nick.setCredits(100);
+        parentRepository.save(nick);
+        Parent mia = new Parent("Mia", "mia@example.com", null);
+        mia.setCredits(50);
+        parentRepository.save(mia);
 
         AdminStatsResponse stats = adminService.getStats();
         assertEquals(creditsBefore + 150, stats.getCreditsPurchased());

@@ -32,7 +32,8 @@ public class SessionRepositoryIntegrationTest {
         //Set time session was created
         LocalDateTime createdAt = LocalDateTime.now();
         //Create a parent
-        Parent parent = new Parent("Trixie Mattel", 15);
+        Parent parent = new Parent("Trixie Mattel", "trixie@example.com", "2145676969");
+        parent.setCredits(15);
         //Create a child for the parent
         Child child = new Child("Tracy Martel", 6, parent);
         //Create a tutor
@@ -64,7 +65,8 @@ public class SessionRepositoryIntegrationTest {
         //Set time session was created
         LocalDateTime createdAt = LocalDateTime.now();
         //Create a parent
-        Parent parent = new Parent("Kai Wachi", 10);
+        Parent parent = new Parent("Kai Wachi", "kai@example.com", null);
+        parent.setCredits(10);
         //Create a child for the parent
         Child child = new Child("Sullivan King", 6, parent);
         //Create a tutor
@@ -96,7 +98,8 @@ public class SessionRepositoryIntegrationTest {
         //Set time session was created
         LocalDateTime createdAt = LocalDateTime.now();
         //Create a parent
-        Parent parent = new Parent("Sara Landry", 15);
+        Parent parent = new Parent("Sara Landry", "sara@example.com", null);
+        parent.setCredits(15);
         //Create a child for the parent
         Child child = new Child("Charlotte de Witte", 6, parent);
         //Create a tutor
@@ -127,7 +130,8 @@ public class SessionRepositoryIntegrationTest {
         //Set time session was created
         LocalDateTime createdAt = LocalDateTime.now();
         //Create a parent
-        Parent parent = new Parent("Sara Landry", 15);
+        Parent parent = new Parent("Sara Landry", "sara.null@example.com", null);
+        parent.setCredits(15);
         //Create a child for the parent
         Child child = new Child("Charlotte de Witte", 6, parent);
         //Create a tutor

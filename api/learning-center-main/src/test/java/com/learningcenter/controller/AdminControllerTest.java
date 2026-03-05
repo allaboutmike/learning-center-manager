@@ -40,8 +40,12 @@ public class AdminControllerTest {
     @Test
     void getStats_returnsCorrectParentCount() {
         long before = parentRepository.count();
-        parentRepository.save(new Parent("Alice", 10));
-        parentRepository.save(new Parent("Bob", 20));
+        Parent alice = parentRepository.save(new Parent("Alice", "alice@test.com", null));
+        alice.setCredits(10);
+        parentRepository.save(alice);
+        Parent bob = parentRepository.save(new Parent("Bob", "bob@test.com", null));
+        bob.setCredits(20);
+        parentRepository.save(bob);
 
         AdminStatsResponse stats = adminController.getStats();
         assertEquals(before + 2, stats.getParents());
@@ -50,7 +54,7 @@ public class AdminControllerTest {
     @Test
     void getStats_returnsCorrectStudentCount() {
         long before = childRepository.count();
-        Parent parent = parentRepository.save(new Parent("Carol", 5));
+        Parent parent = parentRepository.save(new Parent("Carol", "carol@test.com", null));
         childRepository.save(new Child("Tom", 3, parent));
 
         AdminStatsResponse stats = adminController.getStats();
@@ -60,8 +64,12 @@ public class AdminControllerTest {
     @Test
     void getStats_returnsCorrectCreditsPurchased() {
         long creditsBefore = parentRepository.sumAllCredits();
-        parentRepository.save(new Parent("Dan", 50));
-        parentRepository.save(new Parent("Eve", 30));
+        Parent dan = new Parent("Dan", "dan@test.com", null);
+        dan.setCredits(50);
+        parentRepository.save(dan);
+        Parent eve = new Parent("Eve", "eve@test.com", null);
+        eve.setCredits(30);
+        parentRepository.save(eve);
 
         AdminStatsResponse stats = adminController.getStats();
         assertEquals(creditsBefore + 80, stats.getCreditsPurchased());
