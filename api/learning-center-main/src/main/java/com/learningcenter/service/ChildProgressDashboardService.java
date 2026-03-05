@@ -49,8 +49,8 @@ public class ChildProgressDashboardService {
             if (session.getTimeslot().getTimeslot() == null) continue;
             if (session.getTimeslot().getTimeslot().getTime() == null) continue;
 
-            LocalDateTime sessionTime = session.getTimeslot().getTimeslot().getTime().withSecond(0).withNano(0);
-            if (sessionTime.isBefore(now)) {
+
+            LocalDateTime sessionTime = trimToMinute(session.getTimeslot().getTimeslot().getTime());            if (sessionTime.isBefore(now)) {
                 completed.add(new SessionWithTime(session, sessionTime));
             } else {
                 upcoming.add(new SessionWithTime(session, sessionTime));
@@ -196,5 +196,9 @@ public class ChildProgressDashboardService {
             this.session = session;
             this.sessionTime = sessionTime;
         }
+    }
+    private static LocalDateTime trimToMinute(LocalDateTime dt) {
+        if (dt == null) return null;
+        return dt.withSecond(0).withNano(0);
     }
 }

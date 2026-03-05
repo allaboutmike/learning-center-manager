@@ -39,7 +39,6 @@ function formatDate(dt: string | null) {
 
 export default function ChildProgressDashboardPage({ parentId, childId }: Props) {
     const [groupBy, setGroupBy] = useState<"week" | "month">("week")
-    const [demo, setDemo] = useState(false)
     const url =
         `/api/parents/${parentId}/children/${childId}/progress` +
         `?groupBy=${groupBy}`
