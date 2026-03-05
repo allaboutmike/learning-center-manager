@@ -4,6 +4,9 @@ import {
   IconLogout,
   IconNotification,
   IconUserCircle,
+  IconUserShield,
+  IconUsers,
+  IconSchool,
 } from "@tabler/icons-react"
 
 import {
@@ -26,6 +29,20 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
+import { usePersona } from "@/context/usePersona"
+import type { Persona } from "@/context/PersonaContext"
+
+const personaLabels: Record<Persona, string> = {
+  parent: "Parent",
+  admin: "Admin",
+  tutor: "Tutor",
+}
+
+const personaIcons: Record<Persona, React.ReactNode> = {
+  parent: <IconUsers className="size-4" />,
+  admin: <IconUserShield className="size-4" />,
+  tutor: <IconSchool className="size-4" />,
+}
 
 export function NavUser({
   user,
@@ -37,6 +54,7 @@ export function NavUser({
   }
 }) {
   const { isMobile } = useSidebar()
+  const { persona, setPersona } = usePersona()
 
   return (
     <SidebarMenu>
@@ -54,7 +72,7 @@ export function NavUser({
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">{user.name}</span>
                 <span className="text-muted-foreground truncate text-xs">
-                  {user.email}
+                  {personaLabels[persona]}
                 </span>
               </div>
               <IconDotsVertical className="ml-auto size-4" />
@@ -80,6 +98,22 @@ export function NavUser({
                 </div>
               </div>
             </DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuLabel className="text-muted-foreground text-xs px-2">
+              Switch Persona
+            </DropdownMenuLabel>
+            <DropdownMenuGroup>
+              {(["parent", "admin", "tutor"] as Persona[]).map((p) => (
+                <DropdownMenuItem
+                  key={p}
+                  onClick={() => setPersona(p)}
+                  className={persona === p ? "bg-accent" : ""}
+                >
+                  {personaIcons[p]}
+                  {personaLabels[p]}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem>

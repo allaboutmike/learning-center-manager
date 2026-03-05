@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { type Icon } from "@tabler/icons-react";
+import { useNavigate } from "react-router-dom";
 
 import {
   SidebarGroup,
@@ -10,7 +11,6 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-// import { Collapsible } from "radix-ui";
 
 export function NavSecondary({
   items,
@@ -22,17 +22,23 @@ export function NavSecondary({
     icon: Icon;
   }[];
 } & React.ComponentPropsWithoutRef<typeof SidebarGroup>) {
+  const navigate = useNavigate();
+
   return (
     <SidebarGroup {...props}>
       <SidebarGroupContent>
         <SidebarMenu>
           {items.map((item) => (
             <SidebarMenuItem key={item.title}>
-              <SidebarMenuButton asChild>
-                <a href={item.url}>
-                  <item.icon />
-                  <span>{item.title}</span>
-                </a>
+              <SidebarMenuButton
+                onClick={() => {
+                  if (item.url && item.url !== "#") {
+                    navigate(item.url);
+                  }
+                }}
+              >
+                <item.icon />
+                <span>{item.title}</span>
               </SidebarMenuButton>
             </SidebarMenuItem>
           ))}

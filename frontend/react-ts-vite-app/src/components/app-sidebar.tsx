@@ -36,8 +36,8 @@ import { useNavigate } from "react-router-dom";
 import { useLearningCenterAPI } from "@/hooks/useLearningCenterAPI";
 import type { Parent } from "@/types/parents";
 import BuyCreditsDialog from "@/pages/BuyCreditsDialog";
-
-
+import { usePersona } from "@/context/usePersona";
+import type { Persona } from "@/context/PersonaContext";
 
 const data = {
   user: {
@@ -50,36 +50,43 @@ const data = {
       title: "Parent Dashboard",
       url: "/dashboard",
       icon: IconDashboard,
+      roles: ["parent", "admin", "tutor"] as Persona[],
     },
     {
       title: "Students",
-      url: "#",
+      url: "/students",
       icon: IconListDetails,
+      roles: ["parent", "admin"] as Persona[],
     },
     {
       title: "Child's Progress",
-      url: "#",
+      url: "/progress",
       icon: IconChartBar,
+      roles: ["parent", "admin", "tutor"] as Persona[],
     },
     {
       title: "Book a Session",
       url: "#",
       icon: IconFolder,
+      roles: ["parent"] as Persona[],
     },
     {
       title: "Register a Child",
-      url: "#",
+      url: "/children/register",
       icon: IconUsers,
+      roles: ["parent", "admin"] as Persona[],
     },
     {
       title: "Register Parent",
       url: "/parents/register",
       icon: IconUserPlus,
+      roles: ["admin"] as Persona[],
     },
     {
       title: "Admin Dashboard",
       url: "/admin",
       icon: IconShieldCheck,
+      roles: ["admin"] as Persona[],
     },
   ],
   navClouds: [
@@ -133,18 +140,21 @@ const data = {
   navSecondary: [
     {
       title: "Settings",
-      url: "#",
+      url: "/settings",
       icon: IconSettings,
+      roles: ["parent", "admin", "tutor"] as Persona[],
     },
     {
       title: "Get Help",
-      url: "#",
+      url: "/help",
       icon: IconHelp,
+      roles: ["parent", "admin", "tutor"] as Persona[],
     },
     {
       title: "Search",
-      url: "#",
+      url: "/search",
       icon: IconSearch,
+      roles: ["parent", "admin", "tutor"] as Persona[],
     },
   ],
   // documents: [
@@ -168,10 +178,9 @@ const data = {
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const parentId = 1;
+  const { persona } = usePersona();
 
-  const getParent = useLearningCenterAPI<Parent>(
-    `/api/parents/${parentId}`,
-  );
+  const getParent = useLearningCenterAPI<Parent>(`/api/parents/${parentId}`);
 
   const navigate = useNavigate();
 
@@ -221,13 +230,20 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
       <SidebarContent>
         <NavMain
-          items={data.navMain.map((item) =>
-            item.title === "Book a Session"
-              ? { ...item, onClick: handleBookingFlow }
-              : item,
-          )}
+          items={data.navMain
+            .filter((item) => item.roles.includes(persona))
+            .map((item) =>
+              item.title === "Book a Session"
+                ? { ...item, onClick: handleBookingFlow }
+                : item,
+            )}
         />
-        <NavSecondary items={data.navSecondary} className="mt-auto" />
+        <NavSecondary
+          items={data.navSecondary.filter((item) =>
+            item.roles.includes(persona),
+          )}
+          className="mt-auto"
+        />
       </SidebarContent>
 
       <SidebarFooter>

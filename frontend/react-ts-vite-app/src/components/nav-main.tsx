@@ -1,4 +1,5 @@
 import { IconCirclePlusFilled, IconMail, type Icon } from "@tabler/icons-react";
+import { useNavigate } from "react-router-dom";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -11,7 +12,6 @@ import {
 
 export function NavMain({
   items,
-  onClick,
 }: {
   items: {
     title: string;
@@ -19,8 +19,9 @@ export function NavMain({
     icon?: Icon;
     onClick?: () => void;
   }[];
-  onClick?: (item: { title: string; url: string }) => void;
 }) {
+  const navigate = useNavigate();
+
   return (
     <SidebarGroup>
       <SidebarGroupContent className="flex flex-col gap-2">
@@ -50,10 +51,10 @@ export function NavMain({
                 tooltip={item.title}
                 style={{ color: "white" }}
                 onClick={() => {
-                  if (item.title === "Book a Session") {
-                    item.onClick?.();
-                  } else {
-                    onClick?.({ title: item.title, url: item.url });
+                  if (item.onClick) {
+                    item.onClick();
+                  } else if (item.url && item.url !== "#") {
+                    navigate(item.url);
                   }
                 }}
               >

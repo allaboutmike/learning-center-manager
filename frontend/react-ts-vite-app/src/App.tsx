@@ -6,21 +6,35 @@ import ParentProfilePage from "./pages/ParentProfilePage";
 import TutorSearchScreen from "./pages/TutorSearchScreen";
 import RegisterParentPage from "./pages/RegisterParentPage";
 import AdminDashboardPage from "./pages/AdminDashboardPage";
+// import StudentsPage from "./pages/StudentsPage";
+import RegisterChildPage from "./pages/RegisterChildPage";
+// import SettingsPage from "./pages/SettingsPage";
+// import GetHelpPage from "./pages/GetHelpPage";
+// import SearchPage from "./pages/SearchPage";
+import { PersonaProvider } from "./context/PersonaProvider";
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route index element={<ParentProfilePage />} />
-        <Route path="/parents/register" element={<RegisterParentPage />} />
-        <Route path="/" element={<DashboardPage />}>
-          <Route path="/tutors" element={<TutorSearchScreen />} />
-          <Route path="tutors/:tutorId" element={<TutorProfilePage />} />
-          <Route path="confirmation" element={<ConfirmationPage />} />
-          <Route path="admin" element={<AdminDashboardPage />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <PersonaProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route index element={<ParentProfilePage />} />
+          <Route path="/parents/register" element={<RegisterParentPage />} />
+          <Route path="/" element={<DashboardPage />}>
+            <Route path="/tutors" element={<TutorSearchScreen />} />
+            <Route path="tutors/:tutorId" element={<TutorProfilePage />} />
+            <Route path="confirmation" element={<ConfirmationPage />} />
+            <Route path="admin" element={<AdminDashboardPage />} />
+            {/* <Route path="students" element={<StudentsPage />} /> */}
+            <Route path="progress" element={<RegisterChildPage />} />
+            <Route path="children/register" element={<RegisterChildPage />} />
+            {/* <Route path="settings" element={<SettingsPage />} />
+            <Route path="help" element={<GetHelpPage />} />
+            <Route path="search" element={<SearchPage />} /> */}
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </PersonaProvider>
   );
 }
 
