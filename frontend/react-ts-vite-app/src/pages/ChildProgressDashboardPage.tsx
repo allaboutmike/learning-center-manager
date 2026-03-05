@@ -27,16 +27,21 @@ function formatDate(dt: string | null) {
     if (!dt) return "N/A"
     const d = new Date(dt)
     if (Number.isNaN(d.getTime())) return dt
-    return d.toLocaleString()
+
+    return new Intl.DateTimeFormat(undefined, {
+        year: "numeric",
+        month: "numeric",
+        day: "numeric",
+        hour: "numeric",
+        minute: "2-digit",
+    }).format(d)
 }
 
 export default function ChildProgressDashboardPage({ parentId, childId }: Props) {
     const [groupBy, setGroupBy] = useState<"week" | "month">("week")
-    const [demo, setDemo] = useState(true)
-
     const url =
         `/api/parents/${parentId}/children/${childId}/progress` +
-        `?groupBy=${groupBy}&demo=${demo}`
+        `?groupBy=${groupBy}`
 
     const data = useLearningCenterAPI<ChildProgressDashboardResponse>(url)
 
@@ -63,9 +68,13 @@ export default function ChildProgressDashboardPage({ parentId, childId }: Props)
 
     const currentSubjects = useMemo(() => {
         if (!data) return []
-        return data.currentSubjects.map((p) => p.label)
-    }, [data])
 
+        const upcomingSubjects = data.currentSubjects?.map((p) => p.label) ?? []
+        if (upcomingSubjects.length > 0) return upcomingSubjects
+
+        // Fallback: use subject breakdown labels if there are no upcoming sessions
+        return (data.subjectBreakdown?.map((p) => p.label) ?? []).filter(Boolean)
+    }, [data])
     const tutorNotes = useMemo(() => {
         if (!data) return []
         return data.lastTutorNotes
@@ -82,14 +91,6 @@ export default function ChildProgressDashboardPage({ parentId, childId }: Props)
                 </div>
 
                 <div className="flex items-center gap-3">
-                    <label className="text-sm flex items-center gap-2">
-                        <span className="text-gray-600">Demo</span>
-                        <input
-                            type="checkbox"
-                            checked={demo}
-                            onChange={(e) => setDemo(e.target.checked)}
-                        />
-                    </label>
 
                     <select
                         className="border rounded px-2 py-1 text-sm"
@@ -173,7 +174,9 @@ export default function ChildProgressDashboardPage({ parentId, childId }: Props)
                         <div className="font-medium mb-2">Current Subjects</div>
 
                         {currentSubjects.length === 0 ? (
-                            <div className="text-sm text-gray-600">No current subjects.</div>
+                            <div className="text-sm text-gray-600">
+                                No subjects yet.
+                            </div>
                         ) : (
                             <div className="flex flex-wrap gap-2">
                                 {currentSubjects.map((s) => (
