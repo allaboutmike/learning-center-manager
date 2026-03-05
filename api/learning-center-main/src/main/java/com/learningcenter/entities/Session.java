@@ -41,7 +41,7 @@ public class Session {
     private Subject subject;
 
 
-    public Session(String session_notes, LocalDateTime createdAt, Child child, TutorTimeslot tutorTimeslot, Subject subject) {
+    public Session(String sessionNotes, LocalDateTime createdAt, Child child, TutorTimeslot tutorTimeslot, Subject subject) {
         this.sessionNotes = sessionNotes;
         this.createdAt = createdAt;
         this.child = child;

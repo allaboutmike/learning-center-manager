@@ -39,8 +39,7 @@ public class ChildProgressDashboardService {
 
         LocalDateTime now = LocalDateTime.now();
 
-        List<Session> sessions = sessionRepository.findSessionsByParentIdAndChildId(parentId, childId);
-
+        List<Session> sessions = sessionRepository.findDashboardSessionsByParentIdAndChildId(parentId, childId);
         List<SessionWithTime> completed = new ArrayList<>();
         List<SessionWithTime> upcoming = new ArrayList<>();
 
@@ -50,8 +49,7 @@ public class ChildProgressDashboardService {
             if (session.getTimeslot().getTimeslot() == null) continue;
             if (session.getTimeslot().getTimeslot().getTime() == null) continue;
 
-            LocalDateTime sessionTime = session.getTimeslot().getTimeslot().getTime();
-
+            LocalDateTime sessionTime = session.getTimeslot().getTimeslot().getTime().withSecond(0).withNano(0);
             if (sessionTime.isBefore(now)) {
                 completed.add(new SessionWithTime(session, sessionTime));
             } else {
@@ -130,6 +128,11 @@ public class ChildProgressDashboardService {
         for (SessionWithTime swt : completed) {
             if (count == 3) break;
 
+            String note = swt.session.getSessionNotes();
+            if (note == null || note.isBlank()) {
+                continue; // ignore invalid notes
+            }
+
             String tutorName = "Tutor";
             if (swt.session.getTimeslot() != null
                     && swt.session.getTimeslot().getTutor() != null
@@ -137,8 +140,12 @@ public class ChildProgressDashboardService {
                 tutorName = swt.session.getTimeslot().getTutor().getName();
             }
 
-            String note = swt.session.getSessionNotes(); // can be null/blank
-            lastTutorNotes.add(new ChildProgressDashboardResponse.ChartPoint(tutorName, 0, swt.sessionTime, note));
+            lastTutorNotes.add(new ChildProgressDashboardResponse.ChartPoint(
+                    tutorName,
+                    0,
+                    swt.sessionTime,
+                    note.trim()
+            ));
 
             count++;
         }
@@ -154,74 +161,6 @@ public class ChildProgressDashboardService {
         );
     }
 
-    // -----------------------------
-    // DEMO mock dashboard (no DB)
-    // -----------------------------
-    public ChildProgressDashboardResponse getMockDashboard(Long childId, String groupBy) {
-
-        String grouping = normalizeGroupBy(groupBy);
-
-        // You can make the mock look different per child
-        String childLabel = "Child " + childId;
-
-        List<ChildProgressDashboardResponse.ChartPoint> sessionsOverTime = new ArrayList<>();
-        List<ChildProgressDashboardResponse.ChartPoint> subjectBreakdown = new ArrayList<>();
-        List<ChildProgressDashboardResponse.ChartPoint> currentSubjects = new ArrayList<>();
-        List<ChildProgressDashboardResponse.ChartPoint> lastTutorNotes = new ArrayList<>();
-
-        // Sessions over time
-        if (grouping.equals("month")) {
-            sessionsOverTime.add(new ChildProgressDashboardResponse.ChartPoint("2026-01", 1, null, null));
-            sessionsOverTime.add(new ChildProgressDashboardResponse.ChartPoint("2026-02", 3, null, null));
-            sessionsOverTime.add(new ChildProgressDashboardResponse.ChartPoint("2026-03", 2, null, null));
-        } else {
-            sessionsOverTime.add(new ChildProgressDashboardResponse.ChartPoint("2026-W05", 1, null, null));
-            sessionsOverTime.add(new ChildProgressDashboardResponse.ChartPoint("2026-W06", 2, null, null));
-            sessionsOverTime.add(new ChildProgressDashboardResponse.ChartPoint("2026-W07", 3, null, null));
-        }
-
-        // Subject breakdown
-        subjectBreakdown.add(new ChildProgressDashboardResponse.ChartPoint("Math", 3, null, null));
-        subjectBreakdown.add(new ChildProgressDashboardResponse.ChartPoint("Science", 2, null, null));
-        subjectBreakdown.add(new ChildProgressDashboardResponse.ChartPoint("English", 1, null, null));
-
-        // Current subjects (upcoming)
-        currentSubjects.add(new ChildProgressDashboardResponse.ChartPoint("Math", 1, null, null));
-        currentSubjects.add(new ChildProgressDashboardResponse.ChartPoint("Science", 1, null, null));
-
-        // Notes
-        lastTutorNotes.add(new ChildProgressDashboardResponse.ChartPoint(
-                "Ava Johnson",
-                0,
-                LocalDateTime.now().minusDays(2),
-                childLabel + ": Improved confidence with fractions."
-        ));
-        lastTutorNotes.add(new ChildProgressDashboardResponse.ChartPoint(
-                "Noah Smith",
-                0,
-                LocalDateTime.now().minusDays(7),
-                childLabel + ": Great participation in science discussion."
-        ));
-        lastTutorNotes.add(new ChildProgressDashboardResponse.ChartPoint(
-                "Mia Davis",
-                0,
-                LocalDateTime.now().minusDays(10),
-                childLabel + ": Reading comprehension improving steadily."
-        ));
-
-        int totalCompletedSessions = 6;
-        LocalDateTime mostRecentSessionDate = LocalDateTime.now().minusDays(2);
-
-        return new ChildProgressDashboardResponse(
-                childId,
-                totalCompletedSessions,
-                mostRecentSessionDate,
-                sessionsOverTime,
-                subjectBreakdown,
-                currentSubjects,
-                lastTutorNotes
-        );
-    }
 
     // -----------------------------
     // Helpers

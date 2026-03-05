@@ -79,12 +79,8 @@ public class ParentController {
     public ChildProgressDashboardResponse getChildProgressDashboard(
             @PathVariable Long parentId,
             @PathVariable Long childId,
-            @RequestParam(required = false, defaultValue = "week") String groupBy,
-            @RequestParam(required = false, defaultValue = "false") boolean demo
-    ) {
-        if (demo) {
-            return childProgressDashboardService.getMockDashboard(childId, groupBy);
-        }
+            @RequestParam(required = false, defaultValue = "week") String groupBy)
+    {
 
         return childProgressDashboardService.getChildProgressDashboard(parentId, childId, groupBy);
     }
