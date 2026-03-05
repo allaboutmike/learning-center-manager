@@ -92,4 +92,19 @@ public class ParentRepositoryIntegrationTest {
         assertTrue(result.isEmpty());
     }
 
+    @Test
+    public void givenMultipleParents_sumAllCredits_returnsTotalCredits() {
+        long creditsBefore = parentRepository.sumAllCredits();
+
+        Parent parent1 = new Parent("Anna", "anna@example.com", null);
+        parent1.setCredits(40);
+        Parent parent2 = new Parent("Mike", "mike@example.com", null);
+        parent2.setCredits(60);
+        entityManager.persist(parent1);
+        entityManager.persist(parent2);
+        entityManager.flush();
+
+        long total = parentRepository.sumAllCredits();
+        assertThat(total).isEqualTo(creditsBefore + 100);
+    }
 }
