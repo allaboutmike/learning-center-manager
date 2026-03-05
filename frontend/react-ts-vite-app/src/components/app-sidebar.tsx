@@ -14,6 +14,8 @@ import {
   // IconReport,
   IconSearch,
   IconSettings,
+  IconUserPlus,
+  IconShieldCheck,
   IconUsers,
 } from "@tabler/icons-react";
 
@@ -68,6 +70,16 @@ const data = {
       title: "Register a Child",
       url: "#",
       icon: IconUsers,
+    },
+    {
+      title: "Register Parent",
+      url: "/parents/register",
+      icon: IconUserPlus,
+    },
+    {
+      title: "Admin Dashboard",
+      url: "/admin",
+      icon: IconShieldCheck,
     },
   ],
   navClouds: [

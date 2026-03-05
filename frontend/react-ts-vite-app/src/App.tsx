@@ -4,16 +4,20 @@ import ConfirmationPage from "./pages/ConfirmationPage";
 import DashboardPage from "./pages/DashboardPage";
 import ParentProfilePage from "./pages/ParentProfilePage";
 import TutorSearchScreen from "./pages/TutorSearchScreen";
+import RegisterParentPage from "./pages/RegisterParentPage";
+import AdminDashboardPage from "./pages/AdminDashboardPage";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route index element={<ParentProfilePage />} />
+        <Route path="/parents/register" element={<RegisterParentPage />} />
         <Route path="/" element={<DashboardPage />}>
           <Route path="/tutors" element={<TutorSearchScreen />} />
           <Route path="tutors/:tutorId" element={<TutorProfilePage />} />
           <Route path="confirmation" element={<ConfirmationPage />} />
+          <Route path="admin" element={<AdminDashboardPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

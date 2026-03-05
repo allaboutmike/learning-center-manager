@@ -27,18 +27,24 @@ public class Parent {
     @Column(nullable=false, name="credits")
     private Integer credits;
 
+    @Column(nullable=false, name="email", unique=true)
+    private String email;
+
+    @Column(name="phone")
+    private String phone;
+
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
     private List<Child> child = new ArrayList<>();
 
-    public Parent( int credits) {
-        this.credits = credits;
-    }
-    public Parent(String name, int credits) {
-        this.name = name;
-        this.credits = credits;
-    }
     public Parent() {
-        
+
+    }
+
+    public Parent(String name, String email, String phone) {
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.credits = 0;
     }
 
     public Long getParentId() {
@@ -73,12 +79,29 @@ public class Parent {
         this.credits = credits;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
     @Override
     public String toString() {
         return "ParentEntity{" +
                 "id=" + parentId +
                 ", name='" + name + '\'' +
                 ", credits=" + credits +
+                ", email='" + email + '\'' +
                 ", children='" + child + '\'' +
                 '}';
     }

@@ -6,5 +6,7 @@ public record ParentResponse(
     Long parentId,
     List<ChildResponse> children,
     List<SessionResponse> childSessions,
-    Integer credits
+    Integer credits,
+    String email,
+    String phone  // optional, may be null
 ){}
