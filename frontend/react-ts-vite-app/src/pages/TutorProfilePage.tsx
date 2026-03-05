@@ -3,7 +3,6 @@ import { useLearningCenterAPI } from "../hooks/useLearningCenterAPI";
 import { type Tutor } from "../types/tutor";
 import { type TutorTimeslot } from "../types/tutor";
 import { useState } from "react";
-import { CardProfile } from "@/components/ui/cardProfile";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import SessionReviewPage from "./SessionReviewPage";
 import { Button } from "@/components/ui/button";
