@@ -11,7 +11,7 @@ import BuyCreditsDialog from "./BuyCreditsDialog";
 import type { Session } from "../types/session";
 import CreditsDisplay from "../components/CreditsDisplay";
 import ChildProgressDashboardPage from "./ChildProgressDashboardPage";
-
+import RegisterChildModal from "../components/RegisterChildModal";
 type ParentTab = "upcoming" | "past" | "reports";
 type SessionTab = "upcoming" | "past";
 
@@ -51,6 +51,8 @@ export default function ParentProfilePage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = () => setIsModalOpen(true);
+  const [isRegisterChildOpen, setIsRegisterChildOpen] = useState(false);
+  console.log("isRegisterChildOpen:", isRegisterChildOpen);
 
   // Fetching the children from the API
   const [activeTab, setActiveTab] = useState<ParentTab>("upcoming");
@@ -95,7 +97,8 @@ export default function ParentProfilePage() {
   return (
     <div>
       <SidebarProvider>
-        <AppSidebar variant="inset" />
+        <AppSidebar
+          onRegisterChildClick={() => setIsRegisterChildOpen(true)} />          
         <SidebarInset>
           <div className="p-6 flex flex-col w-full gap-6">
             {Array.isArray(children) &&
@@ -112,6 +115,16 @@ export default function ParentProfilePage() {
               <h1 className="text-2xl font-bold">Parent Profile</h1>
               <div className="flex items-center gap-4">
                 <CreditsDisplay openModal={openModal} />
+
+                <Button
+                  className="px-6 py-2"
+                  onClick={() => {
+                    console.log("Register Child clicked");
+                    setIsRegisterChildOpen(true);
+                  }}
+                >
+                  Register Child
+                </Button>
 
                 <Button
                   className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
@@ -266,6 +279,14 @@ export default function ParentProfilePage() {
         parentId={parentId}
         open={isModalOpen}
         onOpenChange={(open) => setIsModalOpen(open)}
+      />
+      <RegisterChildModal
+        open={isRegisterChildOpen}
+        onOpenChange={setIsRegisterChildOpen}
+        parentId={parentId}
+        onChildCreated={() => {
+          window.location.reload();
+        }}
       />
     </div>
   );

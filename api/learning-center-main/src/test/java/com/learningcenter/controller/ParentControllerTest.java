@@ -5,15 +5,12 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import com.learningcenter.dto.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.web.server.ResponseStatusException;
-
-import com.learningcenter.dto.ChildResponse;
-import com.learningcenter.dto.CreateParentRequest;
-import com.learningcenter.dto.ParentResponse;
-import com.learningcenter.dto.SessionResponse;
 
 import jakarta.transaction.Transactional;
 
@@ -79,5 +76,17 @@ public class ParentControllerTest {
         CreateParentRequest second = new CreateParentRequest("Second", "conflict@example.com", null);
 
         assertThrows(ResponseStatusException.class, () -> parentController.createParent(second));
+    }
+
+    @Test
+    void createChild_returnsCreatedChild() {
+        CreateChildRequest request = new CreateChildRequest("Test Child", 3);
+
+        ChildResponse result = parentController.createChild(1L, request);
+
+        assertNotNull(result);
+        assertNotNull(result.childId());
+        assertEquals("Test Child", result.firstName());
+        assertEquals(3, result.gradeLevel());
     }
 }
