@@ -70,14 +70,15 @@ function StatCard({ label, value, icon, description, loading }: StatCardProps) {
 }
 
 const creditsByWeekData = [
-  { week: "Week 1", credits: 42 },
-  { week: "Week 2", credits: 78 },
-  { week: "Week 3", credits: 55 },
-  { week: "Week 4", credits: 90 },
-  { week: "Week 5", credits: 63 },
-  { week: "Week 6", credits: 110 },
-  { week: "Week 7", credits: 95 },
-  { week: "Week 8", credits: 130 },
+  { week: "Week 1", credits: 60 },
+  { week: "Week 2", credits: 60 },
+  { week: "Week 3", credits: 80 },
+  { week: "Week 4", credits: 60 },
+  { week: "Week 5", credits: 95 },
+  { week: "Week 6", credits: 120 },
+  { week: "Week 7", credits: 100 },
+  { week: "Week 8", credits: 80 },
+  { week: "Week 9", credits: 130 },
 ];
 
 const creditsLineConfig = {
