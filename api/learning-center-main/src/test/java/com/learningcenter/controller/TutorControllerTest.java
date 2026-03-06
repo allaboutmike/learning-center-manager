@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.learningcenter.dto.ReviewResponse;
+import com.learningcenter.dto.TutorDashboardResponse;
 import com.learningcenter.dto.TutorResponse;
 import com.learningcenter.dto.TutorTimeSlotResponse;
 
@@ -64,5 +65,16 @@ public class TutorControllerTest {
         List<ReviewResponse> reviews = tutorController.getAllReviewsForTutor(1L);
         assertNotNull(reviews);
         assertEquals(2, reviews.size());
+    }
+
+    @Test
+    void getTutorDashboardTest_returnsTutorNameAndStats() {
+        TutorDashboardResponse dashboard = tutorController.getTutorDashboard(1L);
+        assertNotNull(dashboard);
+        assertEquals("Ava Johnson", dashboard.getTutorName());
+        // also verify other fields non-null
+        assertNotNull(dashboard.getTotalStudentsTutored());
+        assertNotNull(dashboard.getTotalSessionsCompleted());
+        assertNotNull(dashboard.getAverageRating());
     }
 }

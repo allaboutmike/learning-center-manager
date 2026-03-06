@@ -63,6 +63,10 @@ public class SessionResponse {
         return subjectName;
     }
 
+    public String getSessionNotes() {
+        return sessionNotes;
+    }
+
     public LocalDateTime getTime() {
         return time;
     }
