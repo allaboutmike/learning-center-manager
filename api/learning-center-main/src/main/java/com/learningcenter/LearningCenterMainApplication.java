@@ -21,7 +21,6 @@ public class LearningCenterMainApplication {
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/**")
 				.allowedOrigins("https://capable-blini-676354.netlify.app")
-
 				.allowedMethods("GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS");
 			}
 		};

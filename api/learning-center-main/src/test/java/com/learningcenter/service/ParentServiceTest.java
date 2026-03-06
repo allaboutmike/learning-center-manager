@@ -1,5 +1,7 @@
 package com.learningcenter.service;
 
+import com.learningcenter.dto.ChildResponse;
+import com.learningcenter.dto.CreateChildRequest;
 import com.learningcenter.dto.CreateParentRequest;
 import com.learningcenter.dto.ParentResponse;
 import com.learningcenter.entities.Child;
@@ -14,8 +16,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -119,5 +120,29 @@ public class ParentServiceTest {
         CreateParentRequest duplicate = new CreateParentRequest("Second Parent", "duplicate@example.com", null);
 
         assertThrows(ResponseStatusException.class, () -> parentService.createParent(duplicate));
+    }
+    @Test
+    void createChild_returnsCreatedChild() {
+        Parent parent = new Parent();
+        parent.setName("Test Parent");
+        parent.setCredits(10);
+        parent.setEmail("parent.createchild@example.com");
+        parent = parentRepository.save(parent);
+
+        CreateChildRequest request = new CreateChildRequest("Test Child", 3);
+
+        ChildResponse result = parentService.createChild(parent.getParentId(), request);
+
+        assertNotNull(result);
+        assertNotNull(result.childId());
+        assertEquals("Test Child", result.firstName());
+        assertEquals(3, result.gradeLevel());
+    }
+
+    @Test
+    void createChild_parentNotFound_throwsNotFound() {
+        CreateChildRequest request = new CreateChildRequest("Test Child", 3);
+
+        assertThrows(ResponseStatusException.class, () -> parentService.createChild(999L, request));
     }
 }
