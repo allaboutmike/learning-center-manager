@@ -249,7 +249,6 @@ export function AppSidebar({
                   ...item,
                   url: "#",
                   onClick: () => {
-                    console.log("Register Child sidebar clicked");
                     onRegisterChildClick?.();
                   },
                 };
