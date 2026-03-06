@@ -1,10 +1,13 @@
 package com.learningcenter.service;
 
 import com.learningcenter.dto.ChildResponse;
+import com.learningcenter.dto.CreateChildRequest;
 import com.learningcenter.dto.CreateParentRequest;
 import com.learningcenter.dto.ParentResponse;
+import com.learningcenter.entities.Child;
 import com.learningcenter.entities.Parent;
 import com.learningcenter.repository.ParentRepository;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -75,5 +78,24 @@ public class ParentService {
         }
 
         return new ParentResponse(p.getParentId(), childList, List.of(), p.getCredits(), p.getEmail(), p.getPhone());
+    }
+
+    public ChildResponse createChild(Long parentId, CreateChildRequest request) {
+        Parent parent = parentRepository.findById(parentId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Parent not found"));
+
+        Child child = new Child();
+        child.setName(request.name());
+        child.setGradeLevel(request.gradeLevel());
+        child.setParent(parent);
+
+        parent.getChild().add(child);
+        parentRepository.save(parent);
+
+        return new ChildResponse(
+                child.getChildId(),
+                child.getName(),
+                child.getGradeLevel()
+        );
     }
 }
