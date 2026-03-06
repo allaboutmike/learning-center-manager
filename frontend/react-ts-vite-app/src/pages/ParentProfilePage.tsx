@@ -186,8 +186,8 @@ export default function ParentProfilePage() {
                           <h4 className="text-blue-600 font-medium">
                             Subject:{" "}
                             {Array.isArray(session.subjectName)
-                              ? session.subjectName.join(", ")
-                              : session.subjectName}
+                              ? session.subjectName.map((s) => typeof s === "string" ? s : s.name).join(", ")
+                              : typeof session.subjectName === "string" ? session.subjectName : session.subjectName.name}
                           </h4>
                           <p className="text-sm text-gray-600">
                             Tutor Name: {session.tutorName}
