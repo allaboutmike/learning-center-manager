@@ -20,7 +20,7 @@ public class LearningCenterMainApplication {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/**")
-				.allowedOrigins("https://capable-blini-676354.netlify.app",     "http://localhost:5173")
+				.allowedOrigins("https://capable-blini-676354.netlify.app")
 
 				.allowedMethods("GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS");
 			}
