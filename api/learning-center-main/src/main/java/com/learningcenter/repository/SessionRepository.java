@@ -1,12 +1,12 @@
 package com.learningcenter.repository;
 
-import com.learningcenter.entities.Session;
-import org.antlr.v4.runtime.atn.SemanticContext;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
-import java.util.List;
+import com.learningcenter.entities.Session;
 
 public interface SessionRepository extends CrudRepository<Session, Long> {
 
@@ -18,4 +18,7 @@ public interface SessionRepository extends CrudRepository<Session, Long> {
 
     @Query("SELECT s FROM Session s JOIN FETCH s.subject subj JOIN FETCH s.tutorTimeslot tts JOIN FETCH tts.timeslot ts JOIN FETCH tts.tutor t WHERE s.child.childId = :childId AND s.child.parent.parentId = :parentId")
     List<Session> findDashboardSessionsByParentIdAndChildId(@Param("parentId") Long parentId, @Param("childId") Long childId);
+
+    @Query("SELECT s FROM Session s JOIN FETCH s.tutorTimeslot tts JOIN FETCH tts.tutor t JOIN FETCH tts.timeslot ts JOIN FETCH s.subject subj JOIN FETCH s.child c WHERE tts.tutor.tutorId = :tutorId")
+    List<Session> findSessionsByTutorId(@Param("tutorId") Long tutorId);
 }

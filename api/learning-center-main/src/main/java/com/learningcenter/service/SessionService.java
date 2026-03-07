@@ -153,4 +153,15 @@ public class SessionService {
         return responseList;
 
     }
+
+    public Session updateSessionNotes(Long sessionId, String notes) {
+        Optional<Session> sessionOptional = sessionRepository.findById(sessionId);
+        if (sessionOptional.isPresent()) {
+            Session session = sessionOptional.get();
+            session.setSessionNotes(notes);
+            return sessionRepository.save(session);
+        } else {
+            throw new ErrorResponseException(HttpStatus.BAD_REQUEST, ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "Invalid Session ID"), null);
+        }
+    }
 }

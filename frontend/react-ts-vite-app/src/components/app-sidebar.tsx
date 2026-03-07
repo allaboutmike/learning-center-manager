@@ -176,7 +176,14 @@ const data = {
   // ],
 };
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+type AppSidebarProps = React.ComponentProps<typeof Sidebar> & {
+  onRegisterChildClick?: () => void;
+};
+
+export function AppSidebar({
+  onRegisterChildClick,
+  ...props
+}: AppSidebarProps) {
   const parentId = 1;
   const { persona } = usePersona();
 
@@ -232,11 +239,23 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavMain
           items={data.navMain
             .filter((item) => item.roles.includes(persona))
-            .map((item) =>
-              item.title === "Book a Session"
-                ? { ...item, onClick: handleBookingFlow }
-                : item,
-            )}
+            .map((item) => {
+              if (item.title === "Book a Session") {
+                return { ...item, onClick: handleBookingFlow };
+              }
+
+              if (item.title === "Register a Child") {
+                return {
+                  ...item,
+                  url: "#",
+                  onClick: () => {
+                    onRegisterChildClick?.();
+                  },
+                };
+              }
+
+              return item;
+            })}
         />
         <NavSecondary
           items={data.navSecondary.filter((item) =>

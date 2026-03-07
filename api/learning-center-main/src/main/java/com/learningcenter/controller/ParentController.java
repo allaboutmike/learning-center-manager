@@ -2,6 +2,7 @@ package com.learningcenter.controller;
 
 import java.util.List;
 
+import com.learningcenter.dto.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -13,12 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.learningcenter.dto.ChildProgressDashboardResponse;
-import com.learningcenter.dto.ChildResponse;
-import com.learningcenter.dto.CreateParentRequest;
-import com.learningcenter.dto.ParentResponse;
-import com.learningcenter.dto.PurchaseCreditsRequest;
-import com.learningcenter.dto.SessionResponse;
 import com.learningcenter.service.ChildProgressDashboardService;
 import com.learningcenter.service.ParentService;
 import com.learningcenter.service.SessionService;
@@ -91,5 +86,12 @@ public class ParentController {
         return parentService.createParent(request);
     }
 
+    @PostMapping("/{parentId}/children")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ChildResponse createChild(
+            @PathVariable Long parentId,
+            @Valid @RequestBody CreateChildRequest request) {
+        return parentService.createChild(parentId, request);
+    }
 }
 

@@ -10,5 +10,5 @@ export type Session = {
   childName: string;
   time: string;
   tutorName: string;
-  subjectName: Subject[];
+  subjectName: Subject;
 };
