@@ -115,13 +115,12 @@ export default function RegisterChildModal({
       }
 
       const createdChild: ChildResponse = await response.json();
-      setSuccessMessage("Child successfully registered!");
 
       setTimeout(() => {
         onChildCreated(createdChild);
         resetForm();
         onOpenChange(false);
-      }, 3000);
+      });
     } catch (err) {
       console.error(err);
       setErrors({
