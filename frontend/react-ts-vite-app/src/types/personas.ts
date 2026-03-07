@@ -1,0 +1,50 @@
+export const personas = [
+{
+    name: "Tutor",
+    role: "tutor",
+    id: 1,
+    redirect: "/tutor-dashboard",
+    image: "/images/tutor.png",
+  },
+  {
+    name: "Admin",
+    role: "admin",
+    redirect: "/admin",
+    image: "public/stitch.png",
+  },
+  {
+    name: "Parent 1",
+    role: "parent",
+    id: 1,
+    redirect: "/",
+    image: "public/sailor_moon.png",
+  },
+  {
+    name: "Parent 2",
+    role: "parent",
+    id: 2,
+    redirect: "/",
+    image: "public/sailor_moon.png",
+  },
+  {
+    name: "Parent 3",
+    role: "parent",
+    id: 3,
+    redirect: "/parent-dashboard",
+    image: "public/sailor_moon.png",
+  },
+  {
+    name: "Parent 4",
+    role: "parent",
+    id: 4,
+    redirect: "/parent-dashboard",
+    image: "public/sailor_moon.png",
+  },
+  {
+    name: "Parent 5",
+    role: "parent",
+    id: 5,
+    redirect: "/parent-dashboard",
+    image: "public/sailor_moon.png",
+  },
+];

@@ -12,16 +12,19 @@ import RegisterChildPage from "./pages/RegisterChildPage";
 // import GetHelpPage from "./pages/GetHelpPage";
 // import SearchPage from "./pages/SearchPage";
 import { PersonaProvider } from "./context/PersonaProvider";
+import PersonaPage from "./pages/PersonaPage"
 
 function App() {
   return (
     <PersonaProvider>
       <BrowserRouter>
         <Routes>
-          <Route index element={<ParentProfilePage />} />
-          <Route path="/parents/register" element={<RegisterParentPage />} />
-          <Route path="/" element={<DashboardPage />}>
+          
+          <Route index element={<DashboardPage />} />
+            <Route path="/parents/register" element={<RegisterParentPage />} />
+            <Route path="/parents" element={<ParentProfilePage />}>
             <Route path="/tutors" element={<TutorSearchScreen />} />
+            <Route path="/" element={<PersonaPage />} /> 
             <Route path="tutors/:tutorId" element={<TutorProfilePage />} />
             <Route path="confirmation" element={<ConfirmationPage />} />
             <Route path="admin" element={<AdminDashboardPage />} />
