@@ -69,12 +69,12 @@ public class TutorControllerTest {
 
     @Test
     void getTutorDashboardTest_returnsTutorNameAndStats() {
-        TutorDashboardResponse dashboard = tutorController.getTutorDashboard(1L);
+        TutorDashboardResponse dashboard = (TutorDashboardResponse) tutorController.getTutorDashboard(1L);
         assertNotNull(dashboard);
-        assertEquals("Ava Johnson", dashboard.getTutorName());
+        assertEquals("Ava Johnson", dashboard.tutorName());
         // also verify other fields non-null
-        assertNotNull(dashboard.getTotalStudentsTutored());
-        assertNotNull(dashboard.getTotalSessionsCompleted());
-        assertNotNull(dashboard.getAverageRating());
+        assertNotNull(dashboard.totalStudentsTutored());
+        assertNotNull(dashboard.totalSessionsCompleted());
+        assertNotNull(dashboard.averageRating());
     }
 }

@@ -150,27 +150,44 @@ export default function TutorDashboardPage() {
   const [refreshKey, setRefreshKey] = useState(0);
 
   const dashboard = useLearningCenterAPI<TutorDashboard>(
-    tutorId ? `/api/tutors/${tutorId}/dashboard?refresh=${refreshKey}` : "",
+    `/api/tutors/${tutorId}/dashboard?refresh=${refreshKey}`,
   );
   const upcomingSessions = useLearningCenterAPI<Session[]>(
-    tutorId
-      ? `/api/tutors/${tutorId}/sessions/upcoming?refresh=${refreshKey}`
-      : "",
+    `/api/tutors/${tutorId}/sessions/upcoming?refresh=${refreshKey}`,
   );
   const pastSessions = useLearningCenterAPI<Session[]>(
-    tutorId ? `/api/tutors/${tutorId}/sessions/past?refresh=${refreshKey}` : "",
+    `/api/tutors/${tutorId}/sessions/past?refresh=${refreshKey}`,
   );
 
+  if (tutorId === null) {
+    return (
+      <main className="flex flex-col gap-6">
+        <div>
+          <h1 className="text-2xl font-semibold tracking-tight">
+            Tutor Dashboard
+          </h1>
+          <p className="text-sm text-muted-foreground mt-1">
+            Invalid tutor ID provided
+          </p>
+        </div>
+        <Card>
+          <CardContent className="py-8 text-center">
+            <p className="text-muted-foreground">
+              Please provide a valid tutor ID in the URL
+            </p>
+          </CardContent>
+        </Card>
+      </main>
+    );
+  }
+
   const loading =
-    tutorId === null ||
-    dashboard === null ||
-    upcomingSessions === null ||
-    pastSessions === null;
+    dashboard === null || upcomingSessions === null || pastSessions === null;
 
   const updateSessionNotes = async (sessionId: number, notes: string) => {
     try {
       await fetch(`/api/sessions/${sessionId}/notes`, {
-        method: "PUT",
+        method: "PATCH",
         headers: {
           "Content-Type": "text/plain",
         },
@@ -205,28 +222,6 @@ export default function TutorDashboardPage() {
       description: "Based on student reviews",
     },
   ];
-
-  if (tutorId === null) {
-    return (
-      <main className="flex flex-col gap-6">
-        <div>
-          <h1 className="text-2xl font-semibold tracking-tight">
-            Tutor Dashboard
-          </h1>
-          <p className="text-sm text-muted-foreground mt-1">
-            Invalid tutor ID provided
-          </p>
-        </div>
-        <Card>
-          <CardContent className="py-8 text-center">
-            <p className="text-muted-foreground">
-              Please provide a valid tutor ID in the URL
-            </p>
-          </CardContent>
-        </Card>
-      </main>
-    );
-  }
 
   return (
     <main
