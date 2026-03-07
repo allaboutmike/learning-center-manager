@@ -206,8 +206,13 @@ export default function ParentProfilePage() {
                             Tutor Name: {session.tutorName}
                           </p>
                           <p className="text-sm text-gray-500">
-                            Date: {session.time}
+                            Date: {new Date(session.time).toLocaleString(undefined, { dateStyle: "medium", timeStyle: "short" })}
                           </p>
+                          {activeTab === "past" && session.sessionNotes && (
+                            <p className="text-sm text-gray-700 mt-2 border-t pt-2">
+                              <span className="font-medium">Tutor Notes:</span> {session.sessionNotes}
+                            </p>
+                          )}
                         </div>
                       ))}
                     </div>
