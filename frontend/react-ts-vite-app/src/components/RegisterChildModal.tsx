@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import type { ChildResponse } from "../types/parents";
+import { useLearningCenterPost } from "../hooks/useLearningCenterAPI";
 
 type RegisterChildModalProps = {
   open: boolean;
@@ -37,6 +38,7 @@ export default function RegisterChildModal({
   }>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
+  const post = useLearningCenterPost();
 
   const resetForm = () => {
     setName("");
@@ -98,23 +100,13 @@ export default function RegisterChildModal({
     setSuccessMessage("");
 
     try {
-      const response = await fetch(`/api/parents/${parentId}/children`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
+      const createdChild = await post<ChildResponse>(
+        `/api/parents/${parentId}/children`,
+        {
           name: name.trim(),
           gradeLevel: Number(gradeLevel),
-          subjects: selectedSubjects,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to register child");
-      }
-
-      const createdChild: ChildResponse = await response.json();
+        }
+      );
 
       setTimeout(() => {
         onChildCreated(createdChild);
