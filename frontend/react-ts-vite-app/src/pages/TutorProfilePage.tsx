@@ -33,9 +33,8 @@ export default function TutorProfilePage() {
   const parentId = 1;
 
   const children = useLearningCenterAPI<ChildResponse[]>(
-    `/api/parents/${parentId}/children`
+    `/api/parents/${parentId}/children`,
   );
-
 
   const [selectedChildId, setSelectedChildId] = useState<number | null>(null);
 
@@ -58,228 +57,164 @@ export default function TutorProfilePage() {
 
   return (
     <>
+      {/* MAIN GRID LAYOUT */}
+      <div className="grid grid-cols-12 gap-6 h-min-full p-6 bg-slate-50">
+        <div className="col-span-5 flex flex-col gap-6">
+          {/* IMAGE + BASIC INFO */}
+          <div className="grid grid-cols-2 gap-4">
+            <div className="bg-white rounded-2xl shadow overflow-hidden h-[220px]">
+              <img
+                src={tutor.profilePictureUrl}
+                alt={tutor.name}
+                className="w-full h-full object-cover"
+              />
+            </div>
 
-{/* MAIN GRID LAYOUT */}
-<div className="grid grid-cols-12 gap-6 h-min-full p-6 bg-slate-50">
+            <div className="bg-white rounded-2xl shadow p-6 flex flex-col justify-center border border-sky-800/40 shadow-md shadow-sky-200/40">
+              <h2 className="text-xl font-bold text-slate-800">{tutor.name}</h2>
 
+              <p className="text-slate-500">
+                Grades {tutor.minGradeLevel} – {tutor.maxGradeLevel}
+              </p>
 
-<div className="col-span-5 flex flex-col gap-6">
+              <div className="flex items-center gap-2 mt-2">
+                ⭐ {tutor.avgRating}
+                <span className="text-slate-400">
+                  ({reviews?.length ?? 0} reviews)
+                </span>
+              </div>
+            </div>
+          </div>
 
-{/* IMAGE + BASIC INFO */}
-<div className="grid grid-cols-2 gap-4">
+          {/* ABOUT ME */}
+          <div className="bg-white rounded-2xl shadow p-6 border border-sky-800/50 shadow-md shadow-sky-200/40">
+            <h3 className="font-semibold text-lg mb-3">About Me</h3>
 
-<div className="bg-white rounded-2xl shadow overflow-hidden h-[220px]">
-<img
-  src={tutor.profilePictureUrl}
-  alt={tutor.name}
-  className="w-full h-full object-cover"
-/>
-</div>
+            <p className="text-slate-600">{tutor.tutorSummary}</p>
 
-<div className="bg-white rounded-2xl shadow p-6 flex flex-col justify-center border border-sky-800/40 shadow-md shadow-sky-200/40">
+            <h4 className="mt-4 font-semibold">Subjects</h4>
 
-<h2 className="text-xl font-bold text-slate-800">
-{tutor.name}
-</h2>
+            <div className="flex flex-wrap gap-2 mt-2">
+              {tutor.subjects.map((s: Subject) => (
+                <span
+                  key={s.subjectId}
+                  className="bg-sky-100 text-sky-600 px-3 py-1 rounded-full text-sm"
+                >
+                  {s.name}
+                </span>
+              ))}
+            </div>
+          </div>
 
-<p className="text-slate-500">
-Grades {tutor.minGradeLevel} – {tutor.maxGradeLevel}
-</p>
+          {/* NEXT AVAILABLE SLOT */}
+          <div className="bg-white rounded-2xl shadow p-6 border border-sky-800/50 shadow-md shadow-sky-200/40">
+            <h3 className="font-semibold mb-2">Next Available Session</h3>
 
-<div className="flex items-center gap-2 mt-2">
-⭐ {tutor.avgRating}
-<span className="text-slate-400">
-({reviews?.length ?? 0} reviews)
-</span>
-</div>
+            {availability && availability.length > 0 ? (
+              <p className="text-slate-700 font-medium">
+                {format(parseISO(availability[0].start), "MMM d, h:mm a")}
+              </p>
+            ) : (
+              <p className="text-slate-400">No sessions available</p>
+            )}
+          </div>
 
-</div>
+          {/* REVIEW PREVIEW */}
+          <div className="bg-white rounded-2xl shadow p-6 flex-1 overflow-y-auto border border-sky-800/50 shadow-md shadow-sky-200/40">
+            <h3 className="font-semibold mb-4">Tutor Reviews</h3>
 
-</div>
+            {reviews && reviews.length > 0 ? (
+              reviews.map((review) => (
+                <div key={review.reviewId} className="mb-4 border-b pb-3">
+                  <p className="text-yellow-500">
+                    {"⭐".repeat(review.rating)}
+                  </p>
 
+                  <p className="text-slate-600">{review.comment}</p>
+                </div>
+              ))
+            ) : (
+              <p className="text-slate-400">No reviews available</p>
+            )}
+          </div>
+        </div>
 
-{/* ABOUT ME */}
-<div className="bg-white rounded-2xl shadow p-6 border border-sky-800/50 shadow-md shadow-sky-200/40">
+        {/* RIGHT COLUMN */}
+        <div className="col-span-7 bg-white rounded-2xl shadow p-6 flex flex-col border border-sky-800/50 shadow-md shadow-sky-200/40">
+          <h2 className="text-xl font-semibold mb-4">Schedule a Session</h2>
 
-<h3 className="font-semibold text-lg mb-3">
-About Me
-</h3>
+          {/* SUBJECT DROPDOWN */}
+          <div className="mb-6 ">
+            <h3 className="font-semibold mb-2">Choose Subject</h3>
 
-<p className="text-slate-600">
-{tutor.tutorSummary}
-</p>
+            <Select
+              value={
+                selectedSubjectId !== null ? String(selectedSubjectId) : ""
+              }
+              onValueChange={(value) => setSelectedSubjectId(Number(value))}
+            >
+              <SelectTrigger className="w-[250px]">
+                <SelectValue placeholder="Select a subject" />
+              </SelectTrigger>
 
-<h4 className="mt-4 font-semibold">
-Subjects
-</h4>
+              <SelectContent>
+                {tutor.subjects.map((s: Subject) => (
+                  <SelectItem key={s.subjectId} value={String(s.subjectId)}>
+                    {s.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
 
-<div className="flex flex-wrap gap-2 mt-2">
-{tutor.subjects.map((s: Subject) => (
-<span
-key={s.subjectId}
-className="bg-sky-100 text-sky-600 px-3 py-1 rounded-full text-sm"
->
-{s.name}
-</span>
-))}
-</div>
+          {/* AVAILABILITY */}
+          <div className="flex-1 bg-slate-100 rounded-xl p-4 overflow-y-auto border border-sky-800/50">
+            <h3 className="mb-3 font-semibold">Availability</h3>
 
-</div>
-
-
-{/* NEXT AVAILABLE SLOT */}
-<div className="bg-white rounded-2xl shadow p-6 border border-sky-800/50 shadow-md shadow-sky-200/40">
-
-<h3 className="font-semibold mb-2">
-Next Available Session
-</h3>
-
-{availability && availability.length > 0 ? (
-<p className="text-slate-700 font-medium">
-{format(parseISO(availability[0].start), "MMM d, h:mm a")}
-</p>
-) : (
-<p className="text-slate-400">
-No sessions available
-</p>
-)}
-
-</div>
-
-
-{/* REVIEW PREVIEW */}
-<div className="bg-white rounded-2xl shadow p-6 flex-1 overflow-y-auto border border-sky-800/50 shadow-md shadow-sky-200/40">
-
-<h3 className="font-semibold mb-4">
-Tutor Reviews
-</h3>
-
-{reviews && reviews.length > 0 ? (
-reviews.map((review) => (
-<div key={review.reviewId} className="mb-4 border-b pb-3">
-<p className="text-yellow-500">
-{"⭐".repeat(review.rating)}
-</p>
-
-<p className="text-slate-600">
-{review.comment}
-</p>
-</div>
-))
-) : (
-<p className="text-slate-400">
-No reviews available
-</p>
-)}
-
-</div>
-
-</div>
-
-
-{/* RIGHT COLUMN */}
-<div className="col-span-7 bg-white rounded-2xl shadow p-6 flex flex-col border border-sky-800/50 shadow-md shadow-sky-200/40">
-
-<h2 className="text-xl font-semibold mb-4">
-Schedule a Session
-</h2>
-
-
-{/* SUBJECT DROPDOWN */}
-<div className="mb-6 ">
-
-<h3 className="font-semibold mb-2">
-Choose Subject
-</h3>
-
-<Select
-value={selectedSubjectId !== null ? String(selectedSubjectId) : ""}
-onValueChange={(value) => setSelectedSubjectId(Number(value))}
->
-
-<SelectTrigger className="w-[250px]">
-<SelectValue placeholder="Select a subject" />
-</SelectTrigger>
-
-<SelectContent>
-
-{tutor.subjects.map((s: Subject) => (
-<SelectItem
-key={s.subjectId}
-value={String(s.subjectId)}
->
-{s.name}
-</SelectItem>
-))}
-
-</SelectContent>
-
-</Select>
-
-</div>
-
-
-{/* AVAILABILITY */}
-<div className="flex-1 bg-slate-100 rounded-xl p-4 overflow-y-auto border border-sky-800/50">
-
-<h3 className="mb-3 font-semibold">
-Availability
-</h3>
-
-<ul className="space-y-2">
-
-{availability &&
-availability.map((slot, index) => (
-
-<li
-key={slot.tutorTimeslotId}
-onClick={() => setSelectedTimeSlot(index)}
-className={`cursor-pointer p-3 rounded-lg border
-${selectedTimeSlot === index
-? "bg-sky-500 text-white"
-: "bg-white hover:bg-sky-100"
+            <ul className="space-y-2">
+              {availability &&
+                availability.map((slot, index) => (
+                  <li
+                    key={slot.tutorTimeslotId}
+                    onClick={() => setSelectedTimeSlot(index)}
+                    className={`cursor-pointer p-3 rounded-lg border
+${
+  selectedTimeSlot === index
+    ? "bg-sky-500 text-white"
+    : "bg-white hover:bg-sky-100"
 }`}
->
+                  >
+                    {format(parseISO(slot.start), "MMM d, yyyy h:mm a")}
+                    {" - "}
+                    {format(parseISO(slot.end), "h:mm a")}
+                  </li>
+                ))}
+            </ul>
+          </div>
 
-{format(parseISO(slot.start), "MMM d, yyyy h:mm a")}
-{" - "}
-{format(parseISO(slot.end), "h:mm a")}
-
-</li>
-
-))}
-
-</ul>
-
-</div>
-
-
-<Button
-variant="secondary"
-disabled={selectedTimeSlot === -1 || selectedSubjectId === null}
-className="mt-4"
-onClick={() => setIsOpen(true)}
->
-
-Book this Session
-
-</Button>
-
-</div>
-
-</div>
+          <Button
+            variant="secondary"
+            disabled={selectedTimeSlot === -1 || selectedSubjectId === null}
+            className="mt-4"
+            onClick={() => setIsOpen(true)}
+          >
+            Book this Session
+          </Button>
+        </div>
+      </div>
 
       <ul>
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
           <DialogContent className="max-w-lg">
             {availability && selectedTimeSlot !== -1 && (
               <div className="space-y-4">
-
                 <div className="space-y-2">
                   <h2 className="text-lg font-semibold">Select Child</h2>
 
                   <Select
-                    value={selectedChildId !== null ? String(selectedChildId) : ""}
+                    value={
+                      selectedChildId !== null ? String(selectedChildId) : ""
+                    }
                     onValueChange={(value) => setSelectedChildId(Number(value))}
                   >
                     <SelectTrigger className="w-full">
@@ -306,11 +241,8 @@ Book this Session
               </div>
             )}
           </DialogContent>
-          </Dialog>
-      
+        </Dialog>
       </ul>
-
-      
     </>
   );
 }
