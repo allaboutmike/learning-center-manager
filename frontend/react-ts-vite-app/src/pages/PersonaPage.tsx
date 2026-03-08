@@ -2,6 +2,7 @@ import { personas } from "../types/personas";
 import { useNavigate } from "react-router-dom";
 import { useLearningCenterAPI } from "../hooks/useLearningCenterAPI";
 
+
 const PersonaPage = () => {
 
   type ParentResponse = {
@@ -9,13 +10,13 @@ const PersonaPage = () => {
     name: string
   }
 
-  // STEP 5 — fetch last 3 parents
+  
   const recentParents =
-    useLearningCenterAPI<ParentResponse[]>("/parents/recent");
+    useLearningCenterAPI<ParentResponse[]>(`/api/parents/recent`);
+    console.log("recentParents:", recentParents);
 
   const navigate = useNavigate()
 
-  // STEP 5 — convert API parents to persona objects
   const dynamicParents =
     recentParents?.map((parent) => ({
       name: parent.name,
