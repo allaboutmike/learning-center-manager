@@ -21,11 +21,11 @@ function App() {
       <BrowserRouter>
         <Routes>
           
-          <Route index element={<DashboardPage />} />
-            <Route path="/parents/register" element={<RegisterParentPage />} />
-            <Route path="/parents" element={<ParentProfilePage />}>
+          <Route index element={<PersonaPage />} />
+            <Route path="/parents/:parentId" element={<ParentProfilePage />} /> 
+            <Route path="parents/register" element={<RegisterParentPage />} />
+            <Route path="/" element={<DashboardPage />}>
             <Route path="/tutors" element={<TutorSearchScreen />} />
-            <Route path="/" element={<PersonaPage />} /> 
             <Route path="tutors/:tutorId" element={<TutorProfilePage />} />
             <Route
               path="tutors/:tutorId/dashboard"

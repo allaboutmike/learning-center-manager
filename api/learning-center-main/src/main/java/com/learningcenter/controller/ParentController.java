@@ -93,5 +93,10 @@ public class ParentController {
             @Valid @RequestBody CreateChildRequest request) {
         return parentService.createChild(parentId, request);
     }
+
+    @GetMapping("/recent")
+    public List<ParentResponse> getRecentParents() {
+        return parentService.getRecentParents();
+    }
 }
 

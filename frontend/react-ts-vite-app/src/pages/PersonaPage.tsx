@@ -1,23 +1,61 @@
-import {personas} from "../types/personas";
+import { personas } from "../types/personas";
 import { useNavigate } from "react-router-dom";
+import { useLearningCenterAPI } from "../hooks/useLearningCenterAPI";
+
 const PersonaPage = () => {
+
+  type ParentResponse = {
+    parentId: number
+    name: string
+  }
+
+  // STEP 5 — fetch last 3 parents
+  const recentParents =
+    useLearningCenterAPI<ParentResponse[]>("/parents/recent");
 
   const navigate = useNavigate()
 
+  // STEP 5 — convert API parents to persona objects
+  const dynamicParents =
+    recentParents?.map((parent) => ({
+      name: parent.name,
+      role: "parent",
+      id: parent.parentId,
+      redirect: "/parents",
+      image: "/images/parent.png"
+    })) ?? [];
+
+  // STEP 6 — combine static + dynamic personas
+  const allPersonas = [
+    personas[0], // Parent 1
+    personas[1], // Parent 2
+    ...dynamicParents, // Last 3 parents from DB
+    personas[2], // Tutor
+    personas[3]  // Admin
+  ];
+
   const handleSelect = (persona: typeof personas[0]) => {
 
-    localStorage.setItem("role", persona.role)
+  localStorage.setItem("role", persona.role)
 
-    if (persona.role === "parent" && persona.id) {
-      localStorage.setItem("parentId", persona.id.toString())
-    }
+  if (persona.role === "parent" && persona.id) {
+    localStorage.setItem("parentId", persona.id.toString())
 
-    if (persona.role === "tutor" && persona.id) {
-      localStorage.setItem("tutorId", persona.id.toString())
-    }
-
-    navigate(persona.redirect)
+    navigate(`/parents/${persona.id}`)
+    return
   }
+
+  if (persona.role === "tutor" && persona.id) {
+    localStorage.setItem("tutorId", persona.id.toString())
+
+    navigate(`/tutors/${persona.id}/dashboard`)
+    return
+  }
+
+  if (persona.role === "admin") {
+    navigate("/admin")
+  }
+}
 
   return (
     <div className="flex flex-col items-center min-h-screen bg-slate-50 p-8">
@@ -28,7 +66,7 @@ const PersonaPage = () => {
 
       <div className="grid grid-cols-3 gap-6 max-w-4xl">
 
-        {personas.map((persona) => (
+        {allPersonas.map((persona) => (
           <button
             key={persona.name}
             onClick={() => handleSelect(persona)}

@@ -98,4 +98,17 @@ public class ParentService {
                 child.getGradeLevel()
         );
     }
+
+    public List<ParentResponse> getRecentParents() {
+
+        List<Parent> parents = parentRepository.findTop3ByOrderByParentIdDesc();
+
+        List<ParentResponse> responses = new ArrayList<>();
+
+        for (Parent parent : parents) {
+            responses.add(getParentByParentId(parent.getParentId()));
+        }
+
+        return responses;
+    }
 }
