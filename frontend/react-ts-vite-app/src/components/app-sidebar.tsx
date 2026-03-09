@@ -197,7 +197,7 @@ export function AppSidebar({
   // If the parent has 0 credits, then they will be redirected to the Buy Credit Dialog. Otherwise, they will continue to the next step of the booking flow.
   const handleBookingFlow = () => {
     if (credits === 0) {
-      <BuyCreditsDialog parentId={getParent?.parentId ?? 1} />;
+      setShowBuyCreditsDialog(true);
     } else {
       navigate("/booking-dialog");
     }
@@ -241,7 +241,12 @@ export function AppSidebar({
             .filter((item) => item.roles.includes(persona))
             .map((item) => {
               if (item.title === "Book a Session") {
-                return { ...item, onClick: handleBookingFlow };
+                return {
+                  ...item,
+                  onClick: handleBookingFlow,
+                  className:
+                    "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
+                };
               }
 
               if (item.title === "Register a Child") {
