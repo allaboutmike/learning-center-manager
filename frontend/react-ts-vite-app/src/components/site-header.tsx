@@ -23,7 +23,7 @@ export function SiteHeader() {
               href="https://github.com/allaboutmike/learning-center-manager"
               rel="noopener noreferrer"
               target="_blank"
-              className="dark:text-foreground"
+              className="text-foreground"
             >
               GitHub
             </a>

@@ -191,7 +191,7 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
     cell: ({ row }) => (
       <Badge variant="outline" className="text-muted-foreground px-1.5">
         {row.original.status === "Done" ? (
-          <IconCircleCheckFilled className="fill-green-500 dark:fill-green-400" />
+          <IconCircleCheckFilled className="fill-green-500" />
         ) : (
           <IconLoader />
         )}
@@ -217,7 +217,7 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
           Target
         </Label>
         <Input
-          className="hover:bg-input/30 focus-visible:bg-background dark:hover:bg-input/30 dark:focus-visible:bg-input/30 h-8 w-16 border-transparent bg-transparent text-right shadow-none focus-visible:border dark:bg-transparent"
+          className="hover:bg-input/30 focus-visible:bg-background h-8 w-16 border-transparent bg-transparent text-right shadow-none focus-visible:border"
           defaultValue={row.original.target}
           id={`${row.original.id}-target`}
         />
@@ -242,7 +242,7 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
           Limit
         </Label>
         <Input
-          className="hover:bg-input/30 focus-visible:bg-background dark:hover:bg-input/30 dark:focus-visible:bg-input/30 h-8 w-16 border-transparent bg-transparent text-right shadow-none focus-visible:border dark:bg-transparent"
+          className="hover:bg-input/30 focus-visible:bg-background h-8 w-16 border-transparent bg-transparent text-right shadow-none focus-visible:border"
           defaultValue={row.original.limit}
           id={`${row.original.id}-limit`}
         />
