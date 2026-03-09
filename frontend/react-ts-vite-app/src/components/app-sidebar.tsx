@@ -33,9 +33,6 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { useNavigate } from "react-router-dom";
-import { useLearningCenterAPI } from "@/hooks/useLearningCenterAPI";
-import type { Parent } from "@/types/parents";
-import BuyCreditsDialog from "@/pages/BuyCreditsDialog";
 import { usePersona } from "@/context/usePersona";
 import type { Persona } from "@/context/PersonaContext";
 
@@ -184,10 +181,7 @@ export function AppSidebar({
   onRegisterChildClick,
   ...props
 }: AppSidebarProps) {
-  const parentId = 1;
   const { persona } = usePersona();
-
-  const getParent = useLearningCenterAPI<Parent>(`/api/parents/${parentId}`);
 
   const navigate = useNavigate();
 
