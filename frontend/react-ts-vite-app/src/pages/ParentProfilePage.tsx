@@ -171,14 +171,8 @@ export default function ParentProfilePage() {
                       </p>
 
                       <Button
-                        className="px-6 py-2 bg-blue-600 text-white hover:bg-blue-700"
-                        onClick={() => {
-                          if (!parent || parent.credits === 0) {
-                            openModal();
-                            return;
-                          }
-                          window.location.href = "/tutors";
-                        }}
+                        className="px-6 py-2 bg-blue-600 text-white hover:bg-blue-700 disabled:bg-blue-400 disabled:text-white disabled:opacity-100" disabled={!parent || parent.credits === 0}
+                        onClick={() => (window.location.href = "/tutors")}
                       >
                         Book A Session
                       </Button>
@@ -199,20 +193,15 @@ export default function ParentProfilePage() {
                           <h4 className="text-blue-600 font-medium">
                             Subject:{" "}
                             {Array.isArray(session.subjectName)
-                              ? session.subjectName.map((s) => typeof s === "string" ? s : s.name).join(", ")
-                              : typeof session.subjectName === "string" ? session.subjectName : session.subjectName.name}
+                              ? session.subjectName.join(", ")
+                              : session.subjectName}
                           </h4>
                           <p className="text-sm text-gray-600">
                             Tutor Name: {session.tutorName}
                           </p>
                           <p className="text-sm text-gray-500">
-                            Date: {new Date(session.time).toLocaleString(undefined, { dateStyle: "medium", timeStyle: "short" })}
+                            Date: {session.time}
                           </p>
-                          {activeTab === "past" && session.sessionNotes && (
-                            <p className="text-sm text-gray-700 mt-2 border-t pt-2">
-                              <span className="font-medium">Tutor Notes:</span> {session.sessionNotes}
-                            </p>
-                          )}
                         </div>
                       ))}
                     </div>
