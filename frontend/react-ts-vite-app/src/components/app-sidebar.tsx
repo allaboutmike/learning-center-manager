@@ -239,7 +239,7 @@ export function AppSidebar({
                   url:
                     parentId && childId
                       ? `/parents/${parentId}/children/${childId}/progress`
-                      : "#",
+                      : "/",
                   onClick: () => {
                     if (!parentId || !childId) {
                       console.log(
