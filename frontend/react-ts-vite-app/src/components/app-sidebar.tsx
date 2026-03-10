@@ -310,32 +310,11 @@ export function AppSidebar({
       <SidebarFooter>
         <NavUser user={data.user} />
       </SidebarFooter>
-
-      {/* Mock Dialog Component */}
-      {showBuyCreditsDialog && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-lg shadow-xl max-w-sm w-full">
-            <h3 className="text-lg font-bold mb-4">Buy Credits</h3>
-            <p className="mb-6">
-              You have 0 credits. Please purchase more to book a session.
-            </p>
-            <div className="flex flex-col gap-2">
-              <button
-                onClick={handlePurchaseSuccess}
-                className="bg-green-500 text-white py-2 rounded hover:bg-green-600"
-              >
-                Buy 5 Credits
-              </button>
-              <button
-                onClick={handleCloseDialog}
-                className="bg-green-500 text-white py-2 rounded hover:bg-green-600"
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      <BuyCreditsDialog
+        parentId={parentId}
+        open={showBuyCreditsDialog}
+        onOpenChange={handleCloseDialog}
+      />
     </Sidebar>
   );
 }
