@@ -7,13 +7,9 @@ import {
   IconUserShield,
   IconUsers,
   IconSchool,
-} from "@tabler/icons-react"
+} from "@tabler/icons-react";
 
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/ui/avatar"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -22,39 +18,52 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "@/components/ui/sidebar"
-import { usePersona } from "@/context/usePersona"
-import type { Persona } from "@/context/PersonaContext"
+} from "@/components/ui/sidebar";
+import { usePersona } from "@/context/usePersona";
+import type { Persona } from "@/context/PersonaContext";
+import { useNavigate } from "react-router-dom";
 
 const personaLabels: Record<Persona, string> = {
   parent: "Parent",
   admin: "Admin",
   tutor: "Tutor",
-}
+};
 
 const personaIcons: Record<Persona, React.ReactNode> = {
   parent: <IconUsers className="size-4" />,
   admin: <IconUserShield className="size-4" />,
   tutor: <IconSchool className="size-4" />,
-}
+};
+
+const personaRoutes: Record<Persona, string> = {
+  parent: "/parents/:parentId",
+  admin: "/admin",
+  tutor: "/tutors/:tutorId/dashboard",
+};
 
 export function NavUser({
   user,
 }: {
   user: {
-    name: string
-    email: string
-    avatar: string
-  }
+    name: string;
+    email: string;
+    avatar: string;
+  };
 }) {
-  const { isMobile } = useSidebar()
-  const { persona, setPersona } = usePersona()
+  const { isMobile } = useSidebar();
+  const navigate = useNavigate();
+  const { persona, setPersona } = usePersona();
+
+  const handlePersonaChange = (p: Persona) => {
+    setPersona(p);
+    navigate(personaRoutes[p]);
+  };
 
   return (
     <SidebarMenu>
@@ -106,7 +115,7 @@ export function NavUser({
               {(["parent", "admin", "tutor"] as Persona[]).map((p) => (
                 <DropdownMenuItem
                   key={p}
-                  onClick={() => setPersona(p)}
+                  onClick={() => handlePersonaChange(p)}
                   className={persona === p ? "bg-accent" : ""}
                 >
                   {personaIcons[p]}
@@ -138,5 +147,5 @@ export function NavUser({
         </DropdownMenu>
       </SidebarMenuItem>
     </SidebarMenu>
-  )
+  );
 }
