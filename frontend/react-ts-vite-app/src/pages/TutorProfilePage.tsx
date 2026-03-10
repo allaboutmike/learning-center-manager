@@ -62,35 +62,35 @@ export default function TutorProfilePage() {
 
   // Group availability by date
   const availabilityByDate =
-    availability?.reduce((acc, slot) => {
-      const date = slot.start.split("T")[0];
+    availability?.reduce(
+      (acc, slot) => {
+        const date = slot.start.split("T")[0];
 
-      if (!acc[date]) {
-        acc[date] = [];
-      }
+        if (!acc[date]) {
+          acc[date] = [];
+        }
 
-      acc[date].push(slot);
+        acc[date].push(slot);
 
-      return acc;
-    }, {} as Record<string, TutorTimeslot[]>) ?? {};
+        return acc;
+      },
+      {} as Record<string, TutorTimeslot[]>,
+    ) ?? {};
 
   // Convert available dates to Date objects
   const availableDates = Object.keys(availabilityByDate).map(
-    (date) => new Date(date)
+    (date) => new Date(date),
   );
 
-  const timesForSelectedDate =
-    selectedDate
-      ? availabilityByDate[format(selectedDate, "yyyy-MM-dd")] ?? []
-      : [];
+  const timesForSelectedDate = selectedDate
+    ? (availabilityByDate[format(selectedDate, "yyyy-MM-dd")] ?? [])
+    : [];
 
   return (
     <>
       <div className="grid grid-cols-12 gap-6 h-min-full p-6 bg-slate-50">
-
         {/* LEFT COLUMN */}
         <div className="col-span-5 flex flex-col gap-6">
-
           {/* IMAGE + BASIC INFO */}
           <div className="grid grid-cols-2 gap-4">
             <div className="bg-white rounded-2xl shadow overflow-hidden h-[220px]">
@@ -121,7 +121,9 @@ export default function TutorProfilePage() {
           <div className="bg-white rounded-2xl shadow p-6 border border-sky-800/50 shadow-md shadow-sky-200/40">
             <h3 className="font-semibold text-lg mb-3">About Me</h3>
 
-            <p className="text-slate-600">{tutor.tutorSummary}</p>
+            <p className="text-slate-600">
+              {tutor.summary || "No summary available."}{" "}
+            </p>
 
             <h4 className="mt-4 font-semibold">Subjects</h4>
 
@@ -172,7 +174,6 @@ export default function TutorProfilePage() {
 
         {/* RIGHT COLUMN */}
         <div className="col-span-7 bg-white rounded-2xl shadow p-6 flex flex-col border border-sky-800/50 shadow-md shadow-sky-200/40">
-
           <h2 className="text-xl font-semibold mb-4">Schedule a Session</h2>
 
           {/* SUBJECT */}
@@ -201,22 +202,21 @@ export default function TutorProfilePage() {
 
           {/* CALENDAR + TIMESLOTS */}
           <div className="flex gap-6 flex-1">
-
             {/* CALENDAR */}
             <div className="bg-white rounded-xl p-2">
               <h3 className="font-semibold mb-2">Select Date</h3>
 
               <Calendar
-  mode="single"
-  selected={selectedDate}
-  onSelect={setSelectedDate}
-  disabled={(date) =>
-    !availableDates.some(
-      (d) => d.toDateString() === date.toDateString()
-    )
-  }
-  className="rounded-md border"
-/>
+                mode="single"
+                selected={selectedDate}
+                onSelect={setSelectedDate}
+                disabled={(date) =>
+                  !availableDates.some(
+                    (d) => d.toDateString() === date.toDateString(),
+                  )
+                }
+                className="rounded-md border"
+              />
             </div>
 
             {/* TIMESLOTS */}
@@ -269,7 +269,6 @@ export default function TutorProfilePage() {
         <DialogContent className="max-w-lg">
           {timesForSelectedDate && selectedTimeSlot !== -1 && (
             <div className="space-y-4">
-
               <div className="space-y-2">
                 <h2 className="text-lg font-semibold">Select Child</h2>
 
