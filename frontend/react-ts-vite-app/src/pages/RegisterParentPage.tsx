@@ -3,6 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useLearningCenterPost } from "@/hooks/useLearningCenterAPI";
 import type { Parent } from "../types/parents";
+import { AppSidebar } from "@/components/app-sidebar";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { SiteHeader } from "@/components/site-header";
 
 export default function RegisterParentPage() {
   const navigate = useNavigate();
@@ -43,6 +46,10 @@ export default function RegisterParentPage() {
   };
 
   return (
+    <SidebarProvider>
+      <AppSidebar variant="inset" />
+      <SidebarInset>
+        <SiteHeader />
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
       <div className="bg-white rounded-xl shadow-md p-8 w-full max-w-md">
 
@@ -120,5 +127,7 @@ export default function RegisterParentPage() {
         </form>
       </div>
     </div>
+      </SidebarInset>
+    </SidebarProvider>
   );
 }
