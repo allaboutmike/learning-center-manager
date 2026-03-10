@@ -18,4 +18,5 @@ public interface ParentRepository extends CrudRepository<Parent, Long> {
     long sumAllCredits();
     Optional<Parent> findByEmail(String email);
 
+    List<Parent> findTop3ByOrderByParentIdDesc();
 }
