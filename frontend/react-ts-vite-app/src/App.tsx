@@ -14,6 +14,7 @@ import RegisterChildPage from "./pages/RegisterChildPage";
 // import SearchPage from "./pages/SearchPage";
 import { PersonaProvider } from "./context/PersonaProvider";
 import PersonaPage from "./pages/PersonaPage";
+import ChildProgressDashboard from "@/components/ChildProgressDashboard";
 
 function App() {
   return (
@@ -22,13 +23,17 @@ function App() {
         <Routes>
           <Route index element={<PersonaPage />} />
           <Route path="/parents/:parentId" element={<ParentProfilePage />} />
-          <Route path="parents/register" element={<RegisterParentPage />} />
+          <Route path=".parents/register" element={<RegisterParentPage />} />
           <Route path="/" element={<DashboardPage />}>
             <Route path="/tutors" element={<TutorSearchScreen />} />
-            <Route path="tutors/:tutorId" element={<TutorProfilePage />} />
+            <Route path="/tutors/:tutorId" element={<TutorProfilePage />} />
             <Route
               path="tutors/:tutorId/dashboard"
               element={<TutorDashboardPage />}
+            />
+            <Route
+              path="/parents/:parentId/children/:childId/progress"
+              element={<ChildProgressDashboard />}
             />
             <Route path="confirmation" element={<ConfirmationPage />} />
             <Route path="admin" element={<AdminDashboardPage />} />
