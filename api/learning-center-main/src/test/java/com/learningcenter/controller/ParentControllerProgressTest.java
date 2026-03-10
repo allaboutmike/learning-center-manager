@@ -2,6 +2,7 @@ package com.learningcenter.controller;
 
 import com.learningcenter.dto.ChildProgressDashboardResponse;
 import com.learningcenter.service.ChildProgressDashboardService;
+import com.learningcenter.service.GoalService;
 import com.learningcenter.service.ParentService;
 import com.learningcenter.service.SessionService;
 import org.junit.jupiter.api.Test;
@@ -19,8 +20,10 @@ class ParentControllerProgressUnitTest {
         ParentService parentService = mock(ParentService.class);
         SessionService sessionService = mock(SessionService.class);
         ChildProgressDashboardService dashboardService = mock(ChildProgressDashboardService.class);
+        GoalService goalService = mock(GoalService.class);
 
-        ParentController controller = new ParentController(parentService, sessionService, dashboardService);
+        ParentController controller =
+                new ParentController(parentService, sessionService, dashboardService, goalService);
 
         long parentId = 1L;
         long childId = 10L;
@@ -44,6 +47,6 @@ class ParentControllerProgressUnitTest {
         assertSame(expected, actual);
 
         verify(dashboardService).getChildProgressDashboard(parentId, childId, groupBy);
-        verifyNoInteractions(parentService, sessionService);
+        verifyNoInteractions(parentService, sessionService, goalService);
     }
 }
