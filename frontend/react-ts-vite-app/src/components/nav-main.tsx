@@ -2,6 +2,7 @@ import { IconCirclePlusFilled, IconMail, type Icon } from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
 
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -29,8 +30,7 @@ export function NavMain({
           <SidebarMenuItem className="flex items-center gap-2">
             <SidebarMenuButton
               tooltip="Quick Create"
-              className="bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground active:bg-primary/90 active:text-primary-foreground min-w-8 duration-200 ease-linear"
-            >
+              className="bg-green-500 text-white hover:bg-green-600 active:bg-green-600 min-w-8 duration-200 ease-linear"            >
               <IconCirclePlusFilled />
               <span>Quick Create</span>
             </SidebarMenuButton>
@@ -49,7 +49,11 @@ export function NavMain({
             <SidebarMenuItem key={item.title}>
               <SidebarMenuButton
                 tooltip={item.title}
-                style={{ color: "white" }}
+                className={cn(
+                  "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
+                  // allow item-specific overrides
+                  (item as any).className,
+                )}
                 onClick={() => {
                   if (item.onClick) {
                     item.onClick();
