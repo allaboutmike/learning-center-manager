@@ -36,6 +36,7 @@ class ParentControllerProgressUnitTest {
                 List.of(),
                 List.of(),
                 List.of(),
+                List.of(),
                 List.of()
         );
 
