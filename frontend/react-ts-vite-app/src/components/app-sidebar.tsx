@@ -206,9 +206,7 @@ export function AppSidebar({
   // This function will handle closing the dialog when the user leaves without buying credits.
   const handleCloseDialog = () => {
     setShowBuyCreditsDialog(false);
-    navigate("/");
   };
-
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
@@ -279,15 +277,15 @@ export function AppSidebar({
             <div className="flex flex-col gap-2">
               <button
                 onClick={handlePurchaseSuccess}
-                className="bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+                className="bg-green-500 text-white py-2 rounded hover:bg-green-600"
               >
                 Buy 5 Credits
               </button>
               <button
                 onClick={handleCloseDialog}
-                className="bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+                className="bg-green-500 text-white py-2 rounded hover:bg-green-600"
               >
-                Cancel & Go to Dashboard
+                Cancel
               </button>
             </div>
           </div>
