@@ -15,7 +15,7 @@ export const personas = [
     name: "Tutor",
     role: "tutor",
     id: 1,
-    image: "/public/tutor.png",
+    image: "/public/stitch.png",
   },
   {
     name: "Admin",
