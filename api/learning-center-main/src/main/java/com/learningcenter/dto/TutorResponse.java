@@ -11,9 +11,10 @@ public class TutorResponse {
     private int minGradeLevel;
     private int maxGradeLevel;
     private String profilePictureUrl;
+    private String summary;
     private List<SubjectResponse> subjects;
 
-    public TutorResponse(Long tutorId, String name, double avgRating, int reviewCount,int minGradeLevel, int maxGradeLevel, String profilePictureUrl, List<SubjectResponse> subjects) {
+    public TutorResponse(Long tutorId, String name, double avgRating, int reviewCount,int minGradeLevel, int maxGradeLevel, String profilePictureUrl, String summary, List<SubjectResponse> subjects) {
         this.tutorId = tutorId;
         this.name = name;
         this.avgRating = avgRating;
@@ -21,6 +22,7 @@ public class TutorResponse {
         this.minGradeLevel = minGradeLevel;
         this.maxGradeLevel = maxGradeLevel;
         this.profilePictureUrl = profilePictureUrl;
+        this.summary = summary;
         this.subjects = subjects;
     }
 
@@ -70,6 +72,10 @@ public class TutorResponse {
 
     public void setSubjects(List<SubjectResponse> subjects) {
         this.subjects = subjects;
+    }
+    
+    public String getSummary() {
+        return summary;
     }
 }
 
