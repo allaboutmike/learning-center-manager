@@ -55,7 +55,7 @@ export default function BuyCreditsDialog({ parentId, open, onOpenChange }: Dialo
 
   return (
     <>
-      <Dialog open={open ?? false} onOpenChange={onOpenChange ?? (() => {})}>
+      <Dialog open={open ?? false} onOpenChange={onOpenChange ?? (() => { })}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Buy Credits</DialogTitle>
@@ -81,6 +81,9 @@ export default function BuyCreditsDialog({ parentId, open, onOpenChange }: Dialo
           </main>
           <Button onClick={postPurchasedCredits}>
             Buy {credits} credit{credits != 1 ? "s" : ""}
+          </Button>
+          <Button variant="outline" onClick={() => onOpenChange?.(false)}>
+            Cancel
           </Button>
         </DialogContent>
       </Dialog>

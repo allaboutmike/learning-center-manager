@@ -47,7 +47,7 @@ public class TutorService {
 
             tutorResponses.add(new TutorResponse(tutor.getTutorId(), tutor.getName(), averageRating, 
                 reviewRepository.getNumberOfReviews(tutor.getTutorId()), tutor.getMinGradeLevel(), 
-                tutor.getMaxGradeLevel(), tutor.getImageUrl(), getSubjectResponses(tutor)));
+                tutor.getMaxGradeLevel(), tutor.getImageUrl(),tutor.getSummary(), getSubjectResponses(tutor)));
         }
         return tutorResponses;
     }
@@ -59,7 +59,7 @@ public class TutorService {
         }
         return new TutorResponse(tutorId, tutor.get().getName(), reviewRepository.findByAvgRating(tutorId), 
             reviewRepository.getNumberOfReviews(tutorId), tutor.get().getMinGradeLevel(), 
-            tutor.get().getMaxGradeLevel(), tutor.get().getImageUrl(), getSubjectResponses(tutor.get()));
+            tutor.get().getMaxGradeLevel(), tutor.get().getImageUrl(), tutor.get().getSummary(),getSubjectResponses(tutor.get()));
     }
 
 
@@ -80,7 +80,7 @@ public class TutorService {
             Double averageRating = rating != null ? rating : 0.0;
             tutorResponses.add(new TutorResponse(tutor.getTutorId(), tutor.getName(), averageRating, 
                 reviewRepository.getNumberOfReviews(tutor.getTutorId()), 
-                tutor.getMinGradeLevel(), tutor.getMaxGradeLevel(), tutor.getImageUrl(), getSubjectResponses(tutor)));
+                tutor.getMinGradeLevel(), tutor.getMaxGradeLevel(), tutor.getImageUrl(), tutor.getSummary(), getSubjectResponses(tutor)));
         }
         return tutorResponses;
     }
@@ -93,7 +93,7 @@ public class TutorService {
             Double averageRating = rating != null ? rating : 0.0;
             tutorResponses.add(new TutorResponse(tutor.getTutorId(), tutor.getName(), averageRating, 
                 reviewRepository.getNumberOfReviews(tutor.getTutorId()), tutor.getMinGradeLevel(), 
-                tutor.getMaxGradeLevel(), tutor.getImageUrl(), getSubjectResponses(tutor)));
+                tutor.getMaxGradeLevel(), tutor.getImageUrl(), tutor.getSummary(), getSubjectResponses(tutor)));
         }
         return tutorResponses;
     }
