@@ -49,6 +49,10 @@ export default function ChildProgressDashboardPage({ parentId, childId }: Props)
         if (!data) return false
         return (data.totalCompletedSessions ?? 0) === 0
     }, [data])
+    const goals = useMemo(() => {
+        if (!data) return []
+        return data.goals ?? []
+    }, [data])
 
     const sessionsChartData = useMemo(() => {
         if (!data) return []
@@ -79,7 +83,11 @@ export default function ChildProgressDashboardPage({ parentId, childId }: Props)
         if (!data) return []
         return data.lastTutorNotes
     }, [data])
-
+    function getProgressColor(percent: number) {
+        if (percent < 40) return "bg-red-500"
+        if (percent < 70) return "bg-yellow-400"
+        return "bg-green-500"
+    }
     return (
         <div className="p-4 md:p-6 space-y-6">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
@@ -173,19 +181,31 @@ export default function ChildProgressDashboardPage({ parentId, childId }: Props)
                     <div className="border rounded-lg p-4">
                         <div className="font-medium mb-2">Current Subjects</div>
 
-                        {currentSubjects.length === 0 ? (
+                        {goals.length === 0 ? (
                             <div className="text-sm text-gray-600">
-                                No subjects yet.
+                                No goals yet.
                             </div>
                         ) : (
-                            <div className="flex flex-wrap gap-2">
-                                {currentSubjects.map((s) => (
-                                    <span
-                                        key={s}
-                                        className="text-sm px-2 py-1 rounded-full border bg-gray-50"
-                                    >
-                                        {s}
-                                    </span>
+                            <div className="space-y-4">
+                                {goals.map((goal) => (
+                                    <div key={goal.goalId} className="space-y-2">
+                                        <div className="flex items-start justify-between gap-3">
+                                            <div>
+                                                <div className="font-medium">{goal.subject}</div>
+                                                <div className="text-sm text-gray-700">{goal.title}</div>
+                                            </div>
+                                            <div className="text-sm font-medium">
+                                                {goal.percentageComplete}%
+                                            </div>
+                                        </div>
+
+                                        <div className="w-full h-3 bg-gray-200 rounded-full overflow-hidden">
+                                            <div
+                                                className={`h-full rounded-full ${getProgressColor(goal.percentageComplete)}`}
+                                                style={{ width: `${goal.percentageComplete}%` }}
+                                            />
+                                        </div>
+                                    </div>
                                 ))}
                             </div>
                         )}
