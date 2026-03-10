@@ -3,23 +3,23 @@ export const personas = [
     name: "Parent 1",
     role: "parent",
     id: 1,
-    image: "/public/sailor_moon.png",
+    image: "/parent1.png",
   },
   {
     name: "Parent 2",
     role: "parent",
     id: 2,
-    image: "/public/sailor_moon.png",
+    image: "/parent2.png",
   },
   {
     name: "Tutor",
     role: "tutor",
-    id: 1,
-    image: "/public/stitch.png",
+    id: 166,
+    image: "/tutor.png",
   },
   {
     name: "Admin",
     role: "admin",
-    image: "/public/stitch.png",
+    image: "/admin.png",
   },
 ];
