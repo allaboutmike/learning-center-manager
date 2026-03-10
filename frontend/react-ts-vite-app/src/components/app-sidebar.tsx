@@ -1,11 +1,9 @@
 import * as React from "react";
 import {
-  IconCamera,
+  IconCreditCard,
   IconChartBar,
   IconDashboard,
   // IconDatabase,
-  IconFileAi,
-  IconFileDescription,
   // IconFileWord,
   IconFolder,
   IconHelp,
@@ -35,6 +33,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { usePersona } from "@/context/usePersona";
 import type { Persona } from "@/context/PersonaContext";
+import BuyCreditsDialog from "@/pages/BuyCreditsDialog";
 
 const data = {
   user: {
@@ -45,26 +44,50 @@ const data = {
   navMain: [
     {
       title: "Parent Dashboard",
-      url: "/dashboard",
+      url: "/",
       icon: IconDashboard,
-      roles: ["parent", "admin", "tutor"] as Persona[],
+      roles: ["parent"] as Persona[],
+    },
+    {
+      title: "Tutor Dashboard",
+      url: "/tutors/:tutorId/dashboard",
+      icon: IconDashboard,
+      roles: ["tutor"] as Persona[],
+    },
+    {
+      title: "Admin Dashboard",
+      url: "/admin",
+      icon: IconShieldCheck,
+      roles: ["admin"] as Persona[],
     },
     {
       title: "Students",
       url: "/students",
       icon: IconListDetails,
-      roles: ["parent", "admin"] as Persona[],
+      roles: ["tutor", "admin"] as Persona[],
+    },
+    {
+      title: "Session Review",
+      url: "/session-review",
+      icon: IconListDetails,
+      roles: [] as Persona[],
     },
     {
       title: "Child's Progress",
-      url: "/progress",
+      url: "parents/:parentId/children/:childId/progress",
       icon: IconChartBar,
       roles: ["parent", "admin", "tutor"] as Persona[],
     },
     {
       title: "Book a Session",
-      url: "#",
+      url: "/tutors",
       icon: IconFolder,
+      roles: [] as Persona[],
+    },
+    {
+      title: "Buy Credits",
+      url: "#",
+      icon: IconCreditCard,
       roles: ["parent"] as Persona[],
     },
     {
@@ -74,64 +97,10 @@ const data = {
       roles: ["parent", "admin"] as Persona[],
     },
     {
-      title: "Register Parent",
+      title: "Register a Parent",
       url: "/parents/register",
       icon: IconUserPlus,
       roles: ["admin"] as Persona[],
-    },
-    {
-      title: "Admin Dashboard",
-      url: "/admin",
-      icon: IconShieldCheck,
-      roles: ["admin"] as Persona[],
-    },
-  ],
-  navClouds: [
-    {
-      title: "Capture",
-      icon: IconCamera,
-      isActive: true,
-      url: "#",
-      items: [
-        {
-          title: "Active Proposals",
-          url: "#",
-        },
-        {
-          title: "Archived",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Proposal",
-      icon: IconFileDescription,
-      url: "#",
-      items: [
-        {
-          title: "Active Proposals",
-          url: "#",
-        },
-        {
-          title: "Archived",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Prompts",
-      icon: IconFileAi,
-      url: "#",
-      items: [
-        {
-          title: "Active Proposals",
-          url: "#",
-        },
-        {
-          title: "Archived",
-          url: "#",
-        },
-      ],
     },
   ],
   navSecondary: [
@@ -182,13 +151,28 @@ export function AppSidebar({
   ...props
 }: AppSidebarProps) {
   const { persona } = usePersona();
+  const [tutorId, setTutorId] = React.useState<string | null>(null);
+  const [parentId, setParentId] = React.useState<number>(0);
+
+  React.useEffect(() => {
+    const storedTutorId = localStorage.getItem("tutorId");
+    if (storedTutorId) {
+      setTutorId(storedTutorId);
+    }
+
+    const storeParentId = localStorage.getItem("parentId");
+    if (storeParentId) {
+      setParentId(parseInt(storeParentId, 10));
+    }
+  }, []);
 
   const navigate = useNavigate();
-
-  const [credits, setCredits] = React.useState(0);
+  const [credits] = React.useState(0);
+  const [childId] = React.useState(1);
   const [showBuyCreditsDialog, setShowBuyCreditsDialog] = React.useState(false);
 
   // If the parent has 0 credits, then they will be redirected to the Buy Credit Dialog. Otherwise, they will continue to the next step of the booking flow.
+  // Change the navigate parameter to the correct url here
   const handleBookingFlow = () => {
     if (credits === 0) {
       setShowBuyCreditsDialog(true);
@@ -197,16 +181,18 @@ export function AppSidebar({
     }
   };
 
-  // This function will handle the successful purchase of the credit if the parent has to buy credits.
-  const handlePurchaseSuccess = () => {
-    setCredits((prev) => prev + 5);
-    setShowBuyCreditsDialog(false);
+  const handleBuyCreditsClick = () => {
+    setShowBuyCreditsDialog(true);
   };
 
   // This function will handle closing the dialog when the user leaves without buying credits.
-  const handleCloseDialog = () => {
-    setShowBuyCreditsDialog(false);
+  const handleCloseDialog = (open: boolean) => {
+    setShowBuyCreditsDialog(open);
+    if (!open) {
+      navigate("/");
+    }
   };
+
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
@@ -232,6 +218,42 @@ export function AppSidebar({
           items={data.navMain
             .filter((item) => item.roles.includes(persona))
             .map((item) => {
+              if (item.title === "Tutor Dashboard") {
+                if (tutorId) {
+                  return {
+                    ...item,
+                    url: `/tutors/${tutorId}/dashboard`,
+                    onClick: () => navigate(`/tutors/${tutorId}/dashboard`),
+                  };
+                }
+              }
+              if (item.title === "Parent Dashboard") {
+                return {
+                  ...item,
+                  url: `/`,
+                  onClick: () => navigate("/"),
+                };
+              }
+              if (item.title === "Child's Progress") {
+                return {
+                  ...item,
+                  url:
+                    parentId && childId
+                      ? `/parents/${parentId}/children/${childId}/progress`
+                      : "#",
+                  onClick: () => {
+                    if (!parentId || !childId) {
+                      console.log(
+                        "Missing parentId or childId for Child's Progress",
+                      );
+                      return;
+                    }
+                    navigate(
+                      `/parents/${parentId}/children/${childId}/progress`,
+                    );
+                  },
+                };
+              }
               if (item.title === "Book a Session") {
                 return {
                   ...item,
@@ -241,10 +263,34 @@ export function AppSidebar({
                 };
               }
 
+              if (item.title === "Buy Credits") {
+                return { ...item, onClick: handleBuyCreditsClick };
+              }
+
               if (item.title === "Register a Child") {
                 return {
                   ...item,
-                  url: "#",
+                  url: "children/register",
+                  onClick: () => {
+                    onRegisterChildClick?.();
+                  },
+                };
+              }
+
+              if (item.title === "Register a Parent") {
+                return {
+                  ...item,
+                  url: "/parents/register",
+                  onClick: () => {
+                    navigate("/parents/register");
+                  },
+                };
+              }
+
+              if (item.title === "") {
+                return {
+                  ...item,
+                  url: "children/register",
                   onClick: () => {
                     onRegisterChildClick?.();
                   },
@@ -266,31 +312,11 @@ export function AppSidebar({
         <NavUser user={data.user} />
       </SidebarFooter>
 
-      {/* Mock Dialog Component */}
-      {showBuyCreditsDialog && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-lg shadow-xl max-w-sm w-full">
-            <h3 className="text-lg font-bold mb-4">Buy Credits</h3>
-            <p className="mb-6">
-              You have 0 credits. Please purchase more to book a session.
-            </p>
-            <div className="flex flex-col gap-2">
-              <button
-                onClick={handlePurchaseSuccess}
-                className="bg-green-500 text-white py-2 rounded hover:bg-green-600"
-              >
-                Buy 5 Credits
-              </button>
-              <button
-                onClick={handleCloseDialog}
-                className="bg-green-500 text-white py-2 rounded hover:bg-green-600"
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      <BuyCreditsDialog
+        parentId={parentId}
+        open={showBuyCreditsDialog}
+        onOpenChange={handleCloseDialog}
+      />
     </Sidebar>
   );
 }
