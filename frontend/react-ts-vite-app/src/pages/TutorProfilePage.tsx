@@ -18,14 +18,19 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+import { Calendar } from "@/components/ui/calendar";
+
 export default function TutorProfilePage() {
   const { tutorId } = useParams();
+
   const tutor = useLearningCenterAPI<Tutor>(
     tutorId ? `/api/tutors/${tutorId}` : "",
   );
+
   const availability = useLearningCenterAPI<TutorTimeslot[]>(
     tutorId ? `/api/tutors/${tutorId}/availability` : "",
   );
+
   const reviews = useLearningCenterAPI<Reviews[]>(
     tutorId ? `/api/tutors/${tutorId}/reviews` : "",
   );
@@ -37,8 +42,8 @@ export default function TutorProfilePage() {
   );
 
   const [selectedChildId, setSelectedChildId] = useState<number | null>(null);
-
   const [selectedTimeSlot, setSelectedTimeSlot] = useState(-1);
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedSubjectId, setSelectedSubjectId] = useState<number | null>(
     null,
@@ -47,19 +52,45 @@ export default function TutorProfilePage() {
   if (!tutorId) {
     return (
       <p>
-        {" "}
         Invalid tutor id. Please go back and search for tutors here:{" "}
-        <Link to="/"> Search all Tutors </Link>
+        <Link to="/">Search all Tutors</Link>
       </p>
     );
   }
+
   if (!tutor) return <p>Loading...</p>;
+
+  // Group availability by date
+  const availabilityByDate =
+    availability?.reduce((acc, slot) => {
+      const date = slot.start.split("T")[0];
+
+      if (!acc[date]) {
+        acc[date] = [];
+      }
+
+      acc[date].push(slot);
+
+      return acc;
+    }, {} as Record<string, TutorTimeslot[]>) ?? {};
+
+  // Convert available dates to Date objects
+  const availableDates = Object.keys(availabilityByDate).map(
+    (date) => new Date(date)
+  );
+
+  const timesForSelectedDate =
+    selectedDate
+      ? availabilityByDate[format(selectedDate, "yyyy-MM-dd")] ?? []
+      : [];
 
   return (
     <>
-      {/* MAIN GRID LAYOUT */}
       <div className="grid grid-cols-12 gap-6 h-min-full p-6 bg-slate-50">
+
+        {/* LEFT COLUMN */}
         <div className="col-span-5 flex flex-col gap-6">
+
           {/* IMAGE + BASIC INFO */}
           <div className="grid grid-cols-2 gap-4">
             <div className="bg-white rounded-2xl shadow overflow-hidden h-[220px]">
@@ -106,7 +137,7 @@ export default function TutorProfilePage() {
             </div>
           </div>
 
-          {/* NEXT AVAILABLE SLOT */}
+          {/* NEXT AVAILABLE */}
           <div className="bg-white rounded-2xl shadow p-6 border border-sky-800/50 shadow-md shadow-sky-200/40">
             <h3 className="font-semibold mb-2">Next Available Session</h3>
 
@@ -119,7 +150,7 @@ export default function TutorProfilePage() {
             )}
           </div>
 
-          {/* REVIEW PREVIEW */}
+          {/* REVIEWS */}
           <div className="bg-white rounded-2xl shadow p-6 flex-1 overflow-y-auto border border-sky-800/50 shadow-md shadow-sky-200/40">
             <h3 className="font-semibold mb-4">Tutor Reviews</h3>
 
@@ -141,10 +172,11 @@ export default function TutorProfilePage() {
 
         {/* RIGHT COLUMN */}
         <div className="col-span-7 bg-white rounded-2xl shadow p-6 flex flex-col border border-sky-800/50 shadow-md shadow-sky-200/40">
+
           <h2 className="text-xl font-semibold mb-4">Schedule a Session</h2>
 
-          {/* SUBJECT DROPDOWN */}
-          <div className="mb-6 ">
+          {/* SUBJECT */}
+          <div className="mb-6">
             <h3 className="font-semibold mb-2">Choose Subject</h3>
 
             <Select
@@ -167,34 +199,63 @@ export default function TutorProfilePage() {
             </Select>
           </div>
 
-          {/* AVAILABILITY */}
-          <div className="flex-1 bg-slate-100 rounded-xl p-4 overflow-y-auto border border-sky-800/50">
-            <h3 className="mb-3 font-semibold">Availability</h3>
+          {/* CALENDAR + TIMESLOTS */}
+          <div className="flex gap-6 flex-1">
 
-            <ul className="space-y-2">
-              {availability &&
-                availability.map((slot, index) => (
+            {/* CALENDAR */}
+            <div className="bg-white rounded-xl p-2">
+              <h3 className="font-semibold mb-2">Select Date</h3>
+
+              <Calendar
+  mode="single"
+  selected={selectedDate}
+  onSelect={setSelectedDate}
+  disabled={(date) =>
+    !availableDates.some(
+      (d) => d.toDateString() === date.toDateString()
+    )
+  }
+  className="rounded-md border"
+/>
+            </div>
+
+            {/* TIMESLOTS */}
+            <div className="flex-1 bg-slate-100 rounded-xl p-4 overflow-y-auto border border-sky-800/50">
+              <h3 className="mb-3 font-semibold">Available Times</h3>
+
+              {timesForSelectedDate.length === 0 && (
+                <p className="text-slate-400">
+                  Select a date to view available times
+                </p>
+              )}
+
+              <ul className="space-y-2">
+                {timesForSelectedDate.map((slot, index) => (
                   <li
                     key={slot.tutorTimeslotId}
                     onClick={() => setSelectedTimeSlot(index)}
                     className={`cursor-pointer p-3 rounded-lg border
-${
-  selectedTimeSlot === index
-    ? "bg-sky-500 text-white"
-    : "bg-white hover:bg-sky-100"
-}`}
+                    ${
+                      selectedTimeSlot === index
+                        ? "bg-sky-700 text-white"
+                        : "bg-white hover:bg-sky-100"
+                    }`}
                   >
-                    {format(parseISO(slot.start), "MMM d, yyyy h:mm a")}
-                    {" - "}
+                    {format(parseISO(slot.start), "h:mm a")} –{" "}
                     {format(parseISO(slot.end), "h:mm a")}
                   </li>
                 ))}
-            </ul>
+              </ul>
+            </div>
           </div>
 
           <Button
             variant="secondary"
-            disabled={selectedTimeSlot === -1 || selectedSubjectId === null}
+            disabled={
+              selectedTimeSlot === -1 ||
+              selectedSubjectId === null ||
+              !selectedDate
+            }
             className="mt-4"
             onClick={() => setIsOpen(true)}
           >
@@ -203,46 +264,46 @@ ${
         </div>
       </div>
 
-      <ul>
-        <Dialog open={isOpen} onOpenChange={setIsOpen}>
-          <DialogContent className="max-w-lg">
-            {availability && selectedTimeSlot !== -1 && (
-              <div className="space-y-4">
-                <div className="space-y-2">
-                  <h2 className="text-lg font-semibold">Select Child</h2>
+      {/* BOOKING MODAL */}
+      <Dialog open={isOpen} onOpenChange={setIsOpen}>
+        <DialogContent className="max-w-lg">
+          {timesForSelectedDate && selectedTimeSlot !== -1 && (
+            <div className="space-y-4">
 
-                  <Select
-                    value={
-                      selectedChildId !== null ? String(selectedChildId) : ""
-                    }
-                    onValueChange={(value) => setSelectedChildId(Number(value))}
-                  >
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Select a child" />
-                    </SelectTrigger>
+              <div className="space-y-2">
+                <h2 className="text-lg font-semibold">Select Child</h2>
 
-                    <SelectContent>
-                      {children?.map((c) => (
-                        <SelectItem key={c.childId} value={String(c.childId)}>
-                          {c.firstName} (Grade {c.gradeLevel})
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
+                <Select
+                  value={
+                    selectedChildId !== null ? String(selectedChildId) : ""
+                  }
+                  onValueChange={(value) => setSelectedChildId(Number(value))}
+                >
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select a child" />
+                  </SelectTrigger>
 
-                <SessionReviewPage
-                  tutor={tutor}
-                  slot={availability[selectedTimeSlot]}
-                  subjectId={selectedSubjectId}
-                  childId={selectedChildId}
-                  onClose={() => setIsOpen(false)}
-                />
+                  <SelectContent>
+                    {children?.map((c) => (
+                      <SelectItem key={c.childId} value={String(c.childId)}>
+                        {c.firstName} (Grade {c.gradeLevel})
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
-            )}
-          </DialogContent>
-        </Dialog>
-      </ul>
+
+              <SessionReviewPage
+                tutor={tutor}
+                slot={timesForSelectedDate[selectedTimeSlot]}
+                subjectId={selectedSubjectId}
+                childId={selectedChildId}
+                onClose={() => setIsOpen(false)}
+              />
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </>
   );
 }
