@@ -17,16 +17,23 @@ const PersonaPage = () => {
 
   const navigate = useNavigate()
 
+  const parentImages = [
+  "/parent6.png",
+  "/parent4.png",
+  "/parent7.png",
+  "/parent1.png",
+  ];
   const dynamicParents =
-    recentParents?.map((parent) => ({
-      name: parent.name,
-      role: "parent",
-      id: parent.parentId,
-      redirect: "/parents",
-      image: "/images/parent.png"
-    })) ?? [];
+  recentParents?.map((parent, index) => ({
+    name: `Parent ${index + 3}`,
+    dbName: parent.name,
+    role: "parent",
+    id: parent.parentId,
+    redirect: "/parents",
+    image: parentImages[index % parentImages.length]
+  })) ?? [];
 
-  // STEP 6 — combine static + dynamic personas
+  
   const allPersonas = [
     personas[0], // Parent 1
     personas[1], // Parent 2
