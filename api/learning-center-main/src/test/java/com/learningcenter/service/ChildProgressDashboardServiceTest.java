@@ -1,6 +1,8 @@
 package com.learningcenter.service;
 
 import com.learningcenter.dto.ChildProgressDashboardResponse;
+import com.learningcenter.repository.GoalRepository;
+import com.learningcenter.repository.ProgressRepository;
 import com.learningcenter.repository.SessionRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,12 +17,16 @@ import static org.mockito.Mockito.*;
 class ChildProgressDashboardServiceNoMockTest {
 
     private SessionRepository repo;
+    private GoalRepository goalRepository;
+    private ProgressRepository progressRepository;
     private ChildProgressDashboardService service;
 
     @BeforeEach
     void setUp() {
         repo = mock(SessionRepository.class);
-        service = new ChildProgressDashboardService(repo);
+        goalRepository = mock(GoalRepository.class);
+        progressRepository = mock(ProgressRepository.class);
+        service = new ChildProgressDashboardService(repo, goalRepository, progressRepository);
     }
 
     @Test
@@ -34,7 +40,7 @@ class ChildProgressDashboardServiceNoMockTest {
         assertNotNull(ex.getBody());
         assertTrue(ex.getBody().getDetail().contains("parentId and childId are required"));
 
-        verifyNoInteractions(repo);
+        verifyNoInteractions(repo, goalRepository, progressRepository);
     }
 
     @Test
@@ -48,12 +54,13 @@ class ChildProgressDashboardServiceNoMockTest {
         assertNotNull(ex.getBody());
         assertTrue(ex.getBody().getDetail().contains("groupBy"));
 
-        verifyNoInteractions(repo);
+        verifyNoInteractions(repo, goalRepository, progressRepository);
     }
 
     @Test
     void getChildProgressDashboard_validRequest_withNoSessions_returnsEmptyCollections() {
         when(repo.findDashboardSessionsByParentIdAndChildId(1L, 10L)).thenReturn(List.of());
+        when(goalRepository.findByChild_ChildId(10L)).thenReturn(List.of());
 
         ChildProgressDashboardResponse resp =
                 service.getChildProgressDashboard(1L, 10L, "week");
@@ -66,12 +73,16 @@ class ChildProgressDashboardServiceNoMockTest {
         assertNotNull(resp.subjectBreakdown());
         assertNotNull(resp.currentSubjects());
         assertNotNull(resp.lastTutorNotes());
+        assertNotNull(resp.goals());
 
         assertTrue(resp.sessionsOverTime().isEmpty());
         assertTrue(resp.subjectBreakdown().isEmpty());
         assertTrue(resp.currentSubjects().isEmpty());
         assertTrue(resp.lastTutorNotes().isEmpty());
+        assertTrue(resp.goals().isEmpty());
 
         verify(repo).findDashboardSessionsByParentIdAndChildId(1L, 10L);
+        verify(goalRepository).findByChild_ChildId(10L);
+        verifyNoInteractions(progressRepository);
     }
 }

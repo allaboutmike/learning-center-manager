@@ -1,7 +1,11 @@
 package com.learningcenter.service;
 
 import com.learningcenter.dto.ChildProgressDashboardResponse;
+import com.learningcenter.entities.Goal;
+import com.learningcenter.entities.Progress;
 import com.learningcenter.entities.Session;
+import com.learningcenter.repository.GoalRepository;
+import com.learningcenter.repository.ProgressRepository;
 import com.learningcenter.repository.SessionRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
@@ -17,14 +21,19 @@ import java.util.*;
 public class ChildProgressDashboardService {
 
     private final SessionRepository sessionRepository;
+    private final GoalRepository goalRepository;
+    private final ProgressRepository progressRepository;
 
-    public ChildProgressDashboardService(SessionRepository sessionRepository) {
+    public ChildProgressDashboardService(
+            SessionRepository sessionRepository,
+            GoalRepository goalRepository,
+            ProgressRepository progressRepository
+    ) {
         this.sessionRepository = sessionRepository;
+        this.goalRepository = goalRepository;
+        this.progressRepository = progressRepository;
     }
 
-    // -----------------------------
-    // REAL dashboard (from DB)
-    // -----------------------------
     public ChildProgressDashboardResponse getChildProgressDashboard(Long parentId, Long childId, String groupBy) {
 
         if (parentId == null || childId == null) {
@@ -36,7 +45,6 @@ public class ChildProgressDashboardService {
         }
 
         String grouping = normalizeGroupBy(groupBy);
-
         LocalDateTime now = LocalDateTime.now();
 
         List<Session> sessions = sessionRepository.findDashboardSessionsByParentIdAndChildId(parentId, childId);
@@ -44,13 +52,12 @@ public class ChildProgressDashboardService {
         List<SessionWithTime> upcoming = new ArrayList<>();
 
         for (Session session : sessions) {
-
             if (session.getTimeslot() == null) continue;
             if (session.getTimeslot().getTimeslot() == null) continue;
             if (session.getTimeslot().getTimeslot().getTime() == null) continue;
 
-
-            LocalDateTime sessionTime = trimToMinute(session.getTimeslot().getTimeslot().getTime());            if (sessionTime.isBefore(now)) {
+            LocalDateTime sessionTime = trimToMinute(session.getTimeslot().getTimeslot().getTime());
+            if (sessionTime.isBefore(now)) {
                 completed.add(new SessionWithTime(session, sessionTime));
             } else {
                 upcoming.add(new SessionWithTime(session, sessionTime));
@@ -66,18 +73,13 @@ public class ChildProgressDashboardService {
             }
         }
 
-        // Chart 1: sessions over time
         Map<String, Integer> sessionsOverTimeMap = new TreeMap<>();
         for (SessionWithTime swt : completed) {
             String bucket = grouping.equals("month")
                     ? YearMonth.from(swt.sessionTime).toString()
                     : formatIsoWeek(swt.sessionTime);
 
-            if (!sessionsOverTimeMap.containsKey(bucket)) {
-                sessionsOverTimeMap.put(bucket, 1);
-            } else {
-                sessionsOverTimeMap.put(bucket, sessionsOverTimeMap.get(bucket) + 1);
-            }
+            sessionsOverTimeMap.put(bucket, sessionsOverTimeMap.getOrDefault(bucket, 0) + 1);
         }
 
         List<ChildProgressDashboardResponse.ChartPoint> sessionsOverTime = new ArrayList<>();
@@ -85,20 +87,14 @@ public class ChildProgressDashboardService {
             sessionsOverTime.add(new ChildProgressDashboardResponse.ChartPoint(entry.getKey(), entry.getValue(), null, null));
         }
 
-        // Chart 2: subject breakdown
         Map<String, Integer> subjectMap = new TreeMap<>();
         for (SessionWithTime swt : completed) {
-
             String subjectName = "Unknown";
             if (swt.session.getSubject() != null && swt.session.getSubject().getName() != null) {
                 subjectName = swt.session.getSubject().getName();
             }
 
-            if (!subjectMap.containsKey(subjectName)) {
-                subjectMap.put(subjectName, 1);
-            } else {
-                subjectMap.put(subjectName, subjectMap.get(subjectName) + 1);
-            }
+            subjectMap.put(subjectName, subjectMap.getOrDefault(subjectName, 0) + 1);
         }
 
         List<ChildProgressDashboardResponse.ChartPoint> subjectBreakdown = new ArrayList<>();
@@ -106,7 +102,6 @@ public class ChildProgressDashboardService {
             subjectBreakdown.add(new ChildProgressDashboardResponse.ChartPoint(entry.getKey(), entry.getValue(), null, null));
         }
 
-        // Current subjects (use upcoming sessions)
         Set<String> currentSubjectSet = new LinkedHashSet<>();
         for (SessionWithTime swt : upcoming) {
             if (swt.session.getSubject() != null && swt.session.getSubject().getName() != null) {
@@ -119,7 +114,6 @@ public class ChildProgressDashboardService {
             currentSubjects.add(new ChildProgressDashboardResponse.ChartPoint(subject, 1, null, null));
         }
 
-        // Last 3 tutor notes (from completed sessions)
         completed.sort((a, b) -> b.sessionTime.compareTo(a.sessionTime));
 
         List<ChildProgressDashboardResponse.ChartPoint> lastTutorNotes = new ArrayList<>();
@@ -130,7 +124,7 @@ public class ChildProgressDashboardService {
 
             String note = swt.session.getSessionNotes();
             if (note == null || note.isBlank()) {
-                continue; // ignore invalid notes
+                continue;
             }
 
             String tutorName = "Tutor";
@@ -150,6 +144,30 @@ public class ChildProgressDashboardService {
             count++;
         }
 
+        List<ChildProgressDashboardResponse.GoalProgress> goals = new ArrayList<>();
+        List<Goal> childGoals = goalRepository.findByChild_ChildId(childId);
+
+        for (Goal goal : childGoals) {
+            List<Progress> progressList = progressRepository.findByGoal_GoalIdOrderByProgressIdDesc(goal.getGoalId());
+
+            Integer percentageComplete = 0;
+            if (!progressList.isEmpty() && progressList.get(0).getPercentageComplete() != null) {
+                percentageComplete = progressList.get(0).getPercentageComplete();
+            }
+
+            String subjectName = "Unknown";
+            if (goal.getSubject() != null && goal.getSubject().getName() != null) {
+                subjectName = goal.getSubject().getName();
+            }
+
+            goals.add(new ChildProgressDashboardResponse.GoalProgress(
+                    goal.getGoalId(),
+                    subjectName,
+                    goal.getTitle(),
+                    percentageComplete
+            ));
+        }
+
         return new ChildProgressDashboardResponse(
                 childId,
                 totalCompletedSessions,
@@ -157,14 +175,11 @@ public class ChildProgressDashboardService {
                 sessionsOverTime,
                 subjectBreakdown,
                 currentSubjects,
-                lastTutorNotes
+                lastTutorNotes,
+                goals
         );
     }
 
-
-    // -----------------------------
-    // Helpers
-    // -----------------------------
     private String normalizeGroupBy(String groupBy) {
         String grouping = "week";
         if (groupBy != null && !groupBy.isBlank()) {
@@ -197,6 +212,7 @@ public class ChildProgressDashboardService {
             this.sessionTime = sessionTime;
         }
     }
+
     private static LocalDateTime trimToMinute(LocalDateTime dt) {
         if (dt == null) return null;
         return dt.withSecond(0).withNano(0);

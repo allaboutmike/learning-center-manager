@@ -3,6 +3,8 @@ package com.learningcenter.controller;
 import java.util.List;
 
 import com.learningcenter.dto.*;
+import com.learningcenter.entities.Goal;
+import com.learningcenter.service.GoalService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -26,11 +28,13 @@ public class ParentController {
     private final ParentService parentService;
     private final SessionService sessionService;
     private final ChildProgressDashboardService childProgressDashboardService;
+    private final GoalService goalService;
 
-    public ParentController(ParentService parentService, SessionService sessionService, ChildProgressDashboardService childProgressDashboardService) {
+    public ParentController(ParentService parentService, SessionService sessionService, ChildProgressDashboardService childProgressDashboardService, GoalService goalService) {
         this.parentService = parentService;
         this.sessionService = sessionService;
         this.childProgressDashboardService = childProgressDashboardService;
+        this.goalService = goalService;
     }
 
     @GetMapping("/{parentId}")
@@ -98,5 +102,17 @@ public class ParentController {
     public List<ParentResponse> getRecentParents() {
         return parentService.getRecentParents();
     }
+
+    @PostMapping("/{parentId}/children/{childId}/goals")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Goal createGoal(
+            @PathVariable Long parentId,
+            @PathVariable Long childId,
+            @RequestBody CreateGoalRequest request
+    ) {
+        return goalService.createGoal(childId, request);
+    }
+
+
 }
 
