@@ -70,15 +70,6 @@ export default function ChildProgressDashboardPage({ parentId, childId }: Props)
         }))
     }, [data])
 
-    const currentSubjects = useMemo(() => {
-        if (!data) return []
-
-        const upcomingSubjects = data.currentSubjects?.map((p) => p.label) ?? []
-        if (upcomingSubjects.length > 0) return upcomingSubjects
-
-        // Fallback: use subject breakdown labels if there are no upcoming sessions
-        return (data.subjectBreakdown?.map((p) => p.label) ?? []).filter(Boolean)
-    }, [data])
     const tutorNotes = useMemo(() => {
         if (!data) return []
         return data.lastTutorNotes
