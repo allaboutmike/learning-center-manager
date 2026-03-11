@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.learningcenter.dto.CreateSessionRequest;
 import com.learningcenter.dto.SessionResponse;
 import com.learningcenter.service.SessionService;
+import com.learningcenter.dto.UpdateSessionNotesRequest;
 
 @RestController
 @RequestMapping("/api/sessions")
@@ -78,8 +79,8 @@ REST API controller for managing tutoring session operations in the Learning Cen
 
     // Handles PUT request to update session notes
     @PatchMapping("/{sessionId}/notes")
-    public ResponseEntity<SessionResponse> updateSessionNotes(@PathVariable Long sessionId, @RequestBody String notes, @RequestBody boolean attended) {
-        var session = sessionService.updateSessionNotes(sessionId, notes, attended);
+    public ResponseEntity<SessionResponse> updateSessionNotes(@PathVariable Long sessionId, @RequestBody UpdateSessionNotesRequest request) {
+        var session = sessionService.updateSessionNotes(sessionId, request.notes(), request.attended());
         return ResponseEntity.ok(new SessionResponse(session));
     }
 }
