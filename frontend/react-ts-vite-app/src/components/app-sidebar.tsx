@@ -152,7 +152,7 @@ export function AppSidebar({
 }: AppSidebarProps) {
   const { persona } = usePersona();
   const [tutorId, setTutorId] = React.useState<string | null>(null);
-  const [childId, setChildId] = React.useState<number | null>(null);
+  const [childId] = React.useState<number | null>(null);
   const [parentId, setParentId] = React.useState<number | null>(1);
   const [isHydrated, setIsHydrated] = React.useState(false);
 
