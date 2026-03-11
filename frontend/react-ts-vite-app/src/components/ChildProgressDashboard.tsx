@@ -19,11 +19,6 @@ import type { ChildProgressDashboardResponse } from "../types/progressDashboard"
 
 const COLORS = ["#2563eb", "#10b981", "#f59e0b", "#ef4444", "#8b5cf6"];
 
-// type Props = {
-//   parentId: number;
-//   childId: number;
-// };
-
 function formatDate(dt: string | null) {
   if (!dt) return "N/A";
   const d = new Date(dt);
