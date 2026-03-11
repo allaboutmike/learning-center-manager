@@ -46,7 +46,7 @@ export function GuestSidebar(props: React.ComponentProps<typeof Sidebar>) {
               <SidebarMenuItem>
                 <SidebarMenuButton
                   tooltip="Create Account"
-                  className="bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-700 min-w-8 duration-200 ease-linear"
+                  className="bg-green-600 text-white hover:bg-green-700 active:bg-green-700 min-w-8 duration-200 ease-linear"
                   onClick={() => navigate("/parents/register")}
                 >
                   <IconUserPlus />
