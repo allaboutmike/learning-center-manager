@@ -12,16 +12,17 @@ import {
   Legend,
   Cell,
 } from "recharts";
+import { useParams } from "react-router-dom";
 
 import { useLearningCenterAPI } from "../hooks/useLearningCenterAPI";
 import type { ChildProgressDashboardResponse } from "../types/progressDashboard";
 
 const COLORS = ["#2563eb", "#10b981", "#f59e0b", "#ef4444", "#8b5cf6"];
 
-type Props = {
-  parentId: number;
-  childId: number;
-};
+// type Props = {
+//   parentId: number;
+//   childId: number;
+// };
 
 function formatDate(dt: string | null) {
   if (!dt) return "N/A";
@@ -37,7 +38,8 @@ function formatDate(dt: string | null) {
   }).format(d);
 }
 
-export default function ChildProgressDashboard({ parentId, childId }: Props) {
+export default function ChildProgressDashboard() {
+  const { parentId, childId } = useParams();
   const [groupBy, setGroupBy] = useState<"week" | "month">("week");
   const url =
     `/api/parents/${parentId}/children/${childId}/progress` +

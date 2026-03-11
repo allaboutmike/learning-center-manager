@@ -153,7 +153,7 @@ export function AppSidebar({
   const { persona } = usePersona();
   const [tutorId, setTutorId] = React.useState<string | null>(null);
   const [childId, setChildId] = React.useState<number | null>(null);
-  const [parentId, setParentId] = React.useState<number | null>(null);
+  const [parentId, setParentId] = React.useState<number | null>(1);
   const [isHydrated, setIsHydrated] = React.useState(false);
 
   React.useEffect(() => {
@@ -164,10 +164,6 @@ export function AppSidebar({
     const storeParentId = localStorage.getItem("parentId");
     if (storeParentId) {
       setParentId(parseInt(storeParentId, 10));
-    }
-    const storedChildId = localStorage.getItem("childId");
-    if (storedChildId) {
-      setChildId(parseInt(storedChildId));
     }
     setIsHydrated(true);
   }, []);
@@ -241,10 +237,7 @@ export function AppSidebar({
               if (item.title === "Child's Progress") {
                 return {
                   ...item,
-                  url:
-                    parentId && childId
-                      ? `/parents/${parentId}/children/${childId}/progress`
-                      : "#",
+                  url: `/parents/${parentId}/children/${childId}/progress`,
                   onClick: () => {
                     if (!isHydrated) {
                       console.warn(
