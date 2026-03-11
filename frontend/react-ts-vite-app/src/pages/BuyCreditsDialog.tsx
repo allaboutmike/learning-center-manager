@@ -16,7 +16,11 @@ interface DialogProps {
   onOpenChange?: (open: boolean) => void;
 }
 
-export default function BuyCreditsDialog({ parentId, open, onOpenChange }: DialogProps) {
+export default function BuyCreditsDialog({
+  parentId,
+  open,
+  onOpenChange,
+}: DialogProps) {
   const [credits, setCredits] = useState<number>(0);
 
   const handleCreditsChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -41,21 +45,18 @@ export default function BuyCreditsDialog({ parentId, open, onOpenChange }: Dialo
 
   const postPurchasedCredits = async () => {
     try {
-      await patch<Parent>(
-        `/api/parents/${parentId}`,
-        { credits: credits }
-      );
+      await patch<Parent>(`/api/parents/${parentId}`, { credits: credits });
 
-      window.location.href = `/`;
+      window.location.href = `/parents/${parentId}`;
     } catch (error) {
       console.error("Error purchasing credits:", error);
       alert("Purchase failed. Please try again.");
     }
-  }
+  };
 
   return (
     <>
-      <Dialog open={open ?? false} onOpenChange={onOpenChange ?? (() => { })}>
+      <Dialog open={open ?? false} onOpenChange={onOpenChange ?? (() => {})}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Buy Credits</DialogTitle>

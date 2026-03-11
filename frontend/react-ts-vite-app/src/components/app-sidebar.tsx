@@ -44,7 +44,7 @@ const data = {
   navMain: [
     {
       title: "Parent Dashboard",
-      url: "/",
+      url: "/parents/:parentId",
       icon: IconDashboard,
       roles: ["parent"] as Persona[],
     },
@@ -74,7 +74,7 @@ const data = {
     },
     {
       title: "Child's Progress",
-      url: "parents/:parentId/children/:childId/progress",
+      url: "/parents/:parentId/children/:childId/progress",
       icon: IconChartBar,
       roles: ["parent", "admin", "tutor"] as Persona[],
     },
@@ -152,23 +152,24 @@ export function AppSidebar({
 }: AppSidebarProps) {
   const { persona } = usePersona();
   const [tutorId, setTutorId] = React.useState<string | null>(null);
-  const [parentId, setParentId] = React.useState<number>(0);
+  const [childId] = React.useState<number | null>(null);
+  const [parentId, setParentId] = React.useState<number | null>(1);
+  const [isHydrated, setIsHydrated] = React.useState(false);
 
   React.useEffect(() => {
     const storedTutorId = localStorage.getItem("tutorId");
     if (storedTutorId) {
       setTutorId(storedTutorId);
     }
-
     const storeParentId = localStorage.getItem("parentId");
     if (storeParentId) {
       setParentId(parseInt(storeParentId, 10));
     }
+    setIsHydrated(true);
   }, []);
 
   const navigate = useNavigate();
   const [credits] = React.useState(0);
-  const [childId] = React.useState(1);
   const [showBuyCreditsDialog, setShowBuyCreditsDialog] = React.useState(false);
 
   // If the parent has 0 credits, then they will be redirected to the Buy Credit Dialog. Otherwise, they will continue to the next step of the booking flow.
@@ -229,21 +230,18 @@ export function AppSidebar({
               if (item.title === "Parent Dashboard") {
                 return {
                   ...item,
-                  url: `/`,
-                  onClick: () => navigate("/"),
+                  url: `/parents/${parentId}`,
+                  onClick: () => navigate(`/parents/${parentId}`),
                 };
               }
               if (item.title === "Child's Progress") {
                 return {
                   ...item,
-                  url:
-                    parentId && childId
-                      ? `/parents/${parentId}/children/${childId}/progress`
-                      : "/",
+                  url: `/parents/${parentId}/children/${childId}/progress`,
                   onClick: () => {
-                    if (!parentId || !childId) {
-                      console.log(
-                        "Missing parentId or childId for Child's Progress",
+                    if (!isHydrated) {
+                      console.warn(
+                        "Cannot navigate: parentId or childId is missing from local storage",
                       );
                       return;
                     }
@@ -310,11 +308,13 @@ export function AppSidebar({
       <SidebarFooter>
         <NavUser user={data.user} />
       </SidebarFooter>
-      <BuyCreditsDialog
-        parentId={parentId}
-        open={showBuyCreditsDialog}
-        onOpenChange={handleCloseDialog}
-      />
+      {parentId !== null && (
+        <BuyCreditsDialog
+          parentId={parentId}
+          open={showBuyCreditsDialog}
+          onOpenChange={handleCloseDialog}
+        />
+      )}
     </Sidebar>
   );
 }

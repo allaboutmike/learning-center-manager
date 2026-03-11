@@ -10,7 +10,6 @@ import { Button } from "@/components/ui/button";
 import BuyCreditsDialog from "./BuyCreditsDialog";
 import type { Session } from "../types/session";
 import CreditsDisplay from "../components/CreditsDisplay";
-import ChildProgressDashboardPage from "./ChildProgressDashboardPage";
 import RegisterChildModal from "../components/RegisterChildModal";
 type ParentTab = "upcoming" | "past" | "reports";
 type SessionTab = "upcoming" | "past";
@@ -97,8 +96,7 @@ export default function ParentProfilePage() {
   return (
     <div>
       <SidebarProvider>
-        <AppSidebar
-          onRegisterChildClick={() => setIsRegisterChildOpen(true)} />
+        <AppSidebar onRegisterChildClick={() => setIsRegisterChildOpen(true)} />
         <SidebarInset>
           <div className="p-6 flex flex-col w-full gap-6">
             {Array.isArray(children) &&
@@ -143,13 +141,6 @@ export default function ParentProfilePage() {
                     className="text-gray-600 data-[state=active]:text-black"
                   >
                     Past
-                  </TabsTrigger>
-
-                  <TabsTrigger
-                    value="reports"
-                    className="text-gray-600 data-[state=active]:text-black"
-                  >
-                    Progress Reports
                   </TabsTrigger>
                 </TabsList>
 
@@ -217,8 +208,10 @@ export default function ParentProfilePage() {
                               Subject:{" "}
                               {Array.isArray(session.subjectName)
                                 ? session.subjectName
-                                  .map((s) => (typeof s === "string" ? s : s.name))
-                                  .join(", ")
+                                    .map((s) =>
+                                      typeof s === "string" ? s : s.name,
+                                    )
+                                    .join(", ")
                                 : typeof session.subjectName === "string"
                                   ? session.subjectName
                                   : session.subjectName.name}
@@ -249,21 +242,15 @@ export default function ParentProfilePage() {
                         </p>
                       </div>
                     ) : (
-                      <div className="w-full">
-                        <ChildProgressDashboardPage
-                          parentId={parentId}
-                          childId={Number(selectedChildId)}
-                        />
-                      </div>
+                      <div className="w-full"></div>
                     )}
                   </div>
                 )}
-
               </Tabs>
             </div>
           </div>
-        </SidebarInset >
-      </SidebarProvider >
+        </SidebarInset>
+      </SidebarProvider>
       <BuyCreditsDialog
         parentId={parentId}
         open={isModalOpen}
@@ -277,6 +264,6 @@ export default function ParentProfilePage() {
           setSuccessBanner(`${child.firstName} was successfully registered.`);
         }}
       />
-    </div >
+    </div>
   );
 }
