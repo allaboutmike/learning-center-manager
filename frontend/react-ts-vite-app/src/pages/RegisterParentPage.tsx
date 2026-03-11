@@ -6,10 +6,12 @@ import type { Parent } from "../types/parents";
 import { AppSidebar } from "@/components/app-sidebar";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { SiteHeader } from "@/components/site-header";
+import { usePersona } from "@/context/usePersona";
 
 export default function RegisterParentPage() {
   const navigate = useNavigate();
   const post = useLearningCenterPost();
+  const { setPersona } = usePersona();
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -31,7 +33,8 @@ export default function RegisterParentPage() {
       });
 
       localStorage.setItem("parentId", String(parent.parentId));
-      navigate("/");
+      setPersona("parent");
+      navigate(`/parents/${parent.parentId}`);
 
     } catch (err) {
       if (err instanceof Error && err.message.includes("409")) {
