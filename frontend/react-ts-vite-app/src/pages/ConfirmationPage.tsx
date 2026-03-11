@@ -28,7 +28,7 @@ export default function ConfirmationPage() {
                         : "Loading confirmation details..."}
                 </p>
             </div>
-            <Button className="mt-10 mr-10" variant="secondary" onClick={() => window.location.href = "/"}>Return to Search Tutors</Button>
+            <Button className="mt-10 mr-10" variant="secondary" onClick={() => window.location.href = "/parents"}>Return to Dashboard</Button>
 
         </div>
     );
