@@ -10,7 +10,17 @@ const GUEST: Persona = { role: "guest", id: 0, name: "Guest", image: "/guest.png
 export function PersonaProvider({ children }: { children: ReactNode }) {
   const [persona, setPersonaState] = useState<Persona>(() => {
     // Parent is set as the fallback page, which has no access to the admin dashboard button in the side bar.
-    const saved = JSON.parse(localStorage.getItem("app_persona") || "null") as Persona;
+    let app_persona;
+
+    try {
+      app_persona = JSON.parse(localStorage.getItem("app_persona") || "null") as Persona;
+    } catch (e) {
+      console.error("Failed to parse persona from localStorage:", e);
+      setPersonaState(GUEST);
+      return GUEST;
+    }
+
+    const saved = app_persona;
     return saved && ["parent", "admin", "tutor"].includes(saved.role)
       ? saved
       : GUEST;
