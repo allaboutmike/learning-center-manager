@@ -85,9 +85,9 @@ const data = {
       roles: [] as Persona[],
     },
     {
-      title: "Buy Credits",
-      url: "#",
-      icon: IconCreditCard,
+      title: "List of Tutors",
+      url: "/tutors",
+      icon: IconListDetails,
       roles: ["parent"] as Persona[],
     },
     {
@@ -258,10 +258,6 @@ export function AppSidebar({
                   className:
                     "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
                 };
-              }
-
-              if (item.title === "Buy Credits") {
-                return { ...item, onClick: handleBuyCreditsClick };
               }
 
               if (item.title === "Register a Child") {
