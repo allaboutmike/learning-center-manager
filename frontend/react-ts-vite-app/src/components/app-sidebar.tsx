@@ -29,7 +29,7 @@ import BuyCreditsDialog from "@/pages/BuyCreditsDialog";
 const data = {
   user: {
     name: "Learning Central",
-    email: "m@example.com",
+    email: "learningcentral@dlc.com",
     avatar: "/avatars/shadcn.jpg",
   },
   navMain: [
@@ -115,11 +115,13 @@ export function AppSidebar({
   const [isHydrated, setIsHydrated] = React.useState(false);
 
   React.useEffect(() => {
-    const storedTutorId = persona.role === "tutor" ? persona.id ?? null : null;
+    const storedTutorId =
+      persona.role === "tutor" ? (persona.id ?? null) : null;
     if (storedTutorId) {
       setTutorId(storedTutorId);
     }
-    const storedParentId = persona.role === "parent" ? persona.id ?? null : null;
+    const storedParentId =
+      persona.role === "parent" ? (persona.id ?? null) : null;
     if (storedParentId) {
       setParentId(storedParentId);
     }
