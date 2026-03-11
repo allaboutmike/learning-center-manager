@@ -1,8 +1,6 @@
 import {
-  IconCreditCard,
   IconDotsVertical,
   IconLogout,
-  IconNotification,
   IconUserCircle,
   IconUserShield,
   IconUsers,
@@ -16,7 +14,6 @@ import {
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
@@ -118,7 +115,6 @@ export function NavUser({
                 </div>
               </div>
             </DropdownMenuLabel>
-            <DropdownMenuSeparator />
             <DropdownMenuLabel className="text-muted-foreground text-xs px-2">
               Switch Persona
             </DropdownMenuLabel>
@@ -134,22 +130,6 @@ export function NavUser({
                 </DropdownMenuItem>
               ))}
             </DropdownMenuGroup>
-            <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <IconUserCircle />
-                Account
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <IconCreditCard />
-                Billing
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <IconNotification />
-                Notifications
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-            <DropdownMenuSeparator />
             <DropdownMenuItem onClick={handleLogout}>
               <IconLogout />
               Log out
