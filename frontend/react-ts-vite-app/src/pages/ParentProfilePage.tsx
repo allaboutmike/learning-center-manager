@@ -10,7 +10,6 @@ import { Button } from "@/components/ui/button";
 import BuyCreditsDialog from "./BuyCreditsDialog";
 import type { Session } from "../types/session";
 import CreditsDisplay from "../components/CreditsDisplay";
-import ChildProgressDashboard from "../components/ChildProgressDashboard";
 import RegisterChildModal from "../components/RegisterChildModal";
 type ParentTab = "upcoming" | "past" | "reports";
 type SessionTab = "upcoming" | "past";
@@ -243,12 +242,7 @@ export default function ParentProfilePage() {
                         </p>
                       </div>
                     ) : (
-                      <div className="w-full">
-                        <ChildProgressDashboard
-                          parentId={parentId}
-                          childId={Number(selectedChildId)}
-                        />
-                      </div>
+                      <div className="w-full"></div>
                     )}
                   </div>
                 )}
