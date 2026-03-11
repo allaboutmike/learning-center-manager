@@ -16,18 +16,15 @@ interface DialogProps {
   onOpenChange?: (open: boolean) => void;
 }
 
-export default function BuyCreditsDialog({
-  parentId,
-  open,
-  onOpenChange,
-}: DialogProps) {
-  const [credits, setCredits] = useState<number>(0);
+export default function BuyCreditsDialog({ parentId, open, onOpenChange }: DialogProps) {
+  const [credits, setCredits] = useState<number>(1);
 
   const handleCreditsChange = (event: ChangeEvent<HTMLInputElement>) => {
     const stringValue = event.target.value;
     const numberValue = parseInt(stringValue, 10);
+
     if (isNaN(numberValue)) {
-      setCredits(0);
+      setCredits(1);
     } else {
       setCredits(numberValue);
     }
@@ -46,8 +43,7 @@ export default function BuyCreditsDialog({
   const postPurchasedCredits = async () => {
     try {
       await patch<Parent>(`/api/parents/${parentId}`, { credits: credits });
-
-      window.location.href = `/parents/${parentId}`;
+      onOpenChange?.(false);
     } catch (error) {
       console.error("Error purchasing credits:", error);
       alert("Purchase failed. Please try again.");
@@ -64,25 +60,43 @@ export default function BuyCreditsDialog({
               Please enter the number of credits you would like to buy
             </DialogDescription>
           </DialogHeader>
-          <main>
-            <Button onClick={decreaseCreditsOnClick}>{`${"-"}`}</Button>
+
+          <main className="flex items-center justify-center gap-1.5 my-4">
+            <Button
+              disabled={credits === 1}
+              className="bg-green-500 text-white hover:bg-green-600 h-10 w-10 disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed"
+              onClick={decreaseCreditsOnClick}
+            >
+              -
+            </Button>
+
             <input
               id="credits"
               type="number"
               readOnly
-              min="0"
+              min="1"
               value={credits}
               max="15"
+              className="text-center w-10 font-medium bg-transparent border-0 focus:outline-none"
               onChange={handleCreditsChange}
             />
+
             <Button
               disabled={credits === 15}
+              className="bg-green-500 text-white hover:bg-green-600 h-10 w-10"
               onClick={increaseCreditsOnClick}
-            >{`${"+"}`}</Button>
+            >
+              +
+            </Button>
           </main>
-          <Button onClick={postPurchasedCredits}>
+
+          <Button
+            onClick={postPurchasedCredits}
+            className="bg-green-500 text-white hover:bg-green-600"
+          >
             Buy {credits} credit{credits != 1 ? "s" : ""}
           </Button>
+
           <Button variant="outline" onClick={() => onOpenChange?.(false)}>
             Cancel
           </Button>
