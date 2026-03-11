@@ -80,7 +80,7 @@ REST API controller for managing tutoring session operations in the Learning Cen
     // Handles PUT request to update session notes
     @PatchMapping("/{sessionId}/notes")
     public ResponseEntity<SessionResponse> updateSessionNotes(@PathVariable Long sessionId, @RequestBody UpdateSessionNotesRequest request) {
-        var session = sessionService.updateSessionNotes(sessionId, request.notes(), request.attended());
+        var session = sessionService.updateSessionNotes(sessionId, request.sessionNotes(), request.attended());
         return ResponseEntity.ok(new SessionResponse(session));
     }
 }

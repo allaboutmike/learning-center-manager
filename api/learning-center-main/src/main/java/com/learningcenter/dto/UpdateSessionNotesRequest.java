@@ -1,4 +1,4 @@
 package com.learningcenter.dto;
 
-public record UpdateSessionNotesRequest(String notes, boolean attended) {
+public record UpdateSessionNotesRequest(String sessionNotes, Boolean attended) {
 }

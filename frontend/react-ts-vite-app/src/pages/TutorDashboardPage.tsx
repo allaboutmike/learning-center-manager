@@ -213,13 +213,9 @@ export default function TutorDashboardPage() {
     attended: boolean
   ) => {
     try {
-      await patch<Session>(`/api/sessions/${sessionId}/notes`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: { sessionNotes: notes, attended: attended },
-      });
+      await patch<Session>(`/api/sessions/${sessionId}/notes`,
+        { sessionNotes: notes, attended: attended },
+      );
       // Refresh data
         setRefreshKey((prev) => prev + 1);
     } catch (error) {
