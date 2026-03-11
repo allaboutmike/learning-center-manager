@@ -34,7 +34,7 @@ function App() {
               element={<TutorDashboardPage />}
             />
             <Route
-              path="/parents/:parentId/children/:childId/progress"
+              path="/parents/:parentId/progress"
               element={<ChildProgressDashboard />}
             />
             <Route path="confirmation" element={<ConfirmationPage />} />
