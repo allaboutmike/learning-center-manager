@@ -40,17 +40,13 @@ public class Session {
     @JoinColumn(name = "subject_id", nullable = false)
     private Subject subject;
 
-    @Column(name="attended", nullable = false)
-    private Boolean attended;
 
-
-    public Session(String sessionNotes, LocalDateTime createdAt, Child child, TutorTimeslot tutorTimeslot, Subject subject, Boolean attended) {
+    public Session(String sessionNotes, LocalDateTime createdAt, Child child, TutorTimeslot tutorTimeslot, Subject subject) {
         this.sessionNotes = sessionNotes;
         this.createdAt = createdAt;
         this.child = child;
         this.tutorTimeslot = tutorTimeslot;
         this.subject = subject;
-        this.attended = false;
     }
 
     public Session() {
@@ -103,13 +99,5 @@ public class Session {
 
     public void setSubject(Subject subject) {
         this.subject = subject;
-    }
-
-    public Boolean getAttended() {
-        return attended;
-    }
-
-    public void setAttended(Boolean attended) {
-        this.attended = attended;
     }
 }
