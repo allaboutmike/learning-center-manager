@@ -255,8 +255,8 @@ export default function TutorProfilePage() {
           <Button
             variant="secondary"
             disabled={
-              persona.role !== "tutor" ||
               persona.id === null ||
+              persona.role == "guest" ||
               selectedTimeSlot === -1 ||
               selectedSubjectId === null ||
               !selectedDate
