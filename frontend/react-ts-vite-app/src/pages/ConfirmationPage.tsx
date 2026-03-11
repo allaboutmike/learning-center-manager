@@ -17,7 +17,7 @@ export default function ConfirmationPage() {
     return (
         <div className="h-200 flex flex-col justify-center items-center text-black">
             <div>
-                <h1>Confirmed ✅</h1>
+                <h1 className="text-center">Confirmed ✅</h1>
                 <p>
                     {data?.childName
                         ? `${data.childName}'s session with ${data.tutorName ?? "your tutor"
@@ -28,7 +28,7 @@ export default function ConfirmationPage() {
                         : "Loading confirmation details..."}
                 </p>
             </div>
-            <Button className="mt-10 mr-10" variant="secondary" onClick={() => window.location.href = "/"}>Return to Search Tutors</Button>
+            <Button className="mt-10 mr-10" variant="secondary" onClick={() => window.location.href = "/parents"}>Return to Your Profile</Button>
 
         </div>
     );

@@ -137,7 +137,7 @@ export default function ParentProfilePage() {
                 >
                   Book A Session
                 </Button>
-                <CreditsDisplay openModal={openModal} />
+                <CreditsDisplay openModal={openModal} parentId={parentId}/>
               </div>
             </div>
             {successBanner && (
