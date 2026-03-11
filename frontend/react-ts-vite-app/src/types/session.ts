@@ -11,4 +11,5 @@ export type Session = {
   time: string;
   tutorName: string;
   subjectName: Subject;
+  attended: boolean;
 };
