@@ -115,7 +115,7 @@ export function NavUser({
                 </div>
               </div>
             </DropdownMenuLabel>
-            <IconCreditCard />
+            {/* <IconCreditCard /> */}
             <DropdownMenuLabel className="text-muted-foreground text-xs px-2">
               Switch Persona
             </DropdownMenuLabel>
@@ -146,7 +146,7 @@ export function NavUser({
                 Notifications
               </DropdownMenuItem>
             </DropdownMenuGroup> */}
-            <IconCreditCard />
+            {/* <IconCreditCard /> */}
             <DropdownMenuItem onClick={handleLogout}>
               <IconLogout />
               Log out
