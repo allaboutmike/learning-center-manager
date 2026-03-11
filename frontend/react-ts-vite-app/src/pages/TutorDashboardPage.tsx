@@ -83,6 +83,9 @@ function SessionCard({ session, onUpdateNotes }: SessionCardProps) {
     setEditing(false);
   };
 
+  const now = new Date();
+  const sessionTime = new Date(session.time);
+
   return (
     <Card>
       <CardHeader>
@@ -102,7 +105,7 @@ function SessionCard({ session, onUpdateNotes }: SessionCardProps) {
           </Badge>
         </div>
       </CardHeader>
-      <CardContent>
+      <CardContent hidden={sessionTime > now}>
         <div className="space-y-4">
           <div>
             <h4 className="text-sm font-medium mb-2">Session Notes</h4>
