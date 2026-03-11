@@ -1,6 +1,5 @@
 import * as React from "react";
 import {
-  IconCreditCard,
   IconChartBar,
   IconDashboard,
   // IconDatabase,
@@ -180,10 +179,6 @@ export function AppSidebar({
     } else {
       navigate("/booking-dialog");
     }
-  };
-
-  const handleBuyCreditsClick = () => {
-    setShowBuyCreditsDialog(true);
   };
 
   // This function will handle closing the dialog when the user leaves without buying credits.
