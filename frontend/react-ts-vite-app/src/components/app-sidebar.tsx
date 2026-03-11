@@ -1,23 +1,15 @@
 import * as React from "react";
 import {
-  //IconCreditCard,
   IconChartBar,
   IconDashboard,
-  // IconDatabase,
-  // IconFileWord,
   IconFolder,
-  //IconHelp,
   IconInnerShadowTop,
   IconListDetails,
-  // IconReport,
-  //IconSearch,
-  //IconSettings,
   IconUserPlus,
   IconShieldCheck,
   IconUsers,
 } from "@tabler/icons-react";
 
-// import { NavDocuments } from "@/components/nav-documents"
 import { NavMain } from "@/components/nav-main";
 import { NavUser } from "@/components/nav-user";
 import {
@@ -103,42 +95,9 @@ const data = {
     },
   ],
   navSecondary: [
-    // {
-    //   title: "Settings",
-    //   url: "/settings",
-    //   icon: IconSettings,
-    //   roles: ["parent", "admin", "tutor"] as Persona[],
-    // },
-    // {
-    //   title: "Get Help",
-    //   url: "/help",
-    //   icon: IconHelp,
-    //   roles: ["parent", "admin", "tutor"] as Persona[],
-    // },
-    // {
-    //   title: "Search",
-    //   url: "/search",
-    //   icon: IconSearch,
-    //   roles: ["parent", "admin", "tutor"] as Persona[],
-    // },
+
   ],
-  // documents: [
-  //   {
-  //     name: "Data Library",
-  //     url: "#",
-  //     icon: IconDatabase,
-  //   },
-  //   {
-  //     name: "Reports",
-  //     url: "#",
-  //     icon: IconReport,
-  //   },
-  //   {
-  //     name: "Word Assistant",
-  //     url: "#",
-  //     icon: IconFileWord,
-  //   },
-  // ],
+
 };
 
 type AppSidebarProps = React.ComponentProps<typeof Sidebar> & {
@@ -288,12 +247,6 @@ export function AppSidebar({
               return item;
             })}
         />
-        {/* <NavSecondary
-          items={data.navSecondary.filter((item) =>
-            item.roles.includes(persona.role),
-          )}
-          className="mt-auto"
-        /> */}
       </SidebarContent>
 
       <SidebarFooter>

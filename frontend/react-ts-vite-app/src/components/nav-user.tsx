@@ -115,7 +115,6 @@ export function NavUser({
                 </div>
               </div>
             </DropdownMenuLabel>
-            {/* <IconCreditCard /> */}
             <DropdownMenuLabel className="text-muted-foreground text-xs px-2">
               Switch Persona
             </DropdownMenuLabel>
@@ -131,22 +130,6 @@ export function NavUser({
                 </DropdownMenuItem>
               ))}
             </DropdownMenuGroup>
-            {/* <IconCreditCard />
-            <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <IconUserCircle />
-                Account
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <IconCreditCard />
-                Billing
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <IconNotification />
-                Notifications
-              </DropdownMenuItem>
-            </DropdownMenuGroup> */}
-            {/* <IconCreditCard /> */}
             <DropdownMenuItem onClick={handleLogout}>
               <IconLogout />
               Log out
