@@ -45,7 +45,7 @@ public class SessionRepositoryIntegrationTest {
         //Create a subject for the session
         Subject subject = new Subject("Math");
         //Create a new session using the previous data
-        Session newSession = new Session("", createdAt, child, tutorTimeslot, subject);
+        Session newSession = new Session("", createdAt, child, tutorTimeslot, subject, false);
 
         entityManager.persist(parent);
         entityManager.persist(child);
@@ -78,7 +78,7 @@ public class SessionRepositoryIntegrationTest {
         //Create a subject for the session
         Subject subject = new Subject("Science");
         //Create a new session using the previous data
-        Session newSession = new Session("", createdAt, child, tutorTimeslot, subject);
+        Session newSession = new Session("", createdAt, child, tutorTimeslot, subject, false);
 
         entityManager.persist(parent);
         entityManager.persist(child);
@@ -111,7 +111,7 @@ public class SessionRepositoryIntegrationTest {
         //Create a subject for the session
         Subject subject = new Subject("Science");
         //Create a new session using the previous data
-        Session newSession = new Session("", createdAt, child, tutorTimeslot, subject);
+        Session newSession = new Session("", createdAt, child, tutorTimeslot, subject, false);
 
         entityManager.persist(parent);
         entityManager.persist(child);
@@ -143,7 +143,7 @@ public class SessionRepositoryIntegrationTest {
         //Create a subject for the session
         Subject subject = new Subject("Science");
         //Create a new session using the previous data
-        Session newSession = new Session(null, createdAt, child, tutorTimeslot, subject);
+        Session newSession = new Session(null, createdAt, child, tutorTimeslot, subject, false);
 
         entityManager.persist(parent);
         entityManager.persist(child);

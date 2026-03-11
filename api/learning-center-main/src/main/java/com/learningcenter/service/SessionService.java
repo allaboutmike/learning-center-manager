@@ -89,7 +89,7 @@ public class SessionService {
         if(parent.getCredits() <= 0) {
             throw new ErrorResponseException(HttpStatus.BAD_REQUEST, ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "Insufficient credits"), null);
         }
-        Session session = new Session("", LocalDateTime.now(), child.get(), tutorTimeSlot.get(), subject.get());
+        Session session = new Session("", LocalDateTime.now(), child.get(), tutorTimeSlot.get(), subject.get(), false);
         parent.setCredits(parent.getCredits() - 1);
         parentRepository.save(parent);
         return sessionRepository.save(session);
@@ -154,11 +154,12 @@ public class SessionService {
 
     }
 
-    public Session updateSessionNotes(Long sessionId, String notes) {
+    public Session updateSessionNotes(Long sessionId, String notes, boolean attended) {
         Optional<Session> sessionOptional = sessionRepository.findById(sessionId);
         if (sessionOptional.isPresent()) {
             Session session = sessionOptional.get();
             session.setSessionNotes(notes);
+            session.setAttended(attended);
             return sessionRepository.save(session);
         } else {
             throw new ErrorResponseException(HttpStatus.BAD_REQUEST, ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "Invalid Session ID"), null);
