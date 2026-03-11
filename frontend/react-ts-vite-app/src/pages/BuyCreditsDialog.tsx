@@ -44,6 +44,7 @@ export default function BuyCreditsDialog({ parentId, open, onOpenChange }: Dialo
     try {
       await patch<Parent>(`/api/parents/${parentId}`, { credits: credits });
       onOpenChange?.(false);
+      window.location.reload();
     } catch (error) {
       console.error("Error purchasing credits:", error);
       alert("Purchase failed. Please try again.");
