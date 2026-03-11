@@ -1,16 +1,17 @@
 import * as React from "react";
 import {
+  //IconCreditCard,
   IconChartBar,
   IconDashboard,
   // IconDatabase,
   // IconFileWord,
   IconFolder,
-  IconHelp,
+  //IconHelp,
   IconInnerShadowTop,
   IconListDetails,
   // IconReport,
-  IconSearch,
-  IconSettings,
+  //IconSearch,
+  //IconSettings,
   IconUserPlus,
   IconShieldCheck,
   IconUsers,
@@ -18,7 +19,6 @@ import {
 
 // import { NavDocuments } from "@/components/nav-documents"
 import { NavMain } from "@/components/nav-main";
-import { NavSecondary } from "@/components/nav-secondary";
 import { NavUser } from "@/components/nav-user";
 import {
   Sidebar,
@@ -103,24 +103,24 @@ const data = {
     },
   ],
   navSecondary: [
-    {
-      title: "Settings",
-      url: "/settings",
-      icon: IconSettings,
-      roles: ["parent", "admin", "tutor"] as PersonaRoles[],
-    },
-    {
-      title: "Get Help",
-      url: "/help",
-      icon: IconHelp,
-      roles: ["parent", "admin", "tutor"] as PersonaRoles[],
-    },
-    {
-      title: "Search",
-      url: "/search",
-      icon: IconSearch,
-      roles: ["parent", "admin", "tutor"] as PersonaRoles[],
-    },
+    // {
+    //   title: "Settings",
+    //   url: "/settings",
+    //   icon: IconSettings,
+    //   roles: ["parent", "admin", "tutor"] as Persona[],
+    // },
+    // {
+    //   title: "Get Help",
+    //   url: "/help",
+    //   icon: IconHelp,
+    //   roles: ["parent", "admin", "tutor"] as Persona[],
+    // },
+    // {
+    //   title: "Search",
+    //   url: "/search",
+    //   icon: IconSearch,
+    //   roles: ["parent", "admin", "tutor"] as Persona[],
+    // },
   ],
   // documents: [
   //   {
@@ -150,8 +150,10 @@ export function AppSidebar({
   ...props
 }: AppSidebarProps) {
   const { persona } = usePersona();
-  const [tutorId, setTutorId] = React.useState<number | null>(null);
+  const [tutorId, setTutorId] = React.useState<number | null>(null); 
+   const [childId] = React.useState<number | null>(null);
   const [parentId, setParentId] = React.useState<number | null>(1);
+  const [isHydrated, setIsHydrated] = React.useState(false);
 
   React.useEffect(() => {
     const storedTutorId = persona.role === "tutor" ? persona.id ?? null : null;
@@ -162,6 +164,7 @@ export function AppSidebar({
     if (storedParentId) {
       setParentId(storedParentId);
     }
+    setIsHydrated(true);
   }, []);
 
   const navigate = useNavigate();
@@ -229,9 +232,17 @@ export function AppSidebar({
               if (item.title === "Child's Progress") {
                 return {
                   ...item,
-                  url: `/parents/${parentId}/progress`,
+                  url: `/parents/${parentId}/children/${childId}/progress`,
                   onClick: () => {
-                    navigate(`/parents/${parentId}/progress`);
+                    if (!isHydrated) {
+                      console.warn(
+                        "Cannot navigate: parentId or childId is missing from local storage",
+                      );
+                      return;
+                    }
+                    navigate(
+                      `/parents/${parentId}/children/${childId}/progress`,
+                    );
                   },
                 };
               }
@@ -277,12 +288,12 @@ export function AppSidebar({
               return item;
             })}
         />
-        <NavSecondary
+        {/* <NavSecondary
           items={data.navSecondary.filter((item) =>
             item.roles.includes(persona.role),
           )}
           className="mt-auto"
-        />
+        /> */}
       </SidebarContent>
 
       <SidebarFooter>
