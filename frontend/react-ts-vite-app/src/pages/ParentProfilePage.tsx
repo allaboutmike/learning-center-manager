@@ -9,6 +9,7 @@ import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
 import BuyCreditsDialog from "./BuyCreditsDialog";
 import type { Session } from "../types/session";
+import { useNavigate } from "react-router-dom";
 import CreditsDisplay from "../components/CreditsDisplay";
 import RegisterChildModal from "../components/RegisterChildModal";
 type ParentTab = "upcoming" | "past" | "reports";
@@ -45,6 +46,7 @@ function ChildSessionFetcher({
 
 export default function ParentProfilePage() {
   const parentId = 1;
+  const navigate = useNavigate();
 
   // controls opening and closing the BuyCreditsDialog
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -91,6 +93,14 @@ export default function ParentProfilePage() {
     Array.isArray(children) && selectedChildId !== "all"
       ? children.find((c) => c.childId.toString() === selectedChildId)
       : undefined;
+  const handleBookSession = () => {
+    if (!parent || parent.credits === 0) {
+      openModal();
+      return;
+    }
+
+    navigate("/tutors");
+  };
 
   // Refactor the view for accessibility options
   return (
@@ -113,6 +123,12 @@ export default function ParentProfilePage() {
               <h1 className="text-2xl font-bold">Parent Profile</h1>
 
               <div className="flex items-center gap-4">
+                <Button
+                  className="px-6 py-2 bg-green-500 text-white hover:bg-green-600 shadow-md rounded-lg"
+                  onClick={handleBookSession}
+                >
+                  Book A Session
+                </Button>
                 <CreditsDisplay openModal={openModal} />
               </div>
             </div>
@@ -146,7 +162,7 @@ export default function ParentProfilePage() {
 
                 <div className="flex justify-center items-center gap-2 mb-8">
                   <label htmlFor="child-select" className="font-medium">
-                    Select Child:
+                    Filter by Child Name:
                   </label>
 
                   <select
@@ -178,18 +194,7 @@ export default function ParentProfilePage() {
                             ? `Select a specific child to view ${activeTab} sessions.`
                             : `${selectedChild?.firstName} does not have any ${activeTab} sessions ${activeTab === "upcoming" ? "scheduled" : "recorded"}.`}
                         </p>
-                        <Button
-                          className="px-6 py-2 bg-green-500 text-white hover:bg-green-600 shadow-md rounded-lg"
-                          onClick={() => {
-                            if (!parent || parent.credits === 0) {
-                              openModal();
-                              return;
-                            }
-                            window.location.href = "/tutors";
-                          }}
-                        >
-                          Book A Session
-                        </Button>
+
                       </div>
                     ) : (
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-4xl">
@@ -208,10 +213,10 @@ export default function ParentProfilePage() {
                               Subject:{" "}
                               {Array.isArray(session.subjectName)
                                 ? session.subjectName
-                                    .map((s) =>
-                                      typeof s === "string" ? s : s.name,
-                                    )
-                                    .join(", ")
+                                  .map((s) =>
+                                    typeof s === "string" ? s : s.name,
+                                  )
+                                  .join(", ")
                                 : typeof session.subjectName === "string"
                                   ? session.subjectName
                                   : session.subjectName.name}
