@@ -10,6 +10,7 @@ import { type Subject } from "../types/subject";
 import type { Reviews } from "../types/reviews";
 import { format, parseISO } from "date-fns";
 import type { ChildResponse } from "@/types/parents";
+import { usePersona } from "@/context/usePersona";
 import {
   Select,
   SelectContent,
@@ -35,7 +36,9 @@ export default function TutorProfilePage() {
     tutorId ? `/api/tutors/${tutorId}/reviews` : "",
   );
 
-  const parentId = 1;
+  const { persona } = usePersona();
+
+  const parentId = persona.id as number;
 
   const children = useLearningCenterAPI<ChildResponse[]>(
     `/api/parents/${parentId}/children`,
@@ -252,6 +255,8 @@ export default function TutorProfilePage() {
           <Button
             variant="secondary"
             disabled={
+              persona.id === null ||
+              persona.role !== "parent" ||
               selectedTimeSlot === -1 ||
               selectedSubjectId === null ||
               !selectedDate
