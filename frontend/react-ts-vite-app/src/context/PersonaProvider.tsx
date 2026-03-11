@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 import { PersonaContext } from "./PersonaContext";
 import type { Persona } from "./PersonaContext";
 
-const PERSONA_ORDER: Persona[] = ["parent", "admin", "tutor"];
+const PERSONA_ORDER: Persona[] = ["guest", "parent", "admin", "tutor"];
 
 export function PersonaProvider({ children }: { children: ReactNode }) {
   const [persona, setPersonaState] = useState<Persona>(() => {
@@ -11,7 +11,7 @@ export function PersonaProvider({ children }: { children: ReactNode }) {
     const saved = localStorage.getItem("app_persona") as Persona;
     return saved && ["parent", "admin", "tutor"].includes(saved)
       ? saved
-      : "parent"; // change this in order to make tutor or admin the fallback page.
+      : "guest";
   });
 
   const setPersona = (newPersona: Persona) => {

@@ -33,18 +33,21 @@ const personaLabels: Record<Persona, string> = {
   parent: "Parent",
   admin: "Admin",
   tutor: "Tutor",
+  guest: "Guest",
 };
 
 const personaIcons: Record<Persona, React.ReactNode> = {
   parent: <IconUsers className="size-4" />,
   admin: <IconUserShield className="size-4" />,
   tutor: <IconSchool className="size-4" />,
+  guest: <IconUserCircle className="size-4" />,
 };
 
 const personaRoutes: Record<Persona, string> = {
   parent: "/parents/:parentId",
   admin: "/admin",
   tutor: "/tutors/:tutorId/dashboard",
+  guest: "/",
 };
 
 export function NavUser({
@@ -63,6 +66,15 @@ export function NavUser({
   const handlePersonaChange = (p: Persona) => {
     setPersona(p);
     navigate(personaRoutes[p]);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("app_persona");
+    localStorage.removeItem("parentId");
+    localStorage.removeItem("tutorId");
+    localStorage.removeItem("role");
+    setPersona("guest");
+    navigate("/");
   };
 
   return (
@@ -139,7 +151,7 @@ export function NavUser({
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={handleLogout}>
               <IconLogout />
               Log out
             </DropdownMenuItem>
