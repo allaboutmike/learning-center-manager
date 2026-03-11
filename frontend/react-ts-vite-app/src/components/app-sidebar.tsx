@@ -151,9 +151,7 @@ export function AppSidebar({
 }: AppSidebarProps) {
   const { persona } = usePersona();
   const [tutorId, setTutorId] = React.useState<string | null>(null);
-  const [childId] = React.useState<number | null>(null);
   const [parentId, setParentId] = React.useState<number | null>(1);
-  const [isHydrated, setIsHydrated] = React.useState(false);
 
   React.useEffect(() => {
     const storedTutorId = localStorage.getItem("tutorId");
@@ -164,7 +162,6 @@ export function AppSidebar({
     if (storeParentId) {
       setParentId(parseInt(storeParentId, 10));
     }
-    setIsHydrated(true);
   }, []);
 
   const navigate = useNavigate();
@@ -232,17 +229,9 @@ export function AppSidebar({
               if (item.title === "Child's Progress") {
                 return {
                   ...item,
-                  url: `/parents/${parentId}/children/${childId}/progress`,
+                  url: `/parents/${parentId}/progress`,
                   onClick: () => {
-                    if (!isHydrated) {
-                      console.warn(
-                        "Cannot navigate: parentId or childId is missing from local storage",
-                      );
-                      return;
-                    }
-                    navigate(
-                      `/parents/${parentId}/children/${childId}/progress`,
-                    );
+                    navigate(`/parents/${parentId}/progress`);
                   },
                 };
               }
