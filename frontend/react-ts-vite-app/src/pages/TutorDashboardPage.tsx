@@ -218,7 +218,7 @@ export default function TutorDashboardPage() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ sessionNotes: notes, attended: attended }),
+        body: { sessionNotes: notes, attended: attended },
       });
       // Refresh data
         setRefreshKey((prev) => prev + 1);
