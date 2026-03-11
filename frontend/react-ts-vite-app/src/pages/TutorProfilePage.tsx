@@ -256,7 +256,7 @@ export default function TutorProfilePage() {
             variant="secondary"
             disabled={
               persona.id === null ||
-              persona.role == "parent" ||
+              persona.role !== "parent" ||
               selectedTimeSlot === -1 ||
               selectedSubjectId === null ||
               !selectedDate
