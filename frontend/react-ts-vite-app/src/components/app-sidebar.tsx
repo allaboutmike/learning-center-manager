@@ -31,7 +31,7 @@ import {
 } from "@/components/ui/sidebar";
 import { useNavigate } from "react-router-dom";
 import { usePersona } from "@/context/usePersona";
-import type { Persona } from "@/context/PersonaContext";
+import type { PersonaRoles } from "@/types/personas";
 import BuyCreditsDialog from "@/pages/BuyCreditsDialog";
 
 const data = {
@@ -43,63 +43,63 @@ const data = {
   navMain: [
     {
       title: "Parent Dashboard",
-      url: "/parents/:parentId",
+      url: "/parents",
       icon: IconDashboard,
-      roles: ["parent"] as Persona[],
+      roles: ["parent"] as PersonaRoles[],
     },
     {
       title: "Tutor Dashboard",
-      url: "/tutors/:tutorId/dashboard",
+      url: "/tutors/dashboard",
       icon: IconDashboard,
-      roles: ["tutor"] as Persona[],
+      roles: ["tutor"] as PersonaRoles[],
     },
     {
       title: "Admin Dashboard",
       url: "/admin",
       icon: IconShieldCheck,
-      roles: ["admin"] as Persona[],
+      roles: ["admin"] as PersonaRoles[],
     },
     {
       title: "Students",
       url: "/students",
       icon: IconListDetails,
-      roles: ["tutor", "admin"] as Persona[],
+      roles: ["tutor", "admin"] as PersonaRoles[],
     },
     {
       title: "Session Review",
       url: "/session-review",
       icon: IconListDetails,
-      roles: [] as Persona[],
+      roles: [] as PersonaRoles[],
     },
     {
       title: "Child's Progress",
       url: "/parents/:parentId/children/:childId/progress",
       icon: IconChartBar,
-      roles: ["parent", "admin", "tutor"] as Persona[],
+      roles: ["parent", "admin", "tutor"] as PersonaRoles[],
     },
     {
       title: "Book a Session",
       url: "/tutors",
       icon: IconFolder,
-      roles: [] as Persona[],
+      roles: [] as PersonaRoles[],
     },
     {
       title: "List of Tutors",
       url: "/tutors",
       icon: IconListDetails,
-      roles: ["parent"] as Persona[],
+      roles: ["parent"] as PersonaRoles[],
     },
     {
       title: "Register a Child",
       url: "/children/register",
       icon: IconUsers,
-      roles: ["parent", "admin"] as Persona[],
+      roles: ["parent", "admin"] as PersonaRoles[],
     },
     {
       title: "Register a Parent",
       url: "/parents/register",
       icon: IconUserPlus,
-      roles: ["admin"] as Persona[],
+      roles: ["admin"] as PersonaRoles[],
     },
   ],
   navSecondary: [
@@ -107,19 +107,19 @@ const data = {
       title: "Settings",
       url: "/settings",
       icon: IconSettings,
-      roles: ["parent", "admin", "tutor"] as Persona[],
+      roles: ["parent", "admin", "tutor"] as PersonaRoles[],
     },
     {
       title: "Get Help",
       url: "/help",
       icon: IconHelp,
-      roles: ["parent", "admin", "tutor"] as Persona[],
+      roles: ["parent", "admin", "tutor"] as PersonaRoles[],
     },
     {
       title: "Search",
       url: "/search",
       icon: IconSearch,
-      roles: ["parent", "admin", "tutor"] as Persona[],
+      roles: ["parent", "admin", "tutor"] as PersonaRoles[],
     },
   ],
   // documents: [
@@ -150,17 +150,17 @@ export function AppSidebar({
   ...props
 }: AppSidebarProps) {
   const { persona } = usePersona();
-  const [tutorId, setTutorId] = React.useState<string | null>(null);
+  const [tutorId, setTutorId] = React.useState<number | null>(null);
   const [parentId, setParentId] = React.useState<number | null>(1);
 
   React.useEffect(() => {
-    const storedTutorId = localStorage.getItem("tutorId");
+    const storedTutorId = persona.role === "tutor" ? persona.id ?? null : null;
     if (storedTutorId) {
       setTutorId(storedTutorId);
     }
-    const storeParentId = localStorage.getItem("parentId");
-    if (storeParentId) {
-      setParentId(parseInt(storeParentId, 10));
+    const storedParentId = persona.role === "parent" ? persona.id ?? null : null;
+    if (storedParentId) {
+      setParentId(storedParentId);
     }
   }, []);
 
@@ -208,7 +208,7 @@ export function AppSidebar({
       <SidebarContent>
         <NavMain
           items={data.navMain
-            .filter((item) => item.roles.includes(persona))
+            .filter((item) => item.roles.includes(persona.role))
             .map((item) => {
               if (item.title === "Tutor Dashboard") {
                 if (tutorId) {
@@ -279,7 +279,7 @@ export function AppSidebar({
         />
         <NavSecondary
           items={data.navSecondary.filter((item) =>
-            item.roles.includes(persona),
+            item.roles.includes(persona.role),
           )}
           className="mt-auto"
         />

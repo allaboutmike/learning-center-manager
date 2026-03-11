@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { useLearningCenterAPI, useLearningCenterPatch } from "@/hooks/useLearningCenterAPI";
 import type { TutorDashboard } from "@/types/tutorDashboard";
 import type { Session } from "@/types/session";
@@ -24,6 +24,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
+import { usePersona } from "@/context/usePersona";
 
 type StatCardProps = {
   label: string;
@@ -169,8 +170,15 @@ function SessionCard({ session, onUpdateNotes }: SessionCardProps) {
 }
 
 export default function TutorDashboardPage() {
-  const { tutorId: tutorIdParam } = useParams<{ tutorId: string }>();
-  const tutorId = tutorIdParam ? parseInt(tutorIdParam, 10) : null;
+  const { persona } = usePersona();
+  
+  const tutorId = persona.role === "tutor" ? persona.id ?? null: null;
+
+  if (!tutorId) {
+    // Navigate to persona selection
+    return <Navigate to="/persona" replace />;  
+  }
+  
   const [refreshKey, setRefreshKey] = useState(0);
 
   const dashboard = useLearningCenterAPI<TutorDashboard>(
@@ -182,28 +190,6 @@ export default function TutorDashboardPage() {
   const pastSessions = useLearningCenterAPI<Session[]>(
     `/api/tutors/${tutorId}/sessions/past?refresh=${refreshKey}`
   );
-
-  if (tutorId === null) {
-    return (
-      <main className="flex flex-col gap-6">
-        <div>
-          <h1 className="text-2xl font-semibold tracking-tight">
-            Tutor Dashboard
-          </h1>
-          <p className="text-sm text-muted-foreground mt-1">
-            Invalid tutor ID provided
-          </p>
-        </div>
-        <Card>
-          <CardContent className="py-8 text-center">
-            <p className="text-muted-foreground">
-              Please provide a valid tutor ID in the URL
-            </p>
-          </CardContent>
-        </Card>
-      </main>
-    );
-  }
 
   const loading =
     dashboard === null || upcomingSessions === null || pastSessions === null;

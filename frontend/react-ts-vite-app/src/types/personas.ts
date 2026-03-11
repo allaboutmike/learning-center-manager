@@ -1,4 +1,13 @@
-export const personas = [
+export type PersonaRoles = "parent" | "admin" | "tutor" | "guest";
+
+export type Persona = {
+  name: string;
+  role: PersonaRoles;
+  id: number | null;
+  image: string;
+};
+
+export const personas: Persona[] = [
   {
     name: "Parent 1",
     role: "parent",
@@ -20,6 +29,7 @@ export const personas = [
   {
     name: "Admin",
     role: "admin",
+    id: null,
     image: "/admin.png",
   },
 ];

@@ -1,16 +1,15 @@
-import { personas } from "../types/personas";
+import { personas, type Persona } from "../types/personas";
 import { useNavigate } from "react-router-dom";
 import { useLearningCenterAPI } from "../hooks/useLearningCenterAPI";
-
+import { usePersona } from "@/context/usePersona";
 
 const PersonaPage = () => {
-
   type ParentResponse = {
     parentId: number
     name: string
   }
+  const { setPersona } = usePersona();
 
-  
   const recentParents =
     useLearningCenterAPI<ParentResponse[]>(`/api/parents/recent`);
     console.log("recentParents:", recentParents);
@@ -40,30 +39,25 @@ const PersonaPage = () => {
     ...dynamicParents, // Last 3 parents from DB
     personas[2], // Tutor
     personas[3]  // Admin
-  ];
+    ] as Persona[];
 
-  const handleSelect = (persona: typeof personas[0]) => {
+  const handleSelect = (persona: Persona) => {
+    setPersona(persona);    
 
-  localStorage.setItem("role", persona.role)
+    if (persona.role === "parent" && persona.id) {
+      navigate(`/parents`)
+      return
+    }
 
-  if (persona.role === "parent" && persona.id) {
-    localStorage.setItem("parentId", persona.id.toString())
+    if (persona.role === "tutor" && persona.id) {
+      navigate(`/tutors/dashboard`)
+      return
+    }
 
-    navigate(`/parents/${persona.id}`)
-    return
+    if (persona.role === "admin") {
+      navigate("/admin")
+    }
   }
-
-  if (persona.role === "tutor" && persona.id) {
-    localStorage.setItem("tutorId", persona.id.toString())
-
-    navigate(`/tutors/${persona.id}/dashboard`)
-    return
-  }
-
-  if (persona.role === "admin") {
-    navigate("/admin")
-  }
-}
 
   return (
     <div className="flex flex-col items-center min-h-screen bg-slate-50 p-8">
