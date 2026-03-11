@@ -1,6 +1,5 @@
 import { createContext } from "react";
-
-export type Persona = "parent" | "admin" | "tutor" | "guest";
+import type { Persona } from "../types/personas";
 
 export type PersonaContextType = {
   persona: Persona;

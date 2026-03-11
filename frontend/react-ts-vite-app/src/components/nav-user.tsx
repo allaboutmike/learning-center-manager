@@ -26,27 +26,29 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { usePersona } from "@/context/usePersona";
-import type { Persona } from "@/context/PersonaContext";
+import type { Persona, PersonaRoles } from "@/types/personas";
+import { personas } from "@/types/personas";
 import { useNavigate } from "react-router-dom";
 
-const personaLabels: Record<Persona, string> = {
+const activePersonas = personas.filter((p) => p.role !== "guest" && p.id !== 2);
+const personaLabels: Record<PersonaRoles, string> = {
   parent: "Parent",
   admin: "Admin",
   tutor: "Tutor",
   guest: "Guest",
 };
 
-const personaIcons: Record<Persona, React.ReactNode> = {
+const personaIcons: Record<PersonaRoles, React.ReactNode> = {
   parent: <IconUsers className="size-4" />,
   admin: <IconUserShield className="size-4" />,
   tutor: <IconSchool className="size-4" />,
   guest: <IconUserCircle className="size-4" />,
 };
 
-const personaRoutes: Record<Persona, string> = {
-  parent: "/parents/:parentId",
+const personaRoutes: Record<PersonaRoles, string> = {
+  parent: "/parents",
   admin: "/admin",
-  tutor: "/tutors/:tutorId/dashboard",
+  tutor: "/tutors/dashboard",
   guest: "/",
 };
 
@@ -65,15 +67,12 @@ export function NavUser({
 
   const handlePersonaChange = (p: Persona) => {
     setPersona(p);
-    navigate(personaRoutes[p]);
+    navigate(personaRoutes[p.role]);
   };
 
   const handleLogout = () => {
     localStorage.removeItem("app_persona");
-    localStorage.removeItem("parentId");
-    localStorage.removeItem("tutorId");
-    localStorage.removeItem("role");
-    setPersona("guest");
+    setPersona({role: "guest", name: "Guest", id: null, image: ""});
     navigate("/");
   };
 
@@ -93,7 +92,7 @@ export function NavUser({
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">{user.name}</span>
                 <span className="text-muted-foreground truncate text-xs">
-                  {personaLabels[persona]}
+                  {personaLabels[persona.role]}
                 </span>
               </div>
               <IconDotsVertical className="ml-auto size-4" />
@@ -124,14 +123,14 @@ export function NavUser({
               Switch Persona
             </DropdownMenuLabel>
             <DropdownMenuGroup>
-              {(["parent", "admin", "tutor"] as Persona[]).map((p) => (
+              {(activePersonas as Persona[]).map((p) => (
                 <DropdownMenuItem
-                  key={p}
+                  key={p.role}
                   onClick={() => handlePersonaChange(p)}
-                  className={persona === p ? "bg-accent" : ""}
+                  className={persona.role === p.role ? "bg-accent" : ""}
                 >
-                  {personaIcons[p]}
-                  {personaLabels[p]}
+                  {personaIcons[p.role]}
+                  {personaLabels[p.role]}
                 </DropdownMenuItem>
               ))}
             </DropdownMenuGroup>

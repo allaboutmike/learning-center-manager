@@ -7,9 +7,10 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AppSidebar } from "@/components/app-sidebar";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
+import { usePersona } from "@/context/usePersona";
 import BuyCreditsDialog from "./BuyCreditsDialog";
 import type { Session } from "../types/session";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import CreditsDisplay from "../components/CreditsDisplay";
 import RegisterChildModal from "../components/RegisterChildModal";
 type ParentTab = "upcoming" | "past" | "reports";
@@ -45,8 +46,15 @@ function ChildSessionFetcher({
 }
 
 export default function ParentProfilePage() {
-  const parentId = 1;
+
   const navigate = useNavigate();
+  const { persona } = usePersona();
+
+  if (persona.role !== "parent" || persona.id === null) {
+    return <Navigate to="/persona" replace />;
+  }
+
+  const parentId = persona.id as number;
 
   // controls opening and closing the BuyCreditsDialog
   const [isModalOpen, setIsModalOpen] = useState(false);

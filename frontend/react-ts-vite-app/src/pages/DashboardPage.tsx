@@ -10,7 +10,7 @@ export default function DashboardLayout() {
 
   return (
     <SidebarProvider>
-      {persona === "guest" ? (
+      {persona.role === "guest" ? (
         <GuestSidebar variant="inset" />
       ) : (
         <AppSidebar variant="inset" />

@@ -32,9 +32,8 @@ export default function RegisterParentPage() {
         phone: phone || null,
       });
 
-      localStorage.setItem("parentId", String(parent.parentId));
-      setPersona("parent");
-      navigate(`/parents/${parent.parentId}`);
+      setPersona({ role: "parent", id: parent.parentId, name: `${firstName} ${lastName}`, image: "/parent.png" });
+      navigate(`/parents`);
 
     } catch (err) {
       if (err instanceof Error && err.message.includes("409")) {
