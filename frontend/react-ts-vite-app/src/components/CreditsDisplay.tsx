@@ -2,10 +2,10 @@ import { useLearningCenterAPI } from "@/hooks/useLearningCenterAPI"
 
 type Props = {
     openModal: () => void;
+    parentId: number;
 };
 
-export default function CreditsDisplay({ openModal }: Props) {
-    const parentId = 1;
+export default function CreditsDisplay({ openModal, parentId }: Props) {
     const parentCredits = useLearningCenterAPI<number>(`/api/parents/${parentId}/creditBalance`);
 
     return (
