@@ -3,104 +3,101 @@ import { useNavigate } from "react-router-dom";
 import { useLearningCenterAPI } from "../hooks/useLearningCenterAPI";
 import type { Tutor } from "../types/tutor";
 
-
 export default function TutorSearchScreen() {
-    const navigate = useNavigate();
-    const [grade, setGrade] = useState("");
-    const url = grade === "" ? "/api/tutors" : `/api/tutors?gradeLevel=${grade}`;
-    const tutors = useLearningCenterAPI<Tutor[]>(url);
+  const navigate = useNavigate();
+  const [grade, setGrade] = useState("");
 
+  const url = grade === "" ? "/api/tutors" : `/api/tutors?gradeLevel=${grade}`;
+  const tutors = useLearningCenterAPI<Tutor[]>(url);
 
-    function handleGradeChange(e: React.ChangeEvent<HTMLSelectElement>) {
-        setGrade(e.target.value)
-    }
+  function handleGradeChange(e: React.ChangeEvent<HTMLSelectElement>) {
+    setGrade(e.target.value);
+  }
 
+  return (
+    <div className="min-h-screen bg-slate-50 p-8">
 
-    return (
-        <div
-            style={{
-                textAlign: "center",
-                marginTop: 40,
-                backgroundColor: "#95C286",
-                minHeight: "100vh",
-                paddingTop: 40,
-                fontFamily: "Poppins, sans-serif",
-            }}
-        >
-            <h1 style={{ color: "#243B5A", fontWeight: 700 }}>
-                Available Tutors
-            </h1>
+      {/* PAGE HEADER */}
+      <div className="max-w-6xl mx-auto mb-8">
+        <h1 className="text-3xl font-bold text-slate-700 mb-4">
+          Available Tutors
+        </h1>
 
-            <div style={{ marginBottom: 20 }}>
-                <label style={{ marginRight: 8 }}>Select Grade:</label>
+        {/* FILTER */}
+        <div className="flex items-center gap-3">
+          <label className="font-medium text-slate-600">Select Grade</label>
 
-                <select
-                    value={grade}
-                    onChange={handleGradeChange}
-
-                >
-                    <option value="">All Grades</option>
-                    <option value="1">Grade 1</option>
-                    <option value="2">Grade 2</option>
-                    <option value="3">Grade 3</option>
-                    <option value="4">Grade 4</option>
-                    <option value="5">Grade 5</option>
-                    <option value="6">Grade 6</option>
-                    <option value="7">Grade 7</option>
-                    <option value="8">Grade 8</option>
-                    <option value="9">Grade 9</option>
-                    <option value="10">Grade 10</option>
-                    <option value="11">Grade 11</option>
-                    <option value="12">Grade 12</option>
-                </select>
-
-            </div>
-
-            {!tutors && <p>Loading...</p>}
-
-            <ul style={{ width: 500, margin: "20px auto", padding: 0, listStyle: "none" }}>
-                {tutors && tutors.map((tutor) => (
-                    <li
-                        key={tutor.tutorId}
-                        onClick={() => {
-                            navigate(`/tutors/${tutor.tutorId}`);
-                        }}
-
-                        style={{
-                            border: "1px solid #e5e7eb",
-                            borderRadius: 16,
-                            padding: 20,
-                            marginBottom: 16,
-                            cursor: "pointer",
-                            backgroundColor: "#ffffff",
-                            boxShadow: "0 4px 12px rgba(0,0,0,0.05)",
-                        }}
-
-                    ><img
-                            src={tutor.profilePictureUrl}
-                            alt={tutor.name}
-                            style={{
-                                width: 70,
-                                height: 70,
-                                borderRadius: "50%",
-                                objectFit: "cover",
-                                marginBottom: 10,
-                            }}
-                        />
-
-                        <h3 style={{ color: 'black' }}>{tutor.name}</h3>
-                        <p style={{ color: 'black' }}>{tutor.avgRating} ⭐ </p>
-                        <p style={{ color: 'black' }}>Review Count: {tutor.reviewCount}</p>
-                        <p style={{ color: 'black' }}>
-                            Grades: {tutor.minGradeLevel} - {tutor.maxGradeLevel}
-                        </p>
-                        <p style={{color: 'black'}}>
-                            Subjects: {tutor.subjects.map(s => s.name).join(", ")}
-                        </p>
-                    </li>
-                ))}
-
-            </ul>
+          <select
+            value={grade}
+            onChange={handleGradeChange}
+            className="border rounded-lg px-3 py-2 bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
+          >
+            <option value="">All Grades</option>
+            {[...Array(12)].map((_, i) => (
+              <option key={i + 1} value={i + 1}>
+                Grade {i + 1}
+              </option>
+            ))}
+          </select>
         </div>
-    );
+      </div>
+
+      {/* TUTOR GRID */}
+      <div className="max-w-6xl mx-auto">
+
+        {!tutors && (
+          <p className="text-slate-500 text-center mt-10">Loading tutors...</p>
+        )}
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+          {tutors &&
+            tutors.map((tutor) => (
+              <div
+                key={tutor.tutorId}
+                onClick={() => navigate(`/tutors/${tutor.tutorId}`)}
+                className="bg-white rounded-2xl shadow-md hover:shadow-xl transition cursor-pointer border border-sky-800/30 p-6 flex flex-col items-center text-center"
+              >
+                {/* PROFILE IMAGE */}
+                <img
+                  src={tutor.profilePictureUrl}
+                  alt={tutor.name}
+                  className="w-20 h-20 rounded-full object-cover mb-4"
+                />
+
+                {/* NAME */}
+                <h3 className="text-lg font-semibold text-slate-700">
+                  {tutor.name}
+                </h3>
+
+                {/* RATING */}
+                <p className="text-yellow-500 mt-1">
+                  ⭐ {tutor.avgRating}
+                  <span className="text-slate-400 ml-1">
+                    ({tutor.reviewCount})
+                  </span>
+                </p>
+
+                {/* GRADES */}
+                <p className="text-slate-500 mt-2 text-sm">
+                  Grades {tutor.minGradeLevel} – {tutor.maxGradeLevel}
+                </p>
+
+                {/* SUBJECT TAGS */}
+                <div className="flex flex-wrap justify-center gap-2 mt-3">
+                  {tutor.subjects.map((s) => (
+                    <span
+                      key={s.subjectId}
+                      className="bg-sky-100 text-sky-600 px-3 py-1 rounded-full text-xs"
+                    >
+                      {s.name}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))}
+        </div>
+      </div>
+    </div>
+  );
 }
