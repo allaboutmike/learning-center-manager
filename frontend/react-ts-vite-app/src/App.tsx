@@ -14,13 +14,15 @@ import RegisterChildPage from "./pages/RegisterChildPage";
 // import SearchPage from "./pages/SearchPage";
 import { PersonaProvider } from "./context/PersonaProvider";
 import PersonaPage from "./pages/PersonaPage";
+import LandingPage from "./pages/LandingPage";
 
 function App() {
   return (
     <PersonaProvider>
       <BrowserRouter>
         <Routes>
-          <Route index element={<PersonaPage />} />
+          <Route index element={<LandingPage />} />
+          <Route path="/persona" element={<PersonaPage />} />
           <Route path="/parents/:parentId" element={<ParentProfilePage />} />
           <Route path="parents/register" element={<RegisterParentPage />} />
           <Route path="/" element={<DashboardPage />}>
