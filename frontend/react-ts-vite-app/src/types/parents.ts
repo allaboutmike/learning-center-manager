@@ -7,6 +7,7 @@ export type Parent = {
   credits: number;
   email: string;
   phone: string | null;
+  name: string;
 };
 
 export type ChildResponse = {
