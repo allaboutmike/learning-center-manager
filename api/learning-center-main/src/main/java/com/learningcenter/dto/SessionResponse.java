@@ -18,6 +18,7 @@ public class SessionResponse {
     private String childName;
     private String tutorName;
     private String subjectName;
+    private Boolean attended;
 
     public SessionResponse(Session session) {
         this.sessionId = session.getSessionId();
@@ -29,6 +30,7 @@ public class SessionResponse {
         this.childName = session.getChild().getName();
         this.tutorName = session.getTimeslot().getTutor().getName();
         this.subjectName = session.getSubject().getName();
+        this.attended = session.getAttended();
     }
 
     public Long getSessionId() {
@@ -69,5 +71,9 @@ public class SessionResponse {
 
     public LocalDateTime getTime() {
         return time;
+    }
+
+    public Boolean getAttended() {
+        return attended;
     }
 }

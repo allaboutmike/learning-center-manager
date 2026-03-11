@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { useLearningCenterAPI } from "@/hooks/useLearningCenterAPI";
+import { useLearningCenterAPI, useLearningCenterPatch } from "@/hooks/useLearningCenterAPI";
 import type { TutorDashboard } from "@/types/tutorDashboard";
 import type { Session } from "@/types/session";
 import { useState } from "react";
@@ -23,6 +23,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
+import { Checkbox } from "@/components/ui/checkbox";
 
 type StatCardProps = {
   label: string;
@@ -63,20 +64,22 @@ function StatCard({ label, value, icon, description, loading }: StatCardProps) {
 
 type SessionCardProps = {
   session: Session;
-  onUpdateNotes: (sessionId: number, notes: string) => void;
+  onUpdateNotes: (sessionId: number, notes: string, attended: boolean) => void;
 };
 
 function SessionCard({ session, onUpdateNotes }: SessionCardProps) {
   const [editing, setEditing] = useState(false);
   const [notes, setNotes] = useState(session.sessionNotes || "");
+  const [attended, setAttended] = useState(session.attended);
 
   const handleSave = () => {
-    onUpdateNotes(session.sessionId, notes);
+    onUpdateNotes(session.sessionId, notes, attended);
     setEditing(false);
   };
 
   const handleCancel = () => {
     setNotes(session.sessionNotes || "");
+    setAttended(session.attended);
     setEditing(false);
   };
 
@@ -111,22 +114,40 @@ function SessionCard({ session, onUpdateNotes }: SessionCardProps) {
                   placeholder="Add notes about this session..."
                   rows={3}
                 />
-                <div className="flex gap-2">
-                  <Button size="sm" onClick={handleSave}>
-                    <IconDeviceFloppy className="w-4 h-4 mr-1" />
-                    Save
-                  </Button>
-                  <Button size="sm" variant="outline" onClick={handleCancel}>
-                    <IconX className="w-4 h-4 mr-1" />
-                    Cancel
-                  </Button>
-                </div>
+              </div>
+            ) : (
+              <p className="text-sm text-muted-foreground">
+                {session.sessionNotes || "No notes added yet."}
+              </p>
+            )}
+
+            <div className="flex gap-2 mt-2">
+              <Checkbox
+                checked={attended}
+                disabled={!editing}
+                onCheckedChange={(checked) => setAttended(checked === true)}
+              />
+              <label
+                htmlFor={`attendance -${session.sessionId}`}
+                className="text-sm text-muted-foreground"
+              >
+                Student attended session
+              </label>
+            </div>
+
+            {editing ? (
+              <div className="flex gap-2">
+                <Button size="sm" onClick={handleSave}>
+                  <IconDeviceFloppy className="w-4 h-4 mr-1" />
+                  Save
+                </Button>
+                <Button size="sm" variant="outline" onClick={handleCancel}>
+                  <IconX className="w-4 h-4 mr-1" />
+                  Cancel
+                </Button>
               </div>
             ) : (
               <div className="space-y-2">
-                <p className="text-sm text-muted-foreground">
-                  {session.sessionNotes || "No notes added yet."}
-                </p>
                 <Button
                   size="sm"
                   variant="outline"
@@ -150,13 +171,13 @@ export default function TutorDashboardPage() {
   const [refreshKey, setRefreshKey] = useState(0);
 
   const dashboard = useLearningCenterAPI<TutorDashboard>(
-    `/api/tutors/${tutorId}/dashboard?refresh=${refreshKey}`,
+    `/api/tutors/${tutorId}/dashboard?refresh=${refreshKey}`
   );
   const upcomingSessions = useLearningCenterAPI<Session[]>(
-    `/api/tutors/${tutorId}/sessions/upcoming?refresh=${refreshKey}`,
+    `/api/tutors/${tutorId}/sessions/upcoming?refresh=${refreshKey}`
   );
   const pastSessions = useLearningCenterAPI<Session[]>(
-    `/api/tutors/${tutorId}/sessions/past?refresh=${refreshKey}`,
+    `/api/tutors/${tutorId}/sessions/past?refresh=${refreshKey}`
   );
 
   if (tutorId === null) {
@@ -183,18 +204,20 @@ export default function TutorDashboardPage() {
 
   const loading =
     dashboard === null || upcomingSessions === null || pastSessions === null;
+  
+    const patch = useLearningCenterPatch();
 
-  const updateSessionNotes = async (sessionId: number, notes: string) => {
+  const updateSessionNotes = async (
+    sessionId: number,
+    notes: string,
+    attended: boolean
+  ) => {
     try {
-      await fetch(`/api/sessions/${sessionId}/notes`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "text/plain",
-        },
-        body: notes,
-      });
+      await patch<Session>(`/api/sessions/${sessionId}/notes`,
+        { sessionNotes: notes, attended: attended },
+      );
       // Refresh data
-      setRefreshKey((prev) => prev + 1);
+        setRefreshKey((prev) => prev + 1);
     } catch (error) {
       console.error("Failed to update session notes:", error);
     }
