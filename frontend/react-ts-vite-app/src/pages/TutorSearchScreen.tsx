@@ -55,7 +55,7 @@ export default function TutorSearchScreen() {
               <div
                 key={tutor.tutorId}
                 onClick={() => navigate(`/tutors/${tutor.tutorId}`)}
-                className="bg-white rounded-2xl shadow-md hover:shadow-xl transition cursor-pointer border border-slate-200 p-6 flex flex-col items-center text-center"
+                className="bg-white rounded-2xl shadow-md hover:shadow-xl transition cursor-pointer border border-green-800/30 p-6 flex flex-col items-center text-center"
               >
                 {/* PROFILE IMAGE */}
                 <img
@@ -87,7 +87,7 @@ export default function TutorSearchScreen() {
                   {tutor.subjects.map((s) => (
                     <span
                       key={s.subjectId}
-                      className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-medium"
+                      className="bg-green-100 text-green-600 px-3 py-1 rounded-full text-xs"
                     >
                       {s.name}
                     </span>
