@@ -3,7 +3,6 @@ import {
   IconChartBar,
   IconDashboard,
   IconFolder,
-  IconInnerShadowTop,
   IconListDetails,
   IconUserPlus,
   IconShieldCheck,

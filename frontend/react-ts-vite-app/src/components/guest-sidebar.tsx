@@ -1,9 +1,5 @@
 import * as React from "react";
-import {
-  IconInnerShadowTop,
-  IconLogin,
-  IconUserPlus,
-} from "@tabler/icons-react";
+import { IconLogin, IconUserPlus } from "@tabler/icons-react";
 import {
   Sidebar,
   SidebarContent,
