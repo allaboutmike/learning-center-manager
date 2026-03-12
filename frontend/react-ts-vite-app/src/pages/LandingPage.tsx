@@ -36,7 +36,7 @@ export default function LandingPage() {
                   onClick={() => navigate("/tutors")}
                   className="bg-green-600 hover:bg-green-700 text-white px-8"
                 >
-                  View Our Tutors
+                  Browse Our Tutors
                 </Button>
 
                 <Button
@@ -55,9 +55,9 @@ export default function LandingPage() {
             {/* RIGHT SIDE IMAGE */}
             <div className="flex justify-center">
               <img
-                src="public/team.png"
+                src="team.png"
                 alt="Dallas Learning Center Team"
-                className="w-[1200px]"
+                className="w-[900px]"
               />
             </div>
 

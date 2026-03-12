@@ -104,7 +104,7 @@ export default function TutorProfilePage() {
               />
             </div>
 
-            <div className="bg-white rounded-2xl shadow p-6 flex flex-col justify-center border border-sky-800/40 shadow-md shadow-sky-200/40">
+            <div className="bg-white rounded-2xl shadow p-6 flex flex-col justify-center border border-green-800/40 shadow-md shadow-green-200/40">
               <h2 className="text-xl font-bold text-slate-800">{tutor.name}</h2>
 
               <p className="text-slate-500">
