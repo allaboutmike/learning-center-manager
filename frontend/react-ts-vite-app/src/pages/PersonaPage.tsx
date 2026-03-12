@@ -2,7 +2,6 @@ import { personas, type Persona } from "../types/personas";
 import { useNavigate } from "react-router-dom";
 import { useLearningCenterAPI } from "../hooks/useLearningCenterAPI";
 import { usePersona } from "@/context/usePersona";
-import type { Parent } from "../types/parents";
 
 const PersonaPage = () => {
   type ParentResponse = {
