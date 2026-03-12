@@ -154,9 +154,8 @@ export function AppSidebar({
               asChild
               className="data-[slot=sidebar-menu-button]:!p-1.5"
             >
-              <a href="/dashboard">
-                <IconInnerShadowTop className="!size-5" />
-                <span className="text-base font-semibold">
+              <a href="/">
+                <span className="p-4 text-base font-semibold text-green-500 min-w-8 duration-200 ease-linear">
                   Dallas Learning Central
                 </span>
               </a>
