@@ -252,6 +252,18 @@ export default function TutorProfilePage() {
             </div>
           </div>
 
+          {selectedSubjectId !== null && selectedTimeSlot === -1 && (
+            <p className="mt-4 text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-4 py-2">
+              Please select a session timeslot to continue.
+            </p>
+          )}
+
+          {selectedSubjectId === null && selectedTimeSlot !== -1 && (
+            <p className="mt-4 text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-4 py-2">
+              Please select a subject to continue.
+            </p>
+          )}
+
           <Button
             variant="secondary"
             disabled={
@@ -261,7 +273,15 @@ export default function TutorProfilePage() {
               selectedSubjectId === null ||
               !selectedDate
             }
-            className="mt-4"
+            className={`mt-4 ${
+              persona.id !== null &&
+              persona.role === "parent" &&
+              selectedTimeSlot !== -1 &&
+              selectedSubjectId !== null &&
+              selectedDate
+                ? "bg-green-600 hover:bg-green-700 text-white"
+                : ""
+            }`}
             onClick={() => setIsOpen(true)}
           >
             Book this Session
