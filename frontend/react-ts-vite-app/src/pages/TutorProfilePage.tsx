@@ -91,11 +91,11 @@ export default function TutorProfilePage() {
 
   return (
     <>
-      <div className="grid grid-cols-12 gap-6 h-min-full p-6 bg-slate-50">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 h-min-full p-4 lg:p-6 bg-slate-50">
         {/* LEFT COLUMN */}
-        <div className="col-span-5 flex flex-col gap-6">
+        <div className="lg:col-span-5 flex flex-col gap-6">
           {/* IMAGE + BASIC INFO */}
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="bg-white rounded-2xl shadow overflow-hidden h-[220px]">
               <img
                 src={tutor.profilePictureUrl}
@@ -176,7 +176,7 @@ export default function TutorProfilePage() {
         </div>
 
         {/* RIGHT COLUMN */}
-        <div className="col-span-7 bg-white rounded-2xl shadow p-6 flex flex-col border border-green-800/50 shadow-md shadow-green-200/40">
+        <div className="lg:col-span-7 bg-white rounded-2xl p-4 lg:p-6 flex flex-col border border-green-800/50 shadow-md shadow-green-200/40">
           <h2 className="text-xl font-semibold mb-4">Schedule a Session</h2>
 
           {/* SUBJECT */}
@@ -189,7 +189,7 @@ export default function TutorProfilePage() {
               }
               onValueChange={(value) => setSelectedSubjectId(Number(value))}
             >
-              <SelectTrigger className="w-[250px]">
+              <SelectTrigger className="w-full sm:w-[250px]">
                 <SelectValue placeholder="Select a subject" />
               </SelectTrigger>
 
@@ -204,7 +204,7 @@ export default function TutorProfilePage() {
           </div>
 
           {/* CALENDAR + TIMESLOTS */}
-          <div className="flex gap-6 flex-1">
+          <div className="flex flex-col lg:flex-row gap-6 flex-1">
             {/* CALENDAR */}
             <div className="bg-white rounded-xl p-2">
               <h3 className="font-semibold mb-2">Select Date</h3>
