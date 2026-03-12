@@ -1,10 +1,7 @@
 package com.learningcenter.controller;
 
 import com.learningcenter.dto.ChildProgressDashboardResponse;
-import com.learningcenter.service.ChildProgressDashboardService;
-import com.learningcenter.service.GoalService;
-import com.learningcenter.service.ParentService;
-import com.learningcenter.service.SessionService;
+import com.learningcenter.service.*;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
@@ -21,9 +18,10 @@ class ParentControllerProgressUnitTest {
         SessionService sessionService = mock(SessionService.class);
         ChildProgressDashboardService dashboardService = mock(ChildProgressDashboardService.class);
         GoalService goalService = mock(GoalService.class);
+        ProgressService progressService = mock(ProgressService.class);
 
         ParentController controller =
-                new ParentController(parentService, sessionService, dashboardService, goalService);
+                new ParentController(parentService, sessionService, dashboardService, goalService, progressService);
 
         long parentId = 1L;
         long childId = 10L;
