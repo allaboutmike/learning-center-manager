@@ -8,6 +8,10 @@ import com.learningcenter.entities.Session;
 import com.learningcenter.repository.GoalRepository;
 import com.learningcenter.repository.ProgressRepository;
 import com.learningcenter.repository.SessionRepository;
+
+import java.util.List;
+import java.util.NoSuchElementException;
+
 import org.springframework.stereotype.Service;
 
 @Service
@@ -47,9 +51,14 @@ public class ProgressService {
         Long childId = session.getChild().getChildId();
         Long subjectId = session.getSubject().getSubjectId();
 
-        Goal goal = goalRepository.findByChild_ChildIdAndSubject_SubjectId(childId, subjectId).orElseThrow();
+        List<Goal> goals = goalRepository.findByChild_ChildIdAndSubject_SubjectId(childId, subjectId).orElseThrow();
+        
+        if (goals.isEmpty()) {
+            throw new NoSuchElementException("No goals found for child and subject");
+        }
+
         Progress progress = new Progress(
-                goal,
+                goals.get(0),
                 request.percentageComplete(),
                 session
         );

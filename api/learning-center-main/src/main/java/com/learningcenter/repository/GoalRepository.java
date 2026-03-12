@@ -8,5 +8,5 @@ import java.util.Optional;
 
 public interface GoalRepository extends JpaRepository<Goal, Long> {
     List<Goal> findByChild_ChildId(Long childId);
-    Optional<Goal> findByChild_ChildIdAndSubject_SubjectId(Long childId, Long subjectId);
+    Optional<List<Goal>> findByChild_ChildIdAndSubject_SubjectId(Long childId, Long subjectId);
 }
