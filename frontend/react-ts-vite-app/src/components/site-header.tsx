@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { SidebarTrigger } from "@/components/ui/sidebar"
 // import { type Tutor } from "@/types/tutor"
@@ -18,16 +17,7 @@ export function SiteHeader() {
         />
         {/* <h1 className="text-base font-medium">Parent's Dashboard</h1> */}
         <div className="ml-auto flex items-center gap-2">
-          <Button variant="ghost" asChild size="sm" className="hidden sm:flex">
-            <a
-              href="https://github.com/allaboutmike/learning-center-manager"
-              rel="noopener noreferrer"
-              target="_blank"
-              className="text-foreground"
-            >
-              GitHub
-            </a>
-          </Button>
+        
         </div>
       </div>
     </header>

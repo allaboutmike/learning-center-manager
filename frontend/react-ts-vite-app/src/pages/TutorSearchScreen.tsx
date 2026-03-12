@@ -19,13 +19,12 @@ export default function TutorSearchScreen() {
 
       {/* PAGE HEADER */}
       <div className="max-w-6xl mx-auto mb-8">
-        <h1 className="text-3xl font-bold text-slate-700 mb-4">
+        <h1 className="text-4xl font-bold text-slate-900 mb-4">
           Available Tutors
         </h1>
-
         {/* FILTER */}
         <div className="flex items-center gap-3">
-          <label className="font-medium text-slate-600">Select Grade</label>
+          <label className="font-semibold text-slate-700">Select Grade</label>
 
           <select
             value={grade}
@@ -66,20 +65,20 @@ export default function TutorSearchScreen() {
                 />
 
                 {/* NAME */}
-                <h3 className="text-lg font-semibold text-slate-700">
+                <h3 className="text-xl font-semibold text-slate-800">
                   {tutor.name}
                 </h3>
 
                 {/* RATING */}
-                <p className="text-yellow-500 mt-1">
+                <p className="text-amber-500 mt-1">
                   ⭐ {tutor.avgRating}
-                  <span className="text-slate-400 ml-1">
+                  <span className="text-slate-500 ml-1">
                     ({tutor.reviewCount})
                   </span>
                 </p>
 
                 {/* GRADES */}
-                <p className="text-slate-500 mt-2 text-sm">
+                <p className="text-slate-600 mt-2 text-sm">
                   Grades {tutor.minGradeLevel} – {tutor.maxGradeLevel}
                 </p>
 

@@ -104,16 +104,16 @@ export default function TutorProfilePage() {
               />
             </div>
 
-            <div className="bg-white rounded-2xl shadow p-6 flex flex-col justify-center border border-green-800/40 shadow-md shadow-green-200/40">
-              <h2 className="text-xl font-bold text-slate-800">{tutor.name}</h2>
+            <div className="bg-white rounded-2xl shadow p-6 flex flex-col justify-center border border-slate-200 shadow-md shadow-green-200/40">
+              <h2 className="text-2xl font-bold text-slate-900">{tutor.name}</h2>
 
               <p className="text-slate-500">
                 Grades {tutor.minGradeLevel} – {tutor.maxGradeLevel}
               </p>
 
-              <div className="flex items-center gap-2 mt-2">
+              <div className="flex items-center gap-2 mt-2 text-amber-500">
                 ⭐ {tutor.avgRating}
-                <span className="text-slate-400">
+                <span className="text-slate-500">
                   ({reviews?.length ?? 0} reviews)
                 </span>
               </div>
@@ -121,20 +121,20 @@ export default function TutorProfilePage() {
           </div>
 
           {/* ABOUT ME */}
-          <div className="bg-white rounded-2xl shadow p-6 border border-green-800/50 shadow-md shadow-green-200/40">
-            <h3 className="font-semibold text-lg mb-3">About Me</h3>
+          <div className="bg-white rounded-2xl shadow p-6 border border-slate-200 shadow-md shadow-green-200/40">
+            <h3 className="font-semibold text-xl mb-3">About Me</h3>
 
             <p className="text-slate-600">
               {tutor.summary || "No summary available."}{" "}
             </p>
 
-            <h4 className="mt-4 font-semibold">Subjects</h4>
+            <h4 className="mt-4 font-semibold text-lg">Subjects</h4>
 
             <div className="flex flex-wrap gap-2 mt-2">
               {tutor.subjects.map((s: Subject) => (
                 <span
                   key={s.subjectId}
-                  className="bg-green-100 text-green-600 px-3 py-1 rounded-full text-sm"
+                  className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-medium"
                 >
                   {s.name}
                 </span>
@@ -143,11 +143,13 @@ export default function TutorProfilePage() {
           </div>
 
           {/* NEXT AVAILABLE */}
-          <div className="bg-white rounded-2xl shadow p-6 border border-green-800/50 shadow-md shadow-green-200/40">
-            <h3 className="font-semibold mb-2">Next Available Session</h3>
+          <div className="bg-white rounded-2xl shadow p-6 border border-slate-200 shadow-md shadow-green-200/40">
+            <h3 className="font-semibold mb-2 text-xl">
+              Next Available Session
+            </h3>
 
             {availability && availability.length > 0 ? (
-              <p className="text-slate-700 font-medium">
+              <p className="text-slate-800 font-semibold">
                 {format(parseISO(availability[0].start), "MMM d, h:mm a")}
               </p>
             ) : (
@@ -156,13 +158,13 @@ export default function TutorProfilePage() {
           </div>
 
           {/* REVIEWS */}
-          <div className="bg-white rounded-2xl shadow p-6 flex-1 overflow-y-auto border border-green-800/50 shadow-md shadow-green-200/40">
-            <h3 className="font-semibold mb-4">Tutor Reviews</h3>
+          <div className="bg-white rounded-2xl shadow p-6 flex-1 overflow-y-auto border border-slate-200 shadow-md shadow-green-200/40">
+            <h3 className="font-semibold mb-4 text-xl">Tutor Reviews</h3>
 
             {reviews && reviews.length > 0 ? (
               reviews.map((review) => (
                 <div key={review.reviewId} className="mb-4 border-b pb-3">
-                  <p className="text-yellow-500">
+                  <p className="text-amber-500">
                     {"⭐".repeat(review.rating)}
                   </p>
 
@@ -181,7 +183,7 @@ export default function TutorProfilePage() {
 
           {/* SUBJECT */}
           <div className="mb-6">
-            <h3 className="font-semibold mb-2">Choose Subject</h3>
+            <h3 className="font-semibold mb-2 text-xl">Choose Subject</h3>
 
             <Select
               value={
@@ -207,7 +209,7 @@ export default function TutorProfilePage() {
           <div className="flex flex-col lg:flex-row gap-6 flex-1">
             {/* CALENDAR */}
             <div className="bg-white rounded-xl p-2">
-              <h3 className="font-semibold mb-2">Select Date</h3>
+              <h3 className="font-semibold mb-2 text-xl">Select Date</h3>
 
               <Calendar
                 mode="single"
@@ -218,13 +220,13 @@ export default function TutorProfilePage() {
                     (d) => d.toDateString() === date.toDateString(),
                   )
                 }
-                className="rounded-md border"
+                className="rounded-md"
               />
             </div>
 
             {/* TIMESLOTS */}
-            <div className="flex-1 bg-slate-100 rounded-xl p-4 overflow-y-auto border border-green-800/50">
-              <h3 className="mb-3 font-semibold">Available Times</h3>
+            <div className="flex-1 bg-slate-100 rounded-xl p-4 overflow-y-auto border border-slate-200">
+              <h3 className="mb-3 font-semibold text-xl">Available Times</h3>
 
               {timesForSelectedDate.length === 0 && (
                 <p className="text-slate-400">
@@ -240,7 +242,7 @@ export default function TutorProfilePage() {
                     className={`cursor-pointer p-3 rounded-lg border
                     ${
                       selectedTimeSlot === index
-                        ? "bg-green-700 text-white"
+                        ? "bg-green-600 text-white"
                         : "bg-white hover:bg-green-100"
                     }`}
                   >

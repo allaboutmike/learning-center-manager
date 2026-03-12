@@ -4,6 +4,8 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+import com.learningcenter.repository.TutorTimeSlotRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,6 +27,9 @@ public class TutorControllerTest {
     @Autowired
     private ChildController childController;
 
+    @Autowired
+    private TutorTimeSlotRepository tutorTimeSlotRepository;
+
     @Test
     void searchTutorByChildGradeLevelTest_returnTutorList() {
         List<TutorResponse> tutors = childController.getTutorsForChild(1L);
@@ -41,9 +46,11 @@ public class TutorControllerTest {
 
     @Test
     void getTutorAvailabilityTest_returnTutorAvailability() {
+        long expectedCount = tutorTimeSlotRepository.findAvailableByTutorId(1L).stream().count();
+
         List<TutorTimeSlotResponse> availability = tutorController.getTutorAvailability(1L);
         assertNotNull(availability);
-        assertEquals(347, availability.size());
+        assertEquals(expectedCount, availability.size());
     }
 
     @Test

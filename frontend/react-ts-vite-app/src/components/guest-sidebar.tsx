@@ -1,9 +1,5 @@
 import * as React from "react";
-import {
-  IconInnerShadowTop,
-  IconLogin,
-  IconUserPlus,
-} from "@tabler/icons-react";
+import { IconLogin, IconUserPlus } from "@tabler/icons-react";
 import {
   Sidebar,
   SidebarContent,
@@ -28,9 +24,8 @@ export function GuestSidebar(props: React.ComponentProps<typeof Sidebar>) {
               asChild
               className="data-[slot=sidebar-menu-button]:!p-1.5"
             >
-              <a href="/">
-                <IconInnerShadowTop className="!size-5" />
-                <span className="text-base font-semibold">
+              <a href="/" className="flex items-center">
+                <span className="p-4 text-lg font-semibold text-green-500 min-w-8 duration-200 ease-linear">
                   Dallas Learning Central
                 </span>
               </a>
@@ -50,7 +45,7 @@ export function GuestSidebar(props: React.ComponentProps<typeof Sidebar>) {
                   onClick={() => navigate("/parents/register")}
                 >
                   <IconUserPlus />
-                  <span>Create Account</span>
+                  <span className="text-base font-medium">Create Account</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
@@ -62,7 +57,7 @@ export function GuestSidebar(props: React.ComponentProps<typeof Sidebar>) {
                   onClick={() => navigate("/persona")}
                 >
                   <IconLogin />
-                  <span>Sign In</span>
+                  <span className="text-base font-medium">Sign In</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>

@@ -3,7 +3,6 @@ import {
   IconChartBar,
   IconDashboard,
   IconFolder,
-  IconInnerShadowTop,
   IconListDetails,
   IconUserPlus,
   IconShieldCheck,
@@ -55,7 +54,7 @@ const data = {
       title: "Students",
       url: "/students",
       icon: IconListDetails,
-      roles: ["tutor", "admin"] as PersonaRoles[],
+      roles: [] as PersonaRoles[],
     },
     {
       title: "Session Review",
@@ -154,9 +153,8 @@ export function AppSidebar({
               asChild
               className="data-[slot=sidebar-menu-button]:!p-1.5"
             >
-              <a href="/dashboard">
-                <IconInnerShadowTop className="!size-5" />
-                <span className="text-base font-semibold">
+              <a href="/" className="flex items-center">
+                <span className="p-4 text-lg font-semibold text-green-500 min-w-8 duration-200 ease-linear">
                   Dallas Learning Central
                 </span>
               </a>

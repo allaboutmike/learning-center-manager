@@ -13,6 +13,8 @@ import type { Session } from "../types/session";
 import { Navigate, useNavigate } from "react-router-dom";
 import CreditsDisplay from "../components/CreditsDisplay";
 import RegisterChildModal from "../components/RegisterChildModal";
+import { format, parseISO } from "date-fns";
+
 type ParentTab = "upcoming" | "past" | "reports";
 type SessionTab = "upcoming" | "past";
 
@@ -115,153 +117,164 @@ export default function ParentProfilePage() {
       <SidebarProvider>
         <AppSidebar onRegisterChildClick={() => setIsRegisterChildOpen(true)} />
         <SidebarInset>
-          <div className="p-6 flex flex-col w-full gap-6">
-            {Array.isArray(children) &&
-              children.map((child) => (
-                <ChildSessionFetcher
-                  key={child.childId}
-                  parentId={parentId}
-                  childId={child.childId.toString()}
-                  onData={handleSessionData}
-                />
-              ))}
+          <div className="p-8 flex flex-col w-full gap-8">
 
-            <div className="flex justify-between items-center w-full">
-              <h1 className="text-2xl font-bold">
-                Welcome, Parent {parent?.parentId}
-              </h1>
+  {/* FETCH SESSION DATA */}
+  {Array.isArray(children) &&
+    children.map((child) => (
+      <ChildSessionFetcher
+        key={child.childId}
+        parentId={parentId}
+        childId={child.childId.toString()}
+        onData={handleSessionData}
+      />
+    ))}
 
-              <div className="flex items-center gap-4">
-                <Button
-                  className="px-6 py-2 bg-green-500 text-white hover:bg-green-600 shadow-md rounded-lg"
-                  onClick={handleBookSession}
-                >
-                  Book A Session
-                </Button>
-                <CreditsDisplay openModal={openModal} parentId={parentId}/>
-              </div>
+  {/* HEADER */}
+  <div className="flex justify-between items-center">
+    <div>
+      <h1 className="text-3xl font-bold text-slate-800">
+        Welcome, {parent?.name}
+      </h1>
+      <p className="text-slate-500 text-sm">
+        Manage your children's tutoring sessions
+      </p>
+    </div>
+
+    <div className="flex items-center gap-4">
+      <Button
+        className="bg-green-600 hover:bg-green-700 text-white px-6"
+        onClick={handleBookSession}
+      >
+        Book Session
+      </Button>
+
+      <CreditsDisplay openModal={openModal} parentId={parentId} />
+    </div>
+  </div>
+
+  {/* DASHBOARD CARDS */}
+  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+    <div className="bg-white rounded-xl shadow-sm p-4 border">
+      <h3 className="text-sm text-gray-500">Children</h3>
+      <p className="text-2xl font-bold">
+        {children?.length ?? 0}
+      </p>
+    </div>
+
+    <div className="bg-white rounded-xl shadow-sm p-4 border">
+      <h3 className="text-sm text-gray-500">Credits</h3>
+      <p className="text-2xl font-bold">
+        {parent?.credits ?? 0}
+      </p>
+    </div>
+
+    <div className="bg-white rounded-xl shadow-sm p-4 border">
+      <h3 className="text-sm text-gray-500">Upcoming Sessions</h3>
+      <p className="text-2xl font-bold">
+        {Object.values(allSessions).flatMap(s => s.upcoming).length}
+      </p>
+    </div>
+
+  </div>
+
+  {/* SUCCESS BANNER */}
+  {successBanner && (
+    <div className="rounded-md border border-green-200 bg-green-50 px-4 py-3 text-green-800">
+      <p className="font-medium">{successBanner}</p>
+      <p className="text-sm">You can now book tutoring sessions.</p>
+    </div>
+  )}
+
+  {/* SESSIONS PANEL */}
+  <div className="bg-white rounded-xl shadow-sm border p-6">
+
+    <Tabs
+      value={activeTab}
+      onValueChange={(v) => setActiveTab(v as ParentTab)}
+      className="w-full"
+    >
+      <div className="flex justify-between items-center mb-6">
+
+        <TabsList variant="line">
+          <TabsTrigger value="upcoming">
+            Upcoming
+          </TabsTrigger>
+
+          <TabsTrigger value="past">
+            Past
+          </TabsTrigger>
+        </TabsList>
+
+        {/* CHILD FILTER */}
+        <select
+          className="border rounded-md px-3 py-2 text-sm"
+          value={selectedChildId}
+          onChange={(e) => setSelectedChildId(e.target.value)}
+        >
+          <option value="all">All Children</option>
+
+          {Array.isArray(children) &&
+            children.map((child) => (
+              <option key={child.childId} value={child.childId}>
+                {child.firstName} (Grade {child.gradeLevel})
+              </option>
+            ))}
+        </select>
+
+      </div>
+
+      {/* SESSION LIST */}
+      {hasNoSessions ? (
+        <div className="text-center py-12">
+          <h3 className="text-lg font-semibold">
+            No {activeTab} sessions
+          </h3>
+          <p className="text-gray-500">
+            {selectedChildId === "all"
+              ? `Select a specific child to view ${activeTab} sessions.`
+              : `${selectedChild?.firstName} does not have any ${activeTab} sessions.`}
+          </p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {currentSessions.map((session) => (
+            <div
+              key={session.sessionId}
+              className="p-4 border rounded-xl bg-white shadow-sm hover:shadow-md transition"
+            >
+              <h2 className="font-bold text-lg">
+                {session.childName}
+              </h2>
+
+              <p className="text-green-600 font-medium">
+                {Array.isArray(session.subjectName)
+                  ? session.subjectName
+                      .map((s) =>
+                        typeof s === "string" ? s : s.name,
+                      )
+                      .join(", ")
+                  : typeof session.subjectName === "string"
+                  ? session.subjectName
+                  : session.subjectName.name}
+              </p>
+
+              <p className="text-sm text-gray-600">
+                Tutor: {session.tutorName}
+              </p>
+
+              <p className="text-sm text-gray-500">
+                {format(parseISO(session.time), "MMM d, yyyy h:mm a")}
+              </p>
             </div>
-            {successBanner && (
-              <div className="w-full max-w-4xl mb-6 rounded-md border border-green-200 bg-green-50 px-4 py-3 text-green-800">
-                <p className="font-medium">{successBanner}</p>
-                <p className="text-sm">You can now book tutoring sessions.</p>
-              </div>
-            )}
-            <div className="w-full flex flex-col items-center">
-              <Tabs
-                value={activeTab}
-                onValueChange={(v) => setActiveTab(v as ParentTab)}
-                className="w-full flex flex-col items-center"
-              >
-                <TabsList variant="line" className="flex justify-center mb-8">
-                  <TabsTrigger
-                    value="upcoming"
-                    className="text-gray-600 data-[state=active]:text-black"
-                  >
-                    Upcoming
-                  </TabsTrigger>
+          ))}
+        </div>
+      )}
 
-                  <TabsTrigger
-                    value="past"
-                    className="text-gray-600 data-[state=active]:text-black"
-                  >
-                    Past
-                  </TabsTrigger>
-                </TabsList>
-
-                <div className="flex justify-center items-center gap-2 mb-8">
-                  <label htmlFor="child-select" className="font-medium">
-                    Filter by Child Name:
-                  </label>
-
-                  <select
-                    id="child-select"
-                    className="border rounded px-2 py-1 bg-white text-black"
-                    value={selectedChildId}
-                    onChange={(e) => setSelectedChildId(e.target.value)}
-                  >
-                    <option value="all">All Children</option>
-
-                    {Array.isArray(children) &&
-                      children.map((child) => (
-                        <option key={child.childId} value={child.childId}>
-                          {child.firstName} (Grade {child.gradeLevel})
-                        </option>
-                      ))}
-                  </select>
-                </div>
-
-                {activeTab !== "reports" && (
-                  <div className="session-content w-full flex flex-col items-center">
-                    {hasNoSessions ? (
-                      <div className="empty-state text-center py-10 flex flex-col items-center gap-4">
-                        <h3 className="text-lg font-semibold">
-                          No {activeTab} sessions
-                        </h3>
-                        <p className="text-gray-600">
-                          {selectedChildId === "all"
-                            ? `Select a specific child to view ${activeTab} sessions.`
-                            : `${selectedChild?.firstName} does not have any ${activeTab} sessions ${activeTab === "upcoming" ? "scheduled" : "recorded"}.`}
-                        </p>
-                      </div>
-                    ) : (
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-4xl">
-                        {currentSessions.map((session) => (
-                          <div
-                            key={session.sessionId}
-                            className="session-card p-4 border rounded-lg shadow-sm bg-white hover:border-blue-400 hover:scale-[1.01] transition-all duration-200 ease-in-out cursor-pointer focus-within:ring-2 focus-within:ring-blue-500 outline-none"
-                          >
-                            <h2 className="font-bold text-xl">
-                              Session #{session.sessionId}
-                            </h2>
-                            <h4 className="text-blue-600 font-medium">
-                              Student Name: {session.childName}
-                            </h4>
-                            <h4 className="text-blue-600 font-medium">
-                              Subject:{" "}
-                              {Array.isArray(session.subjectName)
-                                ? session.subjectName
-                                    .map((s) =>
-                                      typeof s === "string" ? s : s.name,
-                                    )
-                                    .join(", ")
-                                : typeof session.subjectName === "string"
-                                  ? session.subjectName
-                                  : session.subjectName.name}
-                            </h4>
-                            <p className="text-sm text-gray-600">
-                              Tutor Name: {session.tutorName}
-                            </p>
-                            <p className="text-sm text-gray-500">
-                              Date: {session.time}
-                            </p>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                )}
-
-                {activeTab === "reports" && (
-                  <div className="w-full flex flex-col items-center">
-                    {selectedChildId === "all" ? (
-                      <div className="text-center py-10">
-                        <h3 className="text-lg font-semibold">
-                          Select a child
-                        </h3>
-                        <p className="text-gray-500">
-                          Progress reports are shown per child. Please select a
-                          specific child.
-                        </p>
-                      </div>
-                    ) : (
-                      <div className="w-full"></div>
-                    )}
-                  </div>
-                )}
-              </Tabs>
-            </div>
-          </div>
+    </Tabs>
+  </div>
+</div>
         </SidebarInset>
       </SidebarProvider>
       <BuyCreditsDialog
