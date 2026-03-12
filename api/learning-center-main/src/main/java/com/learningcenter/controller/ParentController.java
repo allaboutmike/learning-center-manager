@@ -4,8 +4,7 @@ import java.util.List;
 
 import com.learningcenter.dto.*;
 import com.learningcenter.entities.Goal;
-import com.learningcenter.entities.Progress;
-import com.learningcenter.service.*;
+import com.learningcenter.service.GoalService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -17,6 +16,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.learningcenter.service.ChildProgressDashboardService;
+import com.learningcenter.service.ParentService;
+import com.learningcenter.service.SessionService;
+
 import jakarta.validation.Valid;
 
 @RestController
@@ -26,14 +29,12 @@ public class ParentController {
     private final SessionService sessionService;
     private final ChildProgressDashboardService childProgressDashboardService;
     private final GoalService goalService;
-    private final ProgressService progressService;
 
-    public ParentController(ParentService parentService, SessionService sessionService, ChildProgressDashboardService childProgressDashboardService, GoalService goalService, ProgressService progressService) {
+    public ParentController(ParentService parentService, SessionService sessionService, ChildProgressDashboardService childProgressDashboardService, GoalService goalService) {
         this.parentService = parentService;
         this.sessionService = sessionService;
         this.childProgressDashboardService = childProgressDashboardService;
         this.goalService = goalService;
-        this.progressService = progressService;
     }
 
     @GetMapping("/{parentId}")
@@ -112,15 +113,6 @@ public class ParentController {
         return goalService.createGoal(childId, request);
     }
 
-    @PostMapping("/{parentId}/children/{childId}/goals/{goalId}/progress")
-    @ResponseStatus(HttpStatus.CREATED)
-    public Progress createProgress(
-            @PathVariable Long parentId,
-            @PathVariable Long childId,
-            @PathVariable Long goalId,
-            @RequestBody CreateProgressRequest request
-    ) {
-        return progressService.createProgress(childId, goalId, request);
-    }
+
 }
 
