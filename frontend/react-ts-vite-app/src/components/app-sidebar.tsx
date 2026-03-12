@@ -29,12 +29,12 @@ import BuyCreditsDialog from "@/pages/BuyCreditsDialog";
 const data = {
   user: {
     name: "Learning Central",
-    email: "m@example.com",
+    email: "learningcentral@dlc.com",
     avatar: "/avatars/shadcn.jpg",
   },
   navMain: [
     {
-      title: "Parent Dashboard",
+      title: "Parent Profile",
       url: "/parents",
       icon: IconDashboard,
       roles: ["parent"] as PersonaRoles[],
@@ -94,10 +94,7 @@ const data = {
       roles: ["admin"] as PersonaRoles[],
     },
   ],
-  navSecondary: [
-
-  ],
-
+  navSecondary: [],
 };
 
 type AppSidebarProps = React.ComponentProps<typeof Sidebar> & {
@@ -109,17 +106,18 @@ export function AppSidebar({
   ...props
 }: AppSidebarProps) {
   const { persona } = usePersona();
-  const [tutorId, setTutorId] = React.useState<number | null>(null); 
-   const [childId] = React.useState<number | null>(null);
+  const [tutorId, setTutorId] = React.useState<number | null>(null);
   const [parentId, setParentId] = React.useState<number | null>(1);
   const [isHydrated, setIsHydrated] = React.useState(false);
 
   React.useEffect(() => {
-    const storedTutorId = persona.role === "tutor" ? persona.id ?? null : null;
+    const storedTutorId =
+      persona.role === "tutor" ? (persona.id ?? null) : null;
     if (storedTutorId) {
       setTutorId(storedTutorId);
     }
-    const storedParentId = persona.role === "parent" ? persona.id ?? null : null;
+    const storedParentId =
+      persona.role === "parent" ? (persona.id ?? null) : null;
     if (storedParentId) {
       setParentId(storedParentId);
     }
@@ -191,7 +189,7 @@ export function AppSidebar({
               if (item.title === "Child's Progress") {
                 return {
                   ...item,
-                  url: `/parents/${parentId}/children/${childId}/progress`,
+                  url: `/parents/${parentId}/progress`,
                   onClick: () => {
                     if (!isHydrated) {
                       console.warn(
@@ -199,9 +197,7 @@ export function AppSidebar({
                       );
                       return;
                     }
-                    navigate(
-                      `/parents/${parentId}/children/${childId}/progress`,
-                    );
+                    navigate(`/parents/${parentId}/progress`);
                   },
                 };
               }

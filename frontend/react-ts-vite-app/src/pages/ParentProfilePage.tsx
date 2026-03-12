@@ -46,7 +46,6 @@ function ChildSessionFetcher({
 }
 
 export default function ParentProfilePage() {
-
   const navigate = useNavigate();
   const { persona } = usePersona();
 
@@ -128,7 +127,9 @@ export default function ParentProfilePage() {
               ))}
 
             <div className="flex justify-between items-center w-full">
-              <h1 className="text-2xl font-bold">Parent Profile</h1>
+              <h1 className="text-2xl font-bold">
+                Welcome, Parent {parent?.parentId}
+              </h1>
 
               <div className="flex items-center gap-4">
                 <Button
@@ -137,7 +138,7 @@ export default function ParentProfilePage() {
                 >
                   Book A Session
                 </Button>
-                <CreditsDisplay openModal={openModal} />
+                <CreditsDisplay openModal={openModal} parentId={parentId}/>
               </div>
             </div>
             {successBanner && (
@@ -202,7 +203,6 @@ export default function ParentProfilePage() {
                             ? `Select a specific child to view ${activeTab} sessions.`
                             : `${selectedChild?.firstName} does not have any ${activeTab} sessions ${activeTab === "upcoming" ? "scheduled" : "recorded"}.`}
                         </p>
-
                       </div>
                     ) : (
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-4xl">
@@ -221,10 +221,10 @@ export default function ParentProfilePage() {
                               Subject:{" "}
                               {Array.isArray(session.subjectName)
                                 ? session.subjectName
-                                  .map((s) =>
-                                    typeof s === "string" ? s : s.name,
-                                  )
-                                  .join(", ")
+                                    .map((s) =>
+                                      typeof s === "string" ? s : s.name,
+                                    )
+                                    .join(", ")
                                 : typeof session.subjectName === "string"
                                   ? session.subjectName
                                   : session.subjectName.name}
