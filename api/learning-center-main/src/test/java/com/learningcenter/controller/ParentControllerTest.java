@@ -21,6 +21,8 @@ public class ParentControllerTest {
 
     @Autowired
     private ParentController parentController;
+
+    @Autowired
     private SessionRepository sessionRepository;
 
     @Test
