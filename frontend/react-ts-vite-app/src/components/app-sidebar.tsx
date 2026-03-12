@@ -54,7 +54,7 @@ const data = {
       title: "Students",
       url: "/students",
       icon: IconListDetails,
-      roles: ["tutor", "admin"] as PersonaRoles[],
+      roles: [] as PersonaRoles[],
     },
     {
       title: "Session Review",

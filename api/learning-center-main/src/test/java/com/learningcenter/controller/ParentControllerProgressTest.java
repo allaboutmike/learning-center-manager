@@ -18,10 +18,9 @@ class ParentControllerProgressUnitTest {
         SessionService sessionService = mock(SessionService.class);
         ChildProgressDashboardService dashboardService = mock(ChildProgressDashboardService.class);
         GoalService goalService = mock(GoalService.class);
-        ProgressService progressService = mock(ProgressService.class);
 
         ParentController controller =
-                new ParentController(parentService, sessionService, dashboardService, goalService, progressService);
+                new ParentController(parentService, sessionService, dashboardService, goalService);
 
         long parentId = 1L;
         long childId = 10L;

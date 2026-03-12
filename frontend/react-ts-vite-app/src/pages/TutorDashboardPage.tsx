@@ -94,9 +94,8 @@ function SessionCard({ session, onUpdateNotes }: SessionCardProps) {
   const saveProgress = async () => {
     try {
       await post(
-        `/api/parents/${session.parentId}/children/${session.childId}/goals/1/progress`,
+        `/api/sessions/${session.sessionId}/progress`,
         {
-          sessionId: session.sessionId,
           percentageComplete: percent,
         }
       );
@@ -107,6 +106,7 @@ function SessionCard({ session, onUpdateNotes }: SessionCardProps) {
       alert("Failed to save progress");
     }
   };
+
   const now = new Date();
   const sessionTime = new Date(session.time);
 
@@ -202,7 +202,7 @@ function SessionCard({ session, onUpdateNotes }: SessionCardProps) {
             </Button>
           </div>
         </div>
-      </CardContent>ß
+      </CardContent>
     </Card>
   );
 }
