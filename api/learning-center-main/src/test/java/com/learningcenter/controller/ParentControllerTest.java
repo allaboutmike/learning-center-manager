@@ -1,5 +1,6 @@
 package com.learningcenter.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -7,6 +8,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.learningcenter.dto.*;
+import com.learningcenter.entities.Session;
+import com.learningcenter.repository.SessionRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,6 +23,9 @@ public class ParentControllerTest {
 
     @Autowired
     private ParentController parentController;
+
+    @Autowired
+    private SessionRepository sessionRepository;
 
     @Test
     void searchMultipleChildrenByParentIdAndReturnChildList() {
@@ -44,16 +50,20 @@ public class ParentControllerTest {
 
     @Test
     void searchPastSessionsByChildIdAndParentIdAndReturnSessionsList() {
+        Long expectedCount = sessionRepository.findSessionsByParentIdAndChildId(1L, 1L).stream().filter((Session s) -> s.getTimeslot().getTimeslot().getTime().isBefore(LocalDateTime.now())).count();
+
         List<SessionResponse> pastSessions = parentController.getPastSessionsByParentIdAndChildId(1L, 1L);
         assertNotNull(pastSessions);
-        assertEquals(2, pastSessions.size());
+        assertEquals(expectedCount, pastSessions.size());
     }
 
     @Test
     void searchUpcomingSessionsByChildIdAndParentIdAndReturnSessionsList() {
+        Long expectedCount = sessionRepository.findSessionsByParentIdAndChildId(2L, 2L).stream().filter((Session s) -> s.getTimeslot().getTimeslot().getTime().isAfter(LocalDateTime.now())).count();
+
         List<SessionResponse> upcomingSessions = parentController.getUpcomingSessionsByParentIdAndChildId(2L, 2L);
         assertNotNull(upcomingSessions);
-        assertEquals(0, upcomingSessions.size());
+        assertEquals(expectedCount, upcomingSessions.size());
     }
 
     @Test
