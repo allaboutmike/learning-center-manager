@@ -1,6 +1,7 @@
 package com.learningcenter.service;
 
 import com.learningcenter.dto.CreateProgressRequest;
+import com.learningcenter.dto.ProgressResponse;
 import com.learningcenter.entities.Goal;
 import com.learningcenter.entities.Progress;
 import com.learningcenter.entities.Session;
@@ -38,5 +39,23 @@ public class ProgressService {
         );
 
         return progressRepository.save(progress);
+    }
+
+    public ProgressResponse createProgressForSession(Long sessionId, CreateProgressRequest request) {
+        Session session = sessionRepository.findById(sessionId).orElseThrow();
+
+        Long childId = session.getChild().getChildId();
+        Long subjectId = session.getSubject().getSubjectId();
+
+        Goal goal = goalRepository.findByChild_ChildIdAndSubject_SubjectId(childId, subjectId).orElseThrow();
+        Progress progress = new Progress(
+                goal,
+                request.percentageComplete(),
+                session
+        );
+
+        Progress savedProgress = progressRepository.save(progress);
+
+        return new ProgressResponse(savedProgress);
     }
 }
