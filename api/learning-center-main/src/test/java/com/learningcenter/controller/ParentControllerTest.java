@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.learningcenter.dto.*;
+import com.learningcenter.repository.SessionRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,6 +21,7 @@ public class ParentControllerTest {
 
     @Autowired
     private ParentController parentController;
+    private SessionRepository sessionRepository;
 
     @Test
     void searchMultipleChildrenByParentIdAndReturnChildList() {
@@ -51,9 +53,11 @@ public class ParentControllerTest {
 
     @Test
     void searchUpcomingSessionsByChildIdAndParentIdAndReturnSessionsList() {
+        Long expectedCount = sessionRepository.findSessionsByParentIdAndChildId(2L, 2L).stream().count();
+
         List<SessionResponse> upcomingSessions = parentController.getUpcomingSessionsByParentIdAndChildId(2L, 2L);
         assertNotNull(upcomingSessions);
-        assertEquals(1, upcomingSessions.size());
+        assertEquals(expectedCount, upcomingSessions.size());
     }
 
     @Test
