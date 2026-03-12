@@ -77,7 +77,7 @@ public class ParentService {
             childList.add(new ChildResponse(child.getChildId(), child.getName(), child.getGradeLevel()));
         }
 
-        return new ParentResponse(p.getParentId(), childList, List.of(), p.getCredits(), p.getEmail(), p.getPhone());
+        return new ParentResponse(p.getParentId(), childList, List.of(), p.getCredits(), p.getEmail(), p.getPhone(), p.getName());
     }
 
     public ChildResponse createChild(Long parentId, CreateChildRequest request) {

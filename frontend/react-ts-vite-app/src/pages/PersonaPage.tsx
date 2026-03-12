@@ -2,6 +2,7 @@ import { personas, type Persona } from "../types/personas";
 import { useNavigate } from "react-router-dom";
 import { useLearningCenterAPI } from "../hooks/useLearningCenterAPI";
 import { usePersona } from "@/context/usePersona";
+import type { Parent } from "../types/parents";
 
 const PersonaPage = () => {
   type ParentResponse = {
@@ -12,7 +13,11 @@ const PersonaPage = () => {
 
   const recentParents =
     useLearningCenterAPI<ParentResponse[]>(`/api/parents/recent`);
-    console.log("recentParents:", recentParents);
+
+const parent1 = useLearningCenterAPI<ParentResponse>(`/api/parents/1`);
+const parent2 = useLearningCenterAPI<ParentResponse>(`/api/parents/2`);
+
+
 
   const navigate = useNavigate()
 
@@ -22,9 +27,20 @@ const PersonaPage = () => {
   "/parent7.png",
   "/parent1.png",
   ];
+
+  const staticParents = [
+  {
+    ...personas[0],
+    name: parent1?.name ?? "Parent 1",
+  },
+  {
+    ...personas[1],
+    name: parent2?.name ?? "Parent 2",
+  }
+];
   const dynamicParents =
   recentParents?.map((parent, index) => ({
-    name: `Parent ${index + 3}`,
+    name: parent.name,
     dbName: parent.name,
     role: "parent",
     id: parent.parentId,
@@ -34,8 +50,7 @@ const PersonaPage = () => {
 
   
   const allPersonas = [
-    personas[0], // Parent 1
-    personas[1], // Parent 2
+    ...staticParents,
     ...dynamicParents, // Last 3 parents from DB
     personas[2], // Tutor
     personas[3]  // Admin
