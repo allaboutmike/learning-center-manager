@@ -1,5 +1,9 @@
 import { Navigate } from "react-router-dom";
-import { useLearningCenterAPI, useLearningCenterPatch } from "@/hooks/useLearningCenterAPI";
+import {
+  useLearningCenterAPI,
+  useLearningCenterPatch,
+  useLearningCenterPost,
+} from "@/hooks/useLearningCenterAPI";
 import type { TutorDashboard } from "@/types/tutorDashboard";
 import type { Session } from "@/types/session";
 import { useState } from "react";
@@ -73,6 +77,9 @@ function SessionCard({ session, onUpdateNotes }: SessionCardProps) {
   const [notes, setNotes] = useState(session.sessionNotes || "");
   const [attended, setAttended] = useState(session.attended);
 
+  const post = useLearningCenterPost();
+  const [percent, setPercent] = useState<number>(0);
+
   const handleSave = () => {
     onUpdateNotes(session.sessionId, notes, attended);
     setEditing(false);
@@ -84,6 +91,21 @@ function SessionCard({ session, onUpdateNotes }: SessionCardProps) {
     setEditing(false);
   };
 
+  const saveProgress = async () => {
+    try {
+      await post(
+        `/api/parents/${session.parentId}/children/${session.childId}/goals/1/progress`,
+        {
+          sessionId: session.sessionId,
+          percentageComplete: percent,
+        }
+      );
+      alert("Progress saved");
+    } catch (error) {
+      console.error("Failed to save progress:", error);
+      alert("Failed to save progress");
+    }
+  };
   const now = new Date();
   const sessionTime = new Date(session.time);
 
@@ -163,6 +185,21 @@ function SessionCard({ session, onUpdateNotes }: SessionCardProps) {
               </div>
             )}
           </div>
+          <div className="mt-4 space-y-2">
+            <input
+              type="number"
+              min="0"
+              max="100"
+              value={percent}
+              onChange={(e) => setPercent(Number(e.target.value))}
+              className="border p-2 rounded w-full"
+              placeholder="Progress %"
+            />
+
+            <Button size="sm" onClick={saveProgress}>
+              Save Progress
+            </Button>
+          </div>
         </div>
       </CardContent>
     </Card>
@@ -171,14 +208,14 @@ function SessionCard({ session, onUpdateNotes }: SessionCardProps) {
 
 export default function TutorDashboardPage() {
   const { persona } = usePersona();
-  
-  const tutorId = persona.role === "tutor" ? persona.id ?? null: null;
+
+  const tutorId = persona.role === "tutor" ? persona.id ?? null : null;
 
   if (!tutorId) {
     // Navigate to persona selection
-    return <Navigate to="/persona" replace />;  
+    return <Navigate to="/persona" replace />;
   }
-  
+
   const [refreshKey, setRefreshKey] = useState(0);
 
   const dashboard = useLearningCenterAPI<TutorDashboard>(
@@ -193,8 +230,8 @@ export default function TutorDashboardPage() {
 
   const loading =
     dashboard === null || upcomingSessions === null || pastSessions === null;
-  
-    const patch = useLearningCenterPatch();
+
+  const patch = useLearningCenterPatch();
 
   const updateSessionNotes = async (
     sessionId: number,
@@ -206,7 +243,7 @@ export default function TutorDashboardPage() {
         { sessionNotes: notes, attended: attended },
       );
       // Refresh data
-        setRefreshKey((prev) => prev + 1);
+      setRefreshKey((prev) => prev + 1);
     } catch (error) {
       console.error("Failed to update session notes:", error);
     }
