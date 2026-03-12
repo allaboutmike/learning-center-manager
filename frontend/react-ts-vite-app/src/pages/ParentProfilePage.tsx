@@ -265,7 +265,7 @@ export default function ParentProfilePage() {
               </p>
 
               <p className="text-sm text-gray-500">
-                {format(parseISO(session.time), "MMM d, h:mm a")}
+                {format(parseISO(session.time), "MMM d, yyyy h:mm a")}
               </p>
             </div>
           ))}
