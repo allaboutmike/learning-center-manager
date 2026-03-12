@@ -76,9 +76,9 @@ function SessionCard({ session, onUpdateNotes }: SessionCardProps) {
   const [editing, setEditing] = useState(false);
   const [notes, setNotes] = useState(session.sessionNotes || "");
   const [attended, setAttended] = useState(session.attended);
-
   const post = useLearningCenterPost();
   const [percent, setPercent] = useState<number>(0);
+  const [saved, setSaved] = useState(false);
 
   const handleSave = () => {
     onUpdateNotes(session.sessionId, notes, attended);
@@ -100,7 +100,8 @@ function SessionCard({ session, onUpdateNotes }: SessionCardProps) {
           percentageComplete: percent,
         }
       );
-      alert("Progress saved");
+      setSaved(true);
+      setTimeout(() => setSaved(false), 2000);
     } catch (error) {
       console.error("Failed to save progress:", error);
       alert("Failed to save progress");
@@ -185,11 +186,11 @@ function SessionCard({ session, onUpdateNotes }: SessionCardProps) {
               </div>
             )}
           </div>
+          {saved && <p className="text-green-600 text-sm">Progress saved</p>}
           <div className="mt-4 space-y-2">
             <input
-              type="number"
-              min="0"
-              max="100"
+              type="text"
+              inputMode="numeric"
               value={percent}
               onChange={(e) => setPercent(Number(e.target.value))}
               className="border p-2 rounded w-full"
@@ -201,7 +202,7 @@ function SessionCard({ session, onUpdateNotes }: SessionCardProps) {
             </Button>
           </div>
         </div>
-      </CardContent>
+      </CardContent>ß
     </Card>
   );
 }
