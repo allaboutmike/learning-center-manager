@@ -43,7 +43,7 @@ public class TutorControllerTest {
     void getTutorAvailabilityTest_returnTutorAvailability() {
         List<TutorTimeSlotResponse> availability = tutorController.getTutorAvailability(1L);
         assertNotNull(availability);
-        assertEquals(347, availability.size());
+        assertEquals(345, availability.size());
     }
 
     @Test

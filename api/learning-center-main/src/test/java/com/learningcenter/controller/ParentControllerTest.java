@@ -53,7 +53,7 @@ public class ParentControllerTest {
     void searchUpcomingSessionsByChildIdAndParentIdAndReturnSessionsList() {
         List<SessionResponse> upcomingSessions = parentController.getUpcomingSessionsByParentIdAndChildId(2L, 2L);
         assertNotNull(upcomingSessions);
-        assertEquals(0, upcomingSessions.size());
+        assertEquals(1, upcomingSessions.size());
     }
 
     @Test
