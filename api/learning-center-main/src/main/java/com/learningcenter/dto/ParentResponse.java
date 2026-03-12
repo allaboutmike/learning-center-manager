@@ -8,5 +8,6 @@ public record ParentResponse(
     List<SessionResponse> childSessions,
     Integer credits,
     String email,
-    String phone  // optional, may be null
+    String phone,  // optional, may be null
+    String name
 ){}

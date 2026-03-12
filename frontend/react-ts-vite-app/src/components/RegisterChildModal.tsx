@@ -236,8 +236,8 @@ export default function RegisterChildModal({
           >
             Cancel
           </Button>
-          <Button onClick={handleSubmit} disabled={isSubmitting}>
-            {isSubmitting ? "Creating..." : "Create Child"}
+          <Button className="bg-green-600 hover:bg-green-700 text-white px-6" onClick={handleSubmit} disabled={isSubmitting}>
+            {isSubmitting ? "Creating..." : "Register Child"}
           </Button>
         </DialogFooter>
       </DialogContent>

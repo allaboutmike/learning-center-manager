@@ -30,7 +30,7 @@ export default function TutorSearchScreen() {
           <select
             value={grade}
             onChange={handleGradeChange}
-            className="border rounded-lg px-3 py-2 bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
+            className="border rounded-lg px-3 py-2 bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500"
           >
             <option value="">All Grades</option>
             {[...Array(12)].map((_, i) => (
@@ -56,7 +56,7 @@ export default function TutorSearchScreen() {
               <div
                 key={tutor.tutorId}
                 onClick={() => navigate(`/tutors/${tutor.tutorId}`)}
-                className="bg-white rounded-2xl shadow-md hover:shadow-xl transition cursor-pointer border border-sky-800/30 p-6 flex flex-col items-center text-center"
+                className="bg-white rounded-2xl shadow-md hover:shadow-xl transition cursor-pointer border border-green-800/30 p-6 flex flex-col items-center text-center"
               >
                 {/* PROFILE IMAGE */}
                 <img
@@ -88,7 +88,7 @@ export default function TutorSearchScreen() {
                   {tutor.subjects.map((s) => (
                     <span
                       key={s.subjectId}
-                      className="bg-sky-100 text-sky-600 px-3 py-1 rounded-full text-xs"
+                      className="bg-green-100 text-green-600 px-3 py-1 rounded-full text-xs"
                     >
                       {s.name}
                     </span>
