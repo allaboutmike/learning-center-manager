@@ -47,7 +47,7 @@ function StatCard({ label, value, icon, description, loading }: StatCardProps) {
       className="rounded-xl border bg-card text-card-foreground shadow-sm p-6 flex flex-col gap-4"
     >
       <div className="flex items-center justify-between">
-        <span className="text-sm font-medium text-muted-foreground">
+        <span className="text-base font-semibold text-slate-700">
           {label}
         </span>
         <span aria-hidden="true" className="text-muted-foreground">
@@ -58,13 +58,13 @@ function StatCard({ label, value, icon, description, loading }: StatCardProps) {
         <Skeleton className="h-10 w-32" aria-label="Loading" />
       ) : (
         <p
-          className="text-4xl font-bold tabular-nums tracking-tight"
+          className="text-3xl font-bold tabular-nums tracking-tight"
           aria-live="polite"
         >
           {value !== null ? value.toLocaleString() : "—"}
         </p>
       )}
-      <p className="text-xs text-muted-foreground">{description}</p>
+      <p className="text-sm text-slate-500">{description}</p>
     </article>
   );
 }
@@ -84,11 +84,11 @@ const creditsByWeekData = [
 const creditsLineConfig = {
   credits: {
     label: "Credits Purchased",
-    color: "var(--chart-1)",
+    color: "hsl(var(--chart-green))",
   },
 } satisfies ChartConfig;
 
-const PIE_COLORS = ["var(--chart-2)", "var(--chart-3)"];
+const PIE_COLORS = ["hsl(var(--chart-green))", "hsl(var(--chart-sky))"];
 
 const tutorStudentPieConfig = {
   tutors: {
@@ -155,15 +155,21 @@ export default function AdminDashboardPage() {
     <main
       aria-labelledby="admin-dashboard-heading"
       className="flex flex-col gap-6"
+      style={
+        {
+          "--chart-green": "142 76% 36%",
+          "--chart-sky": "199 89% 48%",
+        } as React.CSSProperties
+      }
     >
       <div>
         <h1
           id="admin-dashboard-heading"
-          className="text-2xl font-semibold tracking-tight"
+          className="text-4xl font-bold text-slate-900 tracking-tight"
         >
           Admin Dashboard
         </h1>
-        <p className="text-sm text-muted-foreground mt-1">
+        <p className="text-lg text-slate-600 mt-1">
           Aggregated overview of the learning center
         </p>
       </div>
@@ -192,8 +198,12 @@ export default function AdminDashboardPage() {
       >
         <Card>
           <CardHeader>
-            <CardTitle>Credits Purchased by Week</CardTitle>
-            <CardDescription>Weekly credit purchase activity</CardDescription>
+            <CardTitle className="text-2xl font-bold text-slate-900">
+              Credits Purchased by Week
+            </CardTitle>
+            <CardDescription className="text-base text-slate-600">
+              Weekly credit purchase activity
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <ChartContainer config={creditsLineConfig} className="h-64 w-full">
@@ -217,8 +227,10 @@ export default function AdminDashboardPage() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Tutors vs Students</CardTitle>
-            <CardDescription>
+            <CardTitle className="text-2xl font-bold text-slate-900">
+              Tutors vs Students
+            </CardTitle>
+            <CardDescription className="text-base text-slate-600">
               Current ratio to help assess hiring needs
             </CardDescription>
           </CardHeader>
