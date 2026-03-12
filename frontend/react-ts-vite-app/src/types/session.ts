@@ -7,7 +7,6 @@ export type Session = {
   sessionNotes?: string;
   date: string;
   childId: number;
-  parentId: number;
   childName: string;
   time: string;
   tutorName: string;
