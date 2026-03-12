@@ -21,18 +21,18 @@ sessions AS (
     SELECT
         child_num,
         week_num,
-        DATEADD('DAY', -(week_num * 7 + FLOOR(RAND() * 7)), CURRENT_DATE) AS session_day
+        DATEADD('DAY', -(week_num * 7 + FLOOR(RANDOM() * 7)), CURRENT_DATE) AS session_day
     FROM child_weeks
 ),
 
 final_data AS (
     SELECT
-        (SELECT child_id FROM PARENT_ACCOUNT.CHILD WHERE child_id BETWEEN 1 AND 8 ORDER BY RAND() LIMIT 1)  AS child_id,
-        (SELECT subject_id FROM TUTOR_PROFILE.SUBJECT ORDER BY RAND() LIMIT 1)                               AS subject_id,
-        (SELECT tutor_time_slot_id FROM SESSION.TUTOR_TIME_SLOT ORDER BY RAND() LIMIT 1)                     AS tutor_time_slot_id,
+        (SELECT child_id FROM PARENT_ACCOUNT.CHILD WHERE child_id BETWEEN 1 AND 8 ORDER BY RANDOM() LIMIT 1)  AS child_id,
+        (SELECT subject_id FROM TUTOR_PROFILE.SUBJECT ORDER BY RANDOM() LIMIT 1)                               AS subject_id,
+        (SELECT tutor_time_slot_id FROM SESSION.TUTOR_TIME_SLOT ORDER BY RANDOM() LIMIT 1)                     AS tutor_time_slot_id,
         DATEADD('HOUR', 17, CAST(session_day AS TIMESTAMP))                                                  AS created_at,
-        (RAND() > 0.2)                                                                                        AS attended,
-        CASE FLOOR(RAND() * 10)
+        (RANDOM() > 0.2)                                                                                        AS attended,
+        CASE FLOOR(RANDOM() * 10)
             WHEN 0 THEN 'Needs confidence boost'
             WHEN 1 THEN 'Struggles with fractions'
             WHEN 2 THEN 'Reading comprehension ok'
