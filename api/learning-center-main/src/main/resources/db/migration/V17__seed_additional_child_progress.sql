@@ -21,7 +21,7 @@ sessions AS (
     SELECT
         child_num,
         week_num,
-        DATEADD('DAY', -(week_num * 7 + FLOOR(RANDOM() * 7)), CURRENT_DATE) AS session_day
+        CURRENT_DATE + INTERVAL '1' DAY * (-1 * week_num * 7 + FLOOR(RANDOM() * 7)) AS session_day
     FROM child_weeks
 ),
 
@@ -30,7 +30,7 @@ final_data AS (
         (SELECT child_id FROM PARENT_ACCOUNT.CHILD WHERE child_id BETWEEN 1 AND 8 ORDER BY RANDOM() LIMIT 1)  AS child_id,
         (SELECT subject_id FROM TUTOR_PROFILE.SUBJECT ORDER BY RANDOM() LIMIT 1)                               AS subject_id,
         (SELECT tutor_time_slot_id FROM SESSION.TUTOR_TIME_SLOT ORDER BY RANDOM() LIMIT 1)                     AS tutor_time_slot_id,
-        DATEADD('HOUR', 17, CAST(session_day AS TIMESTAMP))                                                  AS created_at,
+        CAST(session_day AS TIMESTAMP) + INTERVAL '1' HOUR * 17                                              AS created_at,
         (RANDOM() > 0.2)                                                                                        AS attended,
         CASE FLOOR(RANDOM() * 10)
             WHEN 0 THEN 'Needs confidence boost'
