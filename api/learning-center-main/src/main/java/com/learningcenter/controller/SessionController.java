@@ -1,6 +1,7 @@
 package com.learningcenter.controller;
 
 
+import com.learningcenter.service.ProgressService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,15 +17,19 @@ import com.learningcenter.dto.CreateSessionRequest;
 import com.learningcenter.dto.SessionResponse;
 import com.learningcenter.service.SessionService;
 import com.learningcenter.dto.UpdateSessionNotesRequest;
+import com.learningcenter.dto.CreateProgressRequest;
+import com.learningcenter.dto.ProgressResponse;
 
 @RestController
 @RequestMapping("/api/sessions")
 public class SessionController {
 
     private final SessionService sessionService;
+    private final ProgressService progressService;
 
-    public SessionController(SessionService sessionService) {
+    public SessionController(SessionService sessionService, ProgressService progressService) {
         this.sessionService = sessionService;
+        this.progressService = progressService;
     }
 /*
 SessionController API Documentation
@@ -82,5 +87,12 @@ REST API controller for managing tutoring session operations in the Learning Cen
     public ResponseEntity<SessionResponse> updateSessionNotes(@PathVariable Long sessionId, @RequestBody UpdateSessionNotesRequest request) {
         var session = sessionService.updateSessionNotes(sessionId, request.sessionNotes(), request.attended());
         return ResponseEntity.ok(new SessionResponse(session));
+    }
+    @PostMapping("/{sessionId}/progress")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ProgressResponse createProgressForSession(
+            @PathVariable Long sessionId,
+            @RequestBody CreateProgressRequest request) {
+        return progressService.createProgressForSession(sessionId, request);
     }
 }

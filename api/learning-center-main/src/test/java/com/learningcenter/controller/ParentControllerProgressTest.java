@@ -1,10 +1,7 @@
 package com.learningcenter.controller;
 
 import com.learningcenter.dto.ChildProgressDashboardResponse;
-import com.learningcenter.service.ChildProgressDashboardService;
-import com.learningcenter.service.GoalService;
-import com.learningcenter.service.ParentService;
-import com.learningcenter.service.SessionService;
+import com.learningcenter.service.*;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
