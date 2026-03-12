@@ -118,7 +118,7 @@ export default function TutorProfilePage() {
           </div>
 
           {/* ABOUT ME */}
-          <div className="bg-white rounded-2xl shadow p-6 border border-sky-800/50 shadow-md shadow-sky-200/40">
+          <div className="bg-white rounded-2xl shadow p-6 border border-green-800/50 shadow-md shadow-green-200/40">
             <h3 className="font-semibold text-lg mb-3">About Me</h3>
 
             <p className="text-slate-600">
@@ -131,7 +131,7 @@ export default function TutorProfilePage() {
               {tutor.subjects.map((s: Subject) => (
                 <span
                   key={s.subjectId}
-                  className="bg-sky-100 text-sky-600 px-3 py-1 rounded-full text-sm"
+                  className="bg-green-100 text-green-600 px-3 py-1 rounded-full text-sm"
                 >
                   {s.name}
                 </span>
@@ -140,7 +140,7 @@ export default function TutorProfilePage() {
           </div>
 
           {/* NEXT AVAILABLE */}
-          <div className="bg-white rounded-2xl shadow p-6 border border-sky-800/50 shadow-md shadow-sky-200/40">
+          <div className="bg-white rounded-2xl shadow p-6 border border-green-800/50 shadow-md shadow-green-200/40">
             <h3 className="font-semibold mb-2">Next Available Session</h3>
 
             {availability && availability.length > 0 ? (
@@ -153,7 +153,7 @@ export default function TutorProfilePage() {
           </div>
 
           {/* REVIEWS */}
-          <div className="bg-white rounded-2xl shadow p-6 flex-1 overflow-y-auto border border-sky-800/50 shadow-md shadow-sky-200/40">
+          <div className="bg-white rounded-2xl shadow p-6 flex-1 overflow-y-auto border border-green-800/50 shadow-md shadow-green-200/40">
             <h3 className="font-semibold mb-4">Tutor Reviews</h3>
 
             {reviews && reviews.length > 0 ? (
@@ -173,7 +173,7 @@ export default function TutorProfilePage() {
         </div>
 
         {/* RIGHT COLUMN */}
-        <div className="col-span-7 bg-white rounded-2xl shadow p-6 flex flex-col border border-sky-800/50 shadow-md shadow-sky-200/40">
+        <div className="col-span-7 bg-white rounded-2xl shadow p-6 flex flex-col border border-green-800/50 shadow-md shadow-green-200/40">
           <h2 className="text-xl font-semibold mb-4">Schedule a Session</h2>
 
           {/* SUBJECT */}
@@ -220,7 +220,7 @@ export default function TutorProfilePage() {
             </div>
 
             {/* TIMESLOTS */}
-            <div className="flex-1 bg-slate-100 rounded-xl p-4 overflow-y-auto border border-sky-800/50">
+            <div className="flex-1 bg-slate-100 rounded-xl p-4 overflow-y-auto border border-green-800/50">
               <h3 className="mb-3 font-semibold">Available Times</h3>
 
               {timesForSelectedDate.length === 0 && (
@@ -237,8 +237,8 @@ export default function TutorProfilePage() {
                     className={`cursor-pointer p-3 rounded-lg border
                     ${
                       selectedTimeSlot === index
-                        ? "bg-sky-700 text-white"
-                        : "bg-white hover:bg-sky-100"
+                        ? "bg-green-700 text-white"
+                        : "bg-white hover:bg-green-100"
                     }`}
                   >
                     {format(parseISO(slot.start), "h:mm a")} –{" "}
@@ -256,8 +256,8 @@ export default function TutorProfilePage() {
               selectedSubjectId === null ||
               !selectedDate
             }
-            className="mt-4"
-            onClick={() => setIsOpen(true)}
+            className="mt-4 active:scale-95 transition"
+            onClick={() => setIsOpen(true)} 
           >
             Book this Session
           </Button>

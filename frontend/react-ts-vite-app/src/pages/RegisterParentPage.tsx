@@ -68,7 +68,7 @@ export default function RegisterParentPage() {
                 required
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
-                className="border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
                 placeholder="Jane"
               />
             </div>
@@ -80,7 +80,7 @@ export default function RegisterParentPage() {
                 required
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
-                className="border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
                 placeholder="Smith"
               />
             </div>
@@ -94,7 +94,7 @@ export default function RegisterParentPage() {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
               placeholder="jane.smith@example.com"
             />
           </div>
@@ -106,7 +106,7 @@ export default function RegisterParentPage() {
               type="tel"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
-              className="border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
               placeholder="(555) 000-0000"
             />
           </div>
@@ -121,7 +121,7 @@ export default function RegisterParentPage() {
           <Button
             type="submit"
             disabled={isSubmitting}
-            className="mt-2 bg-blue-600 hover:bg-blue-700 text-white"
+            className="mt-2 bg-green-600 hover:bg-green-700 text-white"
           >
             {isSubmitting ? "Registering..." : "Create Account"}
           </Button>

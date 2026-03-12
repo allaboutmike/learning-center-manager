@@ -20,8 +20,8 @@ export default function SessionReviewModal({
 }: Props) {
   const post = useLearningCenterPost();
   const handleConfirmSession = async () => {
-    if (!childId || !subjectId)
-      return alert("Please select a child and subject first.");
+    if (!childId)
+      return alert("Please select a child.");
 
     // Using var for the payload as requested
     const sessionData = {
