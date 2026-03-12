@@ -18,12 +18,12 @@ export default function LandingPage() {
             {/* LEFT SIDE TEXT */}
             <div className="text-left space-y-6">
 
-              <h1 className="text-5xl font-bold text-slate-800 leading-tight">
+              <h1 className="text-4xl font-bold text-slate-900 leading-tight">
                 Welcome to
-                <span className="text-green-600"> Dallas Learning Center</span>
+                <span className="text-green-700"> Dallas Learning Center</span>
               </h1>
 
-              <p className="text-lg text-slate-500 max-w-lg">
+              <p className="text-lg text-slate-600 max-w-lg">
                 We're excited you would like to book a session with us!
                 Browse our tutors to find the perfect learning partner
                 for your child.

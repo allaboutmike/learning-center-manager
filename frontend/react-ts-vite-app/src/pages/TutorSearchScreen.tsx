@@ -19,18 +19,17 @@ export default function TutorSearchScreen() {
 
       {/* PAGE HEADER */}
       <div className="max-w-6xl mx-auto mb-8">
-        <h1 className="text-3xl font-bold text-slate-700 mb-4">
+        <h1 className="text-4xl font-bold text-slate-900 mb-4">
           Available Tutors
         </h1>
-
         {/* FILTER */}
         <div className="flex items-center gap-3">
-          <label className="font-medium text-slate-600">Select Grade</label>
+          <label className="font-semibold text-slate-700">Select Grade</label>
 
           <select
             value={grade}
             onChange={handleGradeChange}
-            className="border rounded-lg px-3 py-2 bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
+            className="border rounded-lg px-3 py-2 bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500"
           >
             <option value="">All Grades</option>
             {[...Array(12)].map((_, i) => (
@@ -56,7 +55,7 @@ export default function TutorSearchScreen() {
               <div
                 key={tutor.tutorId}
                 onClick={() => navigate(`/tutors/${tutor.tutorId}`)}
-                className="bg-white rounded-2xl shadow-md hover:shadow-xl transition cursor-pointer border border-sky-800/30 p-6 flex flex-col items-center text-center"
+                className="bg-white rounded-2xl shadow-md hover:shadow-xl transition cursor-pointer border border-slate-200 p-6 flex flex-col items-center text-center"
               >
                 {/* PROFILE IMAGE */}
                 <img
@@ -66,20 +65,20 @@ export default function TutorSearchScreen() {
                 />
 
                 {/* NAME */}
-                <h3 className="text-lg font-semibold text-slate-700">
+                <h3 className="text-xl font-semibold text-slate-800">
                   {tutor.name}
                 </h3>
 
                 {/* RATING */}
-                <p className="text-yellow-500 mt-1">
+                <p className="text-amber-500 mt-1">
                   ⭐ {tutor.avgRating}
-                  <span className="text-slate-400 ml-1">
+                  <span className="text-slate-500 ml-1">
                     ({tutor.reviewCount})
                   </span>
                 </p>
 
                 {/* GRADES */}
-                <p className="text-slate-500 mt-2 text-sm">
+                <p className="text-slate-600 mt-2 text-sm">
                   Grades {tutor.minGradeLevel} – {tutor.maxGradeLevel}
                 </p>
 
@@ -88,7 +87,7 @@ export default function TutorSearchScreen() {
                   {tutor.subjects.map((s) => (
                     <span
                       key={s.subjectId}
-                      className="bg-sky-100 text-sky-600 px-3 py-1 rounded-full text-xs"
+                      className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-medium"
                     >
                       {s.name}
                     </span>
