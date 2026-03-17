@@ -188,6 +188,7 @@ http://localhost:8080
 
 ```bash
 git checkout -b feature/your-feature-name
+git add .
 git commit -m "Add your feature"
 git push origin feature/your-feature-name
 ```
