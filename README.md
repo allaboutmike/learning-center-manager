@@ -130,9 +130,11 @@ Key capabilities:
 
 ## Getting Started
 
+Clone the repository and navigate into the project:
+
 ```bash
-git clone https://github.com/your-repo/dallas-learning-center
-```
+git clone https://github.com/allaboutmike/learning-center-manager.git
+cd learning-center-manager
 
 
 ## Running the Project Locally
@@ -140,7 +142,7 @@ git clone https://github.com/your-repo/dallas-learning-center
 ### Frontend Setup
 
 ```bash
-cd dallas-learning-center/frontend
+cd frontend
 npm install
 npm run dev
 ```
