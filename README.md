@@ -201,7 +201,7 @@ Open a pull request after pushing your changes.
 
 - Brandon  
 - Ermoni  
-- Justin  
+- Justin (https://www.linkedin.com/in/justin-alcendor-16a738131/)
 - Nikhil  
 - Yodit (https://www.linkedin.com/in/yodit-weldegeorgise/)
 
