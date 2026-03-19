@@ -197,7 +197,8 @@ function SessionCard({ session, onUpdateNotes }: SessionCardProps) {
               placeholder="Progress %"
             />
 
-            <Button size="sm" onClick={saveProgress}>
+            <Button size="sm" className="bg-green-600 hover:bg-green-700 text-white"
+              onClick={saveProgress}>
               Save Progress
             </Button>
           </div>

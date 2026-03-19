@@ -84,13 +84,13 @@ const data = {
       title: "Register a Child",
       url: "/children/register",
       icon: IconUsers,
-      roles: ["parent", "admin"] as PersonaRoles[],
+      roles: ["parent"] as PersonaRoles[],
     },
     {
       title: "Register a Parent",
       url: "/parents/register",
       icon: IconUserPlus,
-      roles: ["admin"] as PersonaRoles[],
+      roles: [] as PersonaRoles[],
     },
   ],
   navSecondary: [],
@@ -169,15 +169,14 @@ export function AppSidebar({
             .filter((item) => item.roles.includes(persona.role))
             .map((item) => {
               if (item.title === "Tutor Dashboard") {
-                if (tutorId) {
-                  return {
-                    ...item,
-                    url: `/tutors/${tutorId}/dashboard`,
-                    onClick: () => navigate(`/tutors/${tutorId}/dashboard`),
-                  };
-                }
+                return {
+                  ...item,
+                  url: "/tutors/dashboard",
+                  onClick: () => navigate("/tutors/dashboard"),
+                };
+
               }
-              if (item.title === "Parent Dashboard") {
+              if (item.title === "Parent Profile") {
                 return {
                   ...item,
                   url: `/parents/${parentId}`,
