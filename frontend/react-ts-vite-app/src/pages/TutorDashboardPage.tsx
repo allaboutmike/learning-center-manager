@@ -69,7 +69,11 @@ function StatCard({ label, value, icon, description, loading }: StatCardProps) {
 
 type SessionCardProps = {
   session: Session;
-  onUpdateNotes: (sessionId: number, notes: string, attended: boolean) => void;
+  onUpdateNotes: (
+    sessionId: number,
+    notes: string,
+    attended: boolean
+  ) => Promise<void>;
 };
 
 function SessionCard({ session, onUpdateNotes }: SessionCardProps) {
@@ -80,8 +84,8 @@ function SessionCard({ session, onUpdateNotes }: SessionCardProps) {
   const [percent, setPercent] = useState<number>(0);
   const [saved, setSaved] = useState(false);
 
-  const handleSave = () => {
-    onUpdateNotes(session.sessionId, notes, attended);
+  const handleSave = async () => {
+    await onUpdateNotes(session.sessionId, notes ?? "", attended);
     setEditing(false);
   };
 
@@ -136,7 +140,7 @@ function SessionCard({ session, onUpdateNotes }: SessionCardProps) {
             {editing ? (
               <div className="space-y-2">
                 <Textarea
-                  value={notes}
+                  value={notes ?? session.sessionNotes ?? ""}
                   onChange={(e) => setNotes(e.target.value)}
                   placeholder="Add notes about this session..."
                   rows={3}
@@ -164,7 +168,8 @@ function SessionCard({ session, onUpdateNotes }: SessionCardProps) {
 
             {editing ? (
               <div className="flex gap-2">
-                <Button size="sm" onClick={handleSave}>
+                <Button size="sm" onClick={handleSave} className="bg-green-600 hover:bg-green-700 text-white">
+
                   <IconDeviceFloppy className="w-4 h-4 mr-1" />
                   Save
                 </Button>
@@ -178,7 +183,10 @@ function SessionCard({ session, onUpdateNotes }: SessionCardProps) {
                 <Button
                   size="sm"
                   variant="outline"
-                  onClick={() => setEditing(true)}
+                  onClick={() => {
+                    setNotes(session.sessionNotes || "");
+                    setEditing(true);
+                  }}
                 >
                   <IconEdit className="w-4 h-4 mr-1" />
                   {session.sessionNotes ? "Edit Notes" : "Add Notes"}
@@ -242,7 +250,7 @@ export default function TutorDashboardPage() {
   ) => {
     try {
       await patch<Session>(`/api/sessions/${sessionId}/notes`,
-        { sessionNotes: notes, attended: attended },
+        { sessionNotes: notes, attended }
       );
       // Refresh data
       setRefreshKey((prev) => prev + 1);
