@@ -222,9 +222,20 @@ export default function TutorDashboardPage() {
   const tutorId = persona.role === "tutor" ? persona.id ?? null : null;
 
   if (!tutorId) {
-    // Navigate to persona selection
+  if (persona.role === "guest") {
     return <Navigate to="/persona" replace />;
   }
+
+  if (persona.role === "admin") {
+    return <Navigate to="/admin" replace />;
+  }
+
+  if (persona.role === "parent") {
+    return <Navigate to="/parents" replace />;
+  }
+
+  return <Navigate to="/persona" replace />;
+}
 
   const [refreshKey, setRefreshKey] = useState(0);
 

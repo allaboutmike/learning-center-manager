@@ -3,6 +3,7 @@ import { IconLogin, IconUserPlus } from "@tabler/icons-react";
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarHeader,
@@ -11,8 +12,23 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { useNavigate } from "react-router-dom";
+import { NavUser } from "@/components/nav-user";
 
-export function GuestSidebar(props: React.ComponentProps<typeof Sidebar>) {
+const data = {
+  user: {
+    name: "Guest",
+    avatar: "/avatars/shadcn.jpg",
+  },
+};
+
+type GuestSidebarProps = React.ComponentProps<typeof Sidebar> & {
+  showFooter?: boolean;
+};
+
+export function GuestSidebar({
+  showFooter = false,
+  ...props
+}: GuestSidebarProps) {
   const navigate = useNavigate();
 
   return (
@@ -49,6 +65,7 @@ export function GuestSidebar(props: React.ComponentProps<typeof Sidebar>) {
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
+
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton
@@ -64,6 +81,12 @@ export function GuestSidebar(props: React.ComponentProps<typeof Sidebar>) {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+
+      {showFooter && (
+        <SidebarFooter>
+          <NavUser user={data.user} />
+        </SidebarFooter>
+      )}
     </Sidebar>
   );
 }

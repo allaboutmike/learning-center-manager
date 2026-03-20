@@ -30,7 +30,6 @@ import { useRegisterChildDialog } from "@/context/RegisterChildDialogContext";
 const data = {
   user: {
     name: "Learning Central",
-    email: "learningcentral@dlc.com",
     avatar: "/avatars/shadcn.jpg",
   },
   navMain: [
