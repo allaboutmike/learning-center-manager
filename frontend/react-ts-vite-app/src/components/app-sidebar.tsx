@@ -7,6 +7,7 @@ import {
   IconUserPlus,
   IconShieldCheck,
   IconUsers,
+  IconVideo,
 } from "@tabler/icons-react";
 
 import { NavMain } from "@/components/nav-main";
@@ -85,6 +86,12 @@ const data = {
       url: "/children/register",
       icon: IconUsers,
       roles: ["parent", "admin"] as PersonaRoles[],
+    },
+    {
+      title: "Live Sessions",
+      url: "/live-sessions",
+      icon: IconVideo,
+      roles: ["parent", "admin", "tutor"] as PersonaRoles[],
     },
     {
       title: "Register a Parent",
