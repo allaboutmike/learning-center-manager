@@ -12,6 +12,8 @@ import { PersonaProvider } from "./context/PersonaProvider";
 import PersonaPage from "./pages/PersonaPage";
 import ChildProgressDashboard from "@/components/ChildProgressDashboard";
 import LandingPage from "./pages/LandingPage";
+import LiveSessionsPage from "./pages/LiveSessionsPage";
+import VideoClassroomPage from "./pages/VideoClassroomPage";
 
 function App() {
   return (
@@ -36,6 +38,11 @@ function App() {
             <Route path="confirmation" element={<ConfirmationPage />} />
             <Route path="admin" element={<AdminDashboardPage />} />
             <Route path="children/register" element={<RegisterChildPage />} />
+            <Route path="live-sessions" element={<LiveSessionsPage />} />
+            <Route
+              path="live-sessions/:sessionId"
+              element={<VideoClassroomPage />}
+            />
           </Route>
         </Routes>
       </BrowserRouter>
