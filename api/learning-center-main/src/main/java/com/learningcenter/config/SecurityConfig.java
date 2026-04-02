@@ -1,6 +1,7 @@
 package com.learningcenter.config;
 
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -16,6 +17,12 @@ import org.springframework.security.web.DefaultSecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
+    @Value("${app.security.username}")
+    private String securityUsername;
+
+    @Value("${app.security.password}")
+    private String securityPassword;
 
     @Bean
     public DefaultSecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
@@ -35,7 +42,7 @@ public class SecurityConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return new InMemoryUserDetailsManager(User.withUsername("admin").password(bCryptPasswordEncoder().encode("admin")).roles("USER").build());
+        return new InMemoryUserDetailsManager(User.withUsername(securityUsername).password(bCryptPasswordEncoder().encode(securityPassword)).roles("USER").build());
     }
 
     @Bean
