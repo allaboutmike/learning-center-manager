@@ -278,17 +278,17 @@ export default function ParentProfilePage() {
         </SidebarInset>
       </SidebarProvider>
       <BuyCreditsDialog
-        parentId={parentId}
-        open={isModalOpen}
-        onOpenChange={(open) => setIsModalOpen(open)}
+          parentId={parentId}
+          open={isModalOpen}
+          onOpenChange={(open) => setIsModalOpen(open)}
       />
       <RegisterChildModal
-        open={isRegisterChildOpen}
-        onOpenChange={setIsRegisterChildOpen}
-        parentId={parentId}
-        onChildCreated={(child) => {
-          setSuccessBanner(`${child.firstName} was successfully registered.`);
-        }}
+          open={isRegisterChildOpen}
+          onOpenChange={setIsRegisterChildOpen}
+          parentId={parentId}
+          onChildCreated={(child) => {
+            setSuccessBanner(`${child.firstName} was successfully registered.`);
+          }}
       />
     </div>
   );
