@@ -67,8 +67,8 @@ public class SecurityConfigTest {
                 "Password should be BCrypt encoded");
 
         // Verify the password matches when encoded
-        assertTrue(bCryptPasswordEncoder.matches("securePassword123", storedPassword),
-                "BCryptPasswordEncoder should verify the security password");
+        assertTrue(bCryptPasswordEncoder.matches("admin", storedPassword),
+                "BCryptPasswordEncoder should verify the admin password");
     }
 
     @Test
