@@ -25,11 +25,12 @@ import { useNavigate } from "react-router-dom";
 import { usePersona } from "@/context/usePersona";
 import type { PersonaRoles } from "@/types/personas";
 import BuyCreditsDialog from "@/pages/BuyCreditsDialog";
+import { useRegisterChildDialog } from "@/context/RegisterChildDialogContext";
+
 
 const data = {
   user: {
     name: "Learning Central",
-    email: "learningcentral@dlc.com",
     avatar: "/avatars/shadcn.jpg",
   },
   navMain: [
@@ -85,7 +86,7 @@ const data = {
       title: "Register a Child",
       url: "/children/register",
       icon: IconUsers,
-      roles: ["parent", "admin"] as PersonaRoles[],
+      roles: ["parent"] as PersonaRoles[],
     },
     {
       title: "Live Sessions",
@@ -97,31 +98,21 @@ const data = {
       title: "Register a Parent",
       url: "/parents/register",
       icon: IconUserPlus,
-      roles: ["admin"] as PersonaRoles[],
+      roles: [] as PersonaRoles[],
     },
   ],
   navSecondary: [],
 };
 
-type AppSidebarProps = React.ComponentProps<typeof Sidebar> & {
-  onRegisterChildClick?: () => void;
-};
+type AppSidebarProps = React.ComponentProps<typeof Sidebar>;
 
-export function AppSidebar({
-  onRegisterChildClick,
-  ...props
-}: AppSidebarProps) {
+export function AppSidebar({ ...props }: AppSidebarProps) {
   const { persona } = usePersona();
-  const [tutorId, setTutorId] = React.useState<number | null>(null);
+  const { openDialog } = useRegisterChildDialog();
   const [parentId, setParentId] = React.useState<number | null>(1);
   const [isHydrated, setIsHydrated] = React.useState(false);
 
   React.useEffect(() => {
-    const storedTutorId =
-      persona.role === "tutor" ? (persona.id ?? null) : null;
-    if (storedTutorId) {
-      setTutorId(storedTutorId);
-    }
     const storedParentId =
       persona.role === "parent" ? (persona.id ?? null) : null;
     if (storedParentId) {
@@ -176,19 +167,18 @@ export function AppSidebar({
             .filter((item) => item.roles.includes(persona.role))
             .map((item) => {
               if (item.title === "Tutor Dashboard") {
-                if (tutorId) {
-                  return {
-                    ...item,
-                    url: `/tutors/${tutorId}/dashboard`,
-                    onClick: () => navigate(`/tutors/${tutorId}/dashboard`),
-                  };
-                }
-              }
-              if (item.title === "Parent Dashboard") {
                 return {
                   ...item,
-                  url: `/parents/${parentId}`,
-                  onClick: () => navigate(`/parents/${parentId}`),
+                  url: "/tutors/dashboard",
+                  onClick: () => navigate("/tutors/dashboard"),
+                };
+
+              }
+              if (item.title === "Parent Profile") {
+                return {
+                  ...item,
+                  url: "/parents",
+                  onClick: () => navigate("/parents"),
                 };
               }
               if (item.title === "Child's Progress") {
@@ -214,16 +204,14 @@ export function AppSidebar({
                     "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
                 };
               }
-
               if (item.title === "Register a Child") {
                 return {
                   ...item,
-                  url: "children/register",
-                  onClick: () => {
-                    onRegisterChildClick?.();
-                  },
+                  url: "/children/register",
+                  onClick: () => openDialog(),
                 };
               }
+
 
               if (item.title === "Register a Parent") {
                 return {
@@ -231,16 +219,6 @@ export function AppSidebar({
                   url: "/parents/register",
                   onClick: () => {
                     navigate("/parents/register");
-                  },
-                };
-              }
-
-              if (item.title === "") {
-                return {
-                  ...item,
-                  url: "children/register",
-                  onClick: () => {
-                    onRegisterChildClick?.();
                   },
                 };
               }

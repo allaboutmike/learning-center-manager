@@ -4,7 +4,6 @@ import { useEffect, useState, useMemo, useCallback } from "react";
 import type { ChildResponse, SessionData, Parent } from "../types/parents";
 import { useLearningCenterAPI } from "../hooks/useLearningCenterAPI";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { AppSidebar } from "@/components/app-sidebar";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
 import { usePersona } from "@/context/usePersona";
@@ -115,7 +114,6 @@ export default function ParentProfilePage() {
   return (
     <div>
       <SidebarProvider>
-        <AppSidebar onRegisterChildClick={() => setIsRegisterChildOpen(true)} />
         <SidebarInset>
           <div className="p-8 flex flex-col w-full gap-8">
 
