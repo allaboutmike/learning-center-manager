@@ -14,6 +14,7 @@ import ChildProgressDashboard from "@/components/ChildProgressDashboard";
 import LandingPage from "./pages/LandingPage";
 import LiveSessionsPage from "./pages/LiveSessionsPage";
 import VideoClassroomPage from "./pages/VideoClassroomPage";
+import LoginPage from "./pages/LoginPage";
 
 function App() {
   return (
@@ -21,16 +22,14 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route index element={<LandingPage />} />
+          <Route path="/login" element={<LoginPage />} />
           <Route path="/persona" element={<PersonaPage />} />
           <Route path="/parents" element={<ParentProfilePage />} />
           <Route path="/parents/register" element={<RegisterParentPage />} />
           <Route path="/" element={<DashboardPage />}>
             <Route path="/tutors" element={<TutorSearchScreen />} />
             <Route path="/tutors/:tutorId" element={<TutorProfilePage />} />
-            <Route
-              path="tutors/dashboard"
-              element={<TutorDashboardPage />}
-            />
+            <Route path="tutors/dashboard" element={<TutorDashboardPage />} />
             <Route
               path="/parents/:parentId/progress"
               element={<ChildProgressDashboard />}

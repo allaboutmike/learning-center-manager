@@ -1,5 +1,5 @@
 import * as React from "react";
-import { IconLogin, IconUserPlus } from "@tabler/icons-react";
+import { IconAccessPoint, IconEye, IconUserPlus } from "@tabler/icons-react";
 import {
   Sidebar,
   SidebarContent,
@@ -54,10 +54,18 @@ export function GuestSidebar(props: React.ComponentProps<typeof Sidebar>) {
                 <SidebarMenuButton
                   tooltip="Sign In"
                   className="text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                  onClick={() => navigate("/login")}
+                >
+                  <IconEye />
+                  <span className="text-base font-medium">Sign In </span>
+                </SidebarMenuButton>
+                <SidebarMenuButton
+                  tooltip="Guest Preview"
+                  className="text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
                   onClick={() => navigate("/persona")}
                 >
-                  <IconLogin />
-                  <span className="text-base font-medium">Sign In</span>
+                  <IconAccessPoint />
+                  <span className="text-base font-medium">Guest Preview</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>

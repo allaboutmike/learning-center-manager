@@ -69,7 +69,7 @@ export function NavUser({
 
   const handleLogout = () => {
     localStorage.removeItem("app_persona");
-    setPersona({role: "guest", name: "Guest", id: null, image: ""});
+    setPersona({ role: "guest", name: "Guest", id: null, image: "" });
     navigate("/");
   };
 
