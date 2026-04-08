@@ -24,9 +24,9 @@ function App() {
           <Route index element={<LandingPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/persona" element={<PersonaPage />} />
-          <Route path="/parents" element={<ParentProfilePage />} />
           <Route path="/parents/register" element={<RegisterParentPage />} />
           <Route path="/" element={<DashboardPage />}>
+            <Route path="/parents" element={<ParentProfilePage />} />
             <Route path="/tutors" element={<TutorSearchScreen />} />
             <Route path="/tutors/:tutorId" element={<TutorProfilePage />} />
             <Route path="tutors/dashboard" element={<TutorDashboardPage />} />

@@ -54,7 +54,6 @@ export function NavUser({
 }: {
   user: {
     name: string;
-    email: string;
     avatar: string;
   };
 }) {
@@ -63,6 +62,11 @@ export function NavUser({
   const { persona, setPersona } = usePersona();
 
   const handlePersonaChange = (p: Persona) => {
+    if (persona.role === "guest") {
+      navigate("/parents/register");
+      return;
+    }
+
     setPersona(p);
     navigate(personaRoutes[p.role]);
   };
@@ -110,7 +114,6 @@ export function NavUser({
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-medium">{user.name}</span>
                   <span className="text-muted-foreground truncate text-xs">
-                    {user.email}
                   </span>
                 </div>
               </div>

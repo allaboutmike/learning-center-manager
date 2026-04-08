@@ -7,9 +7,18 @@ export function useLearningCenterAPI<T>(url: string) {
 
     useEffect(() => {
         fetch(`${API_BASE_URL}${url}`)
-            .then((res) => res.json())
-            .then((json) => setData(json as T));
-    }, [url]); 
+            .then((res) => {
+                if (!res.ok) {
+                    throw new Error(`HTTP error ${res.status}`);
+                }
+                return res.json();
+            })
+            .then((json) => setData(json as T))
+            .catch((err) => {
+                console.error("API error:", err);
+                setData(null);
+            });
+    }, [url]);
 
     return data;
 }

@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { GuestSidebar } from "@/components/guest-sidebar";
 import { SidebarProvider } from "@/components/ui/sidebar";
 
-
 export default function LandingPage() {
   const navigate = useNavigate();
 
@@ -14,10 +13,7 @@ export default function LandingPage() {
 
         <main className="flex-1 flex items-center justify-center px-12 py-16">
           <div className="max-w-6xl grid md:grid-cols-2 gap-12 items-center">
-
-            {/* LEFT SIDE TEXT */}
             <div className="text-left space-y-6">
-
               <h1 className="text-4xl font-bold text-slate-900 leading-tight">
                 Welcome to
                 <span className="text-green-700"> Dallas Learning Center</span>
@@ -30,7 +26,6 @@ export default function LandingPage() {
               </p>
 
               <div className="flex gap-4 pt-4">
-
                 <Button
                   size="lg"
                   onClick={() => navigate("/tutors")}
@@ -47,12 +42,9 @@ export default function LandingPage() {
                 >
                   Sign Up
                 </Button>
-
               </div>
-
             </div>
 
-            {/* RIGHT SIDE IMAGE */}
             <div className="flex justify-center">
               <img
                 src="team.png"
@@ -60,7 +52,6 @@ export default function LandingPage() {
                 className="w-[900px]"
               />
             </div>
-
           </div>
         </main>
       </div>
